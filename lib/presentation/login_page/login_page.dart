@@ -1,13 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
+import 'package:run_away/domain/services/frbs_auth_methods.dart';
 import 'package:run_away/presentation/login_page/forgot_passwrd.dart';
 
 import 'sign_up_page.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       child: TextField(
+                        controller: emailController,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.mail_outline_rounded),
@@ -76,6 +82,7 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           child: TextField(
+                            controller: passwordController,
                             cursorColor: Colors.black,
                             obscureText: true,
                             decoration: InputDecoration(
@@ -99,7 +106,9 @@ class LoginPage extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(220, 10, 0, 0),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword(),));
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ForgotPassword(),
+                          ));
                         },
                         child: const Text(
                           "Forgot Password ?",
@@ -114,7 +123,15 @@ class LoginPage extends StatelessWidget {
                       width: kWidth * 1,
                       height: kHeight * 0.065,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await FireBaseAuthMethods(FirebaseAuth.instance)
+                              .signInWithEmail(
+                            email: emailController.text,
+                            password: passwordController.text,
+                            context: context,
+                          );
+                          
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueAccent),
                         child: Text(

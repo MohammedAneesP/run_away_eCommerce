@@ -43,7 +43,7 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
                 await storeOnBoardInfo();
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
+                    builder: (context) => LoginPage(),
                   ),
                 );
               },
@@ -96,7 +96,7 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
                           await storeOnBoardInfo();
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
+                              builder: (context) => LoginPage(),
                             ),
                           );
                         },

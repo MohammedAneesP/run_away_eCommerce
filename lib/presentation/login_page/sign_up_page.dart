@@ -105,7 +105,9 @@ class SignUpPage extends StatelessWidget {
                             decoration: InputDecoration(
                               prefixIcon:
                                   const Icon(Icons.lock_outline_rounded),
-                              suffixIcon: const Icon(CupertinoIcons.eye_slash),
+                              suffixIcon: IconButton(onPressed: (){
+                                
+                              },icon:Icon(CupertinoIcons.eye_slash)),
                               labelText: 'Password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
