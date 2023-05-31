@@ -125,12 +125,11 @@ class LoginPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           await FireBaseAuthMethods(FirebaseAuth.instance)
-                              .signInWithEmail(
+                              .loginWithEmail(
                             email: emailController.text,
                             password: passwordController.text,
                             context: context,
                           );
-                          
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueAccent),

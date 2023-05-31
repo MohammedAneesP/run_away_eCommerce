@@ -1,13 +1,15 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
+import 'package:run_away/domain/services/frbs_auth_methods.dart';
 import 'package:run_away/presentation/login_page/login_page.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
-
+  SignUpPage({super.key});
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final kHeight = MediaQuery.of(context).size.height;
@@ -73,6 +75,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                       ),
                       child: TextField(
+                        controller: emailController,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.mail_outline_rounded),
@@ -100,14 +103,15 @@ class SignUpPage extends StatelessWidget {
                             ),
                           ),
                           child: TextField(
+                            controller: passwordController,
                             cursorColor: Colors.black,
                             obscureText: true,
                             decoration: InputDecoration(
                               prefixIcon:
                                   const Icon(Icons.lock_outline_rounded),
-                              suffixIcon: IconButton(onPressed: (){
-                                
-                              },icon:Icon(CupertinoIcons.eye_slash)),
+                              suffixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(CupertinoIcons.eye_slash)),
                               labelText: 'Password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
@@ -126,7 +130,14 @@ class SignUpPage extends StatelessWidget {
                           width: kWidth * 1,
                           height: kHeight * 0.065,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await FireBaseAuthMethods(FirebaseAuth.instance)
+                                  .signUpWithEmail(
+                                email: emailController.text,
+                                password: passwordController.text,
+                                context: context,
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blueAccent),
                             child: Text(
@@ -165,22 +176,6 @@ class SignUpPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: kHeight * 0.15),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Already have an Account?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
-                            );
-                          },
-                          child: const Text("Sign up"),
-                        ),
                       ],
                     ),
                   ],
