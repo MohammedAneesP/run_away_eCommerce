@@ -13,6 +13,7 @@ class LoginPage extends StatelessWidget {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final forFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,162 +34,228 @@ class LoginPage extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: kHeight * 0.08,
-                    ),
-                    Text(
-                      "Hello Again!",
-                      style: loginTitle,
-                    ),
-                    Text("Welcome back you've been missed!", style: italicText),
-                    SizedBox(
-                      height: kHeight * 0.12,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.circular(
-                          30,
+                child: Form(
+                  key: forFormKey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: kHeight * 0.08,
+                      ),
+                      Text(
+                        "Hello Again!",
+                        style: loginTitle,
+                      ),
+                      Text("Welcome back you've been missed!",
+                          style: italicText),
+                      SizedBox(
+                        height: kHeight * 0.12,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
+                        ),
+                        child: TheTextFormField(
+                          anController: emailController,
+                          returnText: "Email required",
+                          anLabelText: "Email address",
+                          isObscure: false,
+                          anPrefixIcon: const Icon(
+                            Icons.mail_outline_rounded,
+                          ),
+                          anSuffixIcon: const Icon(Icons.abc),
                         ),
                       ),
-                      child: TextField(
-                        controller: emailController,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.mail_outline_rounded),
-                          labelText: 'Email Address',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(
-                              width: 0,
-                              style: BorderStyle.none,
-                            ),
+                      SizedBox(
+                        height: kHeight * 0.03,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
+                        ),
+                        child: TheTextFormField(
+                          anController: passwordController,
+                          returnText: "Password required",
+                          anLabelText: "Password",
+                          isObscure: true,
+                          anPrefixIcon: const Icon(Icons.lock),
+                          anSuffixIcon: const Icon(
+                            CupertinoIcons.eye_slash_fill,
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: kHeight * 0.03,
-                    ),
-                    Column(
-                      children: [
-                        Container(
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(220, 10, 0, 0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const ForgotPassword(),
+                            ));
+                          },
+                          child: const Text(
+                            "Forgot Password ?",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: kHeight * 0.03,
+                      ),
+                      SizedBox(
+                        width: kWidth * 1,
+                        height: kHeight * 0.065,
+                        child: AnElevatedButton(
+                          forFormKey: forFormKey,
+                          emailController: emailController,
+                          passwordController: passwordController,
+                          anOnPressed: () async {
+                            if (forFormKey.currentState!.validate()) {
+                              await FireBaseAuthMethods(FirebaseAuth.instance)
+                                  .loginWithEmail(
+                                email: emailController.text,
+                                password: passwordController.text,
+                                context: context,
+                              );
+                              emailController.clear();
+                              passwordController.clear();
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(height: kHeight * 0.03),
+                      GestureDetector(
+                        onTap: () async {
+                          await FireBaseAuthMethods(FirebaseAuth.instance)
+                              .signInWithGoogle(context);
+                        },
+                        child: Container(
+                          height: kHeight * 0.065,
+                          width: kWidth * 1,
                           decoration: BoxDecoration(
-                            color: kWhite,
-                            borderRadius: BorderRadius.circular(
-                              30,
-                            ),
-                          ),
-                          child: TextField(
-                            controller: passwordController,
-                            cursorColor: Colors.black,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Icons.lock_outline_rounded),
-                              suffixIcon: const Icon(CupertinoIcons.eye_slash),
-                              labelText: 'Password',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
+                              color: kWhite,
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: kHeight * 0.065,
+                                width: kWidth * 0.07,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      'assets/google_png.png',
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              SizedBox(width: kWidth * 0.04),
+                              Text(
+                                "Sign in with Google",
+                                style: buttonTextBlack,
+                              )
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(220, 10, 0, 0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ForgotPassword(),
-                          ));
-                        },
-                        child: const Text(
-                          "Forgot Password ?",
-                          style: TextStyle(color: Colors.black),
-                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: kHeight * 0.03,
-                    ),
-                    SizedBox(
-                      width: kWidth * 1,
-                      height: kHeight * 0.065,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await FireBaseAuthMethods(FirebaseAuth.instance)
-                              .loginWithEmail(
-                            email: emailController.text,
-                            password: passwordController.text,
-                            context: context,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueAccent),
-                        child: Text(
-                          "Sign in",
-                          style: buttontextWhite,
-                        ),
+                      SizedBox(height: kHeight * 0.15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an Account?"),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => SignUpPage(),
+                                ),
+                              );
+                            },
+                            child: const Text("Sign up"),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: kHeight * 0.03),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: kHeight * 0.065,
-                        width: kWidth * 1,
-                        decoration: BoxDecoration(
-                            color: kWhite,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: kHeight * 0.065,
-                              width: kWidth * 0.07,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image:
-                                          AssetImage('assets/google_png.png'))),
-                            ),
-                            SizedBox(width: kWidth * 0.04),
-                            Text(
-                              "Sign in with Google",
-                              style: buttonTextBlack,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: kHeight * 0.15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Don't have an Account?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => SignUpPage(),
-                              ),
-                            );
-                          },
-                          child: const Text("Sign up"),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AnElevatedButton extends StatelessWidget {
+  const AnElevatedButton(
+      {super.key,
+      required this.forFormKey,
+      required this.emailController,
+      required this.passwordController,
+      required this.anOnPressed});
+
+  final GlobalKey<FormState> forFormKey;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final VoidCallback anOnPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: anOnPressed,
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent),
+      child: Text(
+        "Sign in",
+        style: buttontextWhite,
+      ),
+    );
+  }
+}
+
+class TheTextFormField extends StatelessWidget {
+  const TheTextFormField({
+    super.key,
+    required this.anController,
+    required this.returnText,
+    required this.anLabelText,
+    required this.isObscure,
+    required this.anPrefixIcon,
+    this.anSuffixIcon,
+  });
+
+  final TextEditingController anController;
+  final String returnText;
+  final String anLabelText;
+  final bool isObscure;
+  final Icon anPrefixIcon;
+  final anSuffixIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return returnText;
+        }
+        return null;
+      },
+      controller: anController,
+      cursorColor: Colors.black,
+      obscureText: isObscure,
+      decoration: InputDecoration(
+        prefixIcon: anPrefixIcon,
+        suffixIcon: anSuffixIcon,
+        labelText: anLabelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(
+            width: 0,
+            style: BorderStyle.none,
           ),
         ),
       ),

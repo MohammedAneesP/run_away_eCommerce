@@ -8,8 +8,11 @@ import 'package:run_away/presentation/login_page/login_page.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
     final kHeight = MediaQuery.of(context).size.height;
@@ -42,23 +45,32 @@ class SignUpPage extends StatelessWidget {
                     SizedBox(
                       height: kHeight * 0.12,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.circular(
-                          30,
+                    Form(
+                      key: formKey,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
                         ),
-                      ),
-                      child: TextField(
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.mail_outline_rounded),
-                          labelText: 'Your Name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: const BorderSide(
-                              width: 0,
-                              style: BorderStyle.none,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "name not added";
+                            }
+                            return null;
+                          },
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.mail_outline_rounded),
+                            labelText: 'Your Name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
                             ),
                           ),
                         ),
@@ -131,12 +143,14 @@ class SignUpPage extends StatelessWidget {
                           height: kHeight * 0.065,
                           child: ElevatedButton(
                             onPressed: () async {
-                              await FireBaseAuthMethods(FirebaseAuth.instance)
-                                  .signUpWithEmail(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                context: context,
-                              );
+                              if (formKey.currentState!.validate()) {
+                                await FireBaseAuthMethods(FirebaseAuth.instance)
+                                    .signUpWithEmail(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  context: context,
+                                );
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blueAccent),
@@ -146,36 +160,6 @@ class SignUpPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: kHeight * 0.03),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: kHeight * 0.065,
-                            width: kWidth * 1,
-                            decoration: BoxDecoration(
-                                color: kWhite,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: kHeight * 0.065,
-                                  width: kWidth * 0.07,
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/google_png.png'))),
-                                ),
-                                SizedBox(width: kWidth * 0.04),
-                                Text(
-                                  "Sign in with Google",
-                                  style: buttonTextBlack,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: kHeight * 0.15),
                       ],
                     ),
                   ],
