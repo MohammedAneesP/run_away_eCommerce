@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/presentation/home_page/home_page.dart';
-import 'package:run_away/presentation/login_page/login_page.dart';
+import 'package:run_away/presentation/login_sign_up_pages/login_page.dart';
 
 class FireBaseAuthMethods {
   final FirebaseAuth fireAuth;
   FireBaseAuthMethods(this.fireAuth);
-
-  
 
   Future<void> signUpWithEmail({
     required String email,
@@ -100,6 +98,15 @@ class FireBaseAuthMethods {
   Future<void> signOut(BuildContext context) async {
     try {
       await fireAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      snackBar(context, e.message.toString());
+    }
+  }
+
+  Future<void> forgotPassword(
+      {required String anEmail, required BuildContext context}) async {
+    try {
+      await fireAuth.sendPasswordResetEmail(email: anEmail);
     } on FirebaseAuthException catch (e) {
       snackBar(context, e.message.toString());
     }

@@ -5,7 +5,6 @@ import 'package:run_away/domain/services/frbs_auth_methods.dart';
 import 'package:run_away/main.dart';
 
 import 'landing_page/landing_page_1.dart';
-import 'login_page/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -53,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void toOnBoarding() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => OnBoardingPage1(),
+      builder: (context) => const OnBoardingPage1(),
     ));
   }
 }

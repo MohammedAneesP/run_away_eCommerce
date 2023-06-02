@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/models/on_board_model.dart';
-import 'package:run_away/presentation/login_page/login_page.dart';
+import 'package:run_away/presentation/login_sign_up_pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
