@@ -9,9 +9,7 @@ int? isViewed;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
   SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -25,8 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        useMaterial3: true,
-        primarySwatch: Colors.blue,
+      primarySwatch:Colors.grey 
+      //  useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),

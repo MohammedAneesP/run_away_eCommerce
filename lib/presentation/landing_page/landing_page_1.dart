@@ -1,7 +1,7 @@
-import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:run_away/models/on_board_model.dart';
+import 'package:run_away/domain/models/on_board_model.dart';
 import 'package:run_away/presentation/login_sign_up_pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -22,10 +22,10 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
   bool isLastPage = false;
   storeOnBoardInfo() async {
     int isViewed = 0;
-    log("Shared pref Called");
+  //  log("Shared pref Called");
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setInt('OnBoard', isViewed);
-    log(pref.getInt('onBoard').toString());
+   // log(pref.getInt('onBoard').toString());
   }
 
   @override

@@ -98,7 +98,7 @@ class LoginPage extends StatelessWidget {
                         child: TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  ForgotPassword(),
+                              builder: (context) => ForgotPassword(),
                             ));
                           },
                           child: const Text(
@@ -194,4 +194,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:run_away/core/constants/constants.dart';
+import 'package:run_away/presentation/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/home_page/home_page.dart';
 import 'package:run_away/presentation/login_sign_up_pages/login_page.dart';
 
@@ -55,7 +56,7 @@ class FireBaseAuthMethods {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
       if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
-        final credential = GoogleAuthProvider.credential(
+        final  credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
@@ -83,7 +84,7 @@ class FireBaseAuthMethods {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => BottomNavPage(),
         ),
       );
     } else {

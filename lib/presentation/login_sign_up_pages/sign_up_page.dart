@@ -10,9 +10,9 @@ import 'package:run_away/presentation/login_sign_up_pages/widgets/text_form.dart
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
+ final  emailController = TextEditingController();
+ final  passwordController = TextEditingController();
+ final  userNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
