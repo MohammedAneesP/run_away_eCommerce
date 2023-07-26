@@ -9,7 +9,7 @@ final textMainTitle = GoogleFonts.rocknRollOne(fontSize: 30,fontWeight: FontWeig
 
 final loginTitle = GoogleFonts.inter(fontSize: 25,fontWeight: FontWeight.bold);
 
-final italicText = GoogleFonts.inter(fontStyle: FontStyle.italic);
+final italicText = GoogleFonts.roboto(fontStyle: FontStyle.italic,color: kBlue,fontSize: 16,fontWeight: FontWeight.w300);
 
 final kTitleText = GoogleFonts.robotoFlex(
     fontWeight: FontWeight.bold, fontSize: 22, color: kBlack);

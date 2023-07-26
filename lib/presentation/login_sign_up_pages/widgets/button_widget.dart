@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 
@@ -19,7 +18,16 @@ class AnElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: anOnPressed,
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blueAccent,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              30,
+            ),
+          ),
+        ),
+      ),
       child: Text(
         "Sign in",
         style: buttontextWhite,

@@ -42,7 +42,7 @@ class FireBaseAuthMethods {
       }
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => BottomNavPage(),
         ),
       );
     } on FirebaseAuthException catch (e) {

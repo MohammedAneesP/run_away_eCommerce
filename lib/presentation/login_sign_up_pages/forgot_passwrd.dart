@@ -24,7 +24,7 @@ class ForgotPassword extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.lightBlue[50],
+       // backgroundColor: Colors.lightBlue[50],
         body: SingleChildScrollView(
           child: SafeArea(
             child: Center(

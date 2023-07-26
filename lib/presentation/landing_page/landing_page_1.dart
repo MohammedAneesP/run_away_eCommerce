@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/domain/models/on_board_model.dart';
 import 'package:run_away/presentation/login_sign_up_pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +37,7 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
           automaticallyImplyLeading: false,
           actions: [
             TextButton(
@@ -68,9 +70,9 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
           ),
           itemCount: bordingPageData.length,
         ),
-        bottomSheet: SizedBox(
+        bottomSheet: Container(
           height: kHieght * 0.1,
-          //color: Colors.amber,
+          color: Colors.grey[200],
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
