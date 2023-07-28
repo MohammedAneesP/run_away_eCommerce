@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:run_away/core/constants/constants.dart';
-import 'package:run_away/presentation/bottom_nav/bottom_nav.dart';
-import 'package:run_away/presentation/home_page/home_page.dart';
-import 'package:run_away/presentation/login_sign_up_pages/login_page.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
+import 'package:run_away/presentation/Screens/home_page/home_page.dart';
+import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
 
 class FireBaseAuthMethods {
   final FirebaseAuth fireAuth;
@@ -40,9 +41,11 @@ class FireBaseAuthMethods {
       if (!fireAuth.currentUser!.emailVerified) {
         await fireAuth.currentUser?.sendEmailVerification();
       }
+      final createUser = FirebaseFirestore.instance.collection("users");
+      createUser.doc(email);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BottomNavPage(),
+          builder: (context) => const BottomNavPage(),
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -56,15 +59,15 @@ class FireBaseAuthMethods {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
       if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
-        final  credential = GoogleAuthProvider.credential(
+        final credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
         UserCredential userCredential =
             await fireAuth.signInWithCredential(credential);
       }
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const BottomNavPage()));
     } on FirebaseAuthException catch (e) {
       snackBar(context, e.message.toString());
     }

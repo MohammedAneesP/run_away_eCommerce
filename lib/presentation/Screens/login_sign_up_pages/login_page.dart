@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
-import 'package:run_away/presentation/login_sign_up_pages/forgot_passwrd.dart';
+import 'package:run_away/presentation/Screens/login_sign_up_pages/forgot_passwrd.dart';
 
 import 'sign_up_page.dart';
 import 'widgets/button_widget.dart';

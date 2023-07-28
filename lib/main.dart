@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/application/home_page/popular_picks/popular_product_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'presentation/splash_screen.dart';
+import 'presentation/Screens/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 int? isViewed;
@@ -32,6 +33,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PopularProductBloc(),
+          child: Container(),
+        ),
+        BlocProvider(
+          create: (context) => AllProductsBloc(),
           child: Container(),
         ),
       ],

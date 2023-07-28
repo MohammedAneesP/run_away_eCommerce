@@ -2,11 +2,11 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/presentation/home_page/home_page.dart';
-import 'package:run_away/presentation/cart/my_cart.dart';
-import 'package:run_away/presentation/categories/my_categories.dart';
-import 'package:run_away/presentation/profile/my_profile.dart';
-import 'package:run_away/presentation/wishlist/my_wishlists.dart';
+import 'package:run_away/presentation/Screens/home_page/home_page.dart';
+import 'package:run_away/presentation/Screens/cart/my_cart.dart';
+import 'package:run_away/presentation/Screens/categories/my_categories.dart';
+import 'package:run_away/presentation/Screens/profile/my_profile.dart';
+import 'package:run_away/presentation/Screens/wishlist/my_wishlists.dart';
 
 class BottomNavPage extends StatefulWidget {
   const BottomNavPage({super.key});
@@ -40,7 +40,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
-        buttonBackgroundColor: kBlue,
+        buttonBackgroundColor: kLightBlue,
         height: 75,
         index: indexPage,
         items: itemList,

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
@@ -20,8 +18,8 @@ class PopularProductBloc
       } else {
         
         final randomList = List.from(products);
-        randomList.shuffle();
-        randomList.length = 4;
+        //randomList.shuffle();
+        randomList.length = 3;
         return emit(
             PopularProductState(theProducts: randomList, errorMessage: ""));
       }
