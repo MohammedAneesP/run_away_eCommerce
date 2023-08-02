@@ -9,7 +9,7 @@ class BrandNameStream extends StatelessWidget {
     required this.anStyle,
   });
 
-  final  popularPros;
+  final dynamic popularPros;
   final TextStyle anStyle;
 
   @override

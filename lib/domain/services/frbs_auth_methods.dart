@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
-import 'package:run_away/presentation/Screens/home_page/home_page.dart';
 import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
 
 class FireBaseAuthMethods {
@@ -63,8 +64,9 @@ class FireBaseAuthMethods {
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
-        UserCredential userCredential =
+       UserCredential userCredential =
             await fireAuth.signInWithCredential(credential);
+            log(userCredential.additionalUserInfo.toString());
       }
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const BottomNavPage()));
@@ -87,7 +89,7 @@ class FireBaseAuthMethods {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BottomNavPage(),
+          builder: (context) => const BottomNavPage(),
         ),
       );
     } else {

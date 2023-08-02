@@ -18,7 +18,7 @@ class TheTextFormField extends StatelessWidget {
   final String anLabelText;
   final bool isObscure;
   final Icon anPrefixIcon;
-  final anSuffixIcon;
+  final dynamic anSuffixIcon;
   final TextInputType keyInputType;
 
   @override

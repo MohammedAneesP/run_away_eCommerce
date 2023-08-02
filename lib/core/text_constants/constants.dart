@@ -32,6 +32,6 @@ final buttontextWhite = GoogleFonts.inter(fontSize: 18,fontWeight: FontWeight.no
 final buttonTextBlack = GoogleFonts.inter(fontSize: 18,fontWeight: FontWeight.normal,color: kBlack);
 
 String capitalizeFirstLetter(String text) {
-  if (text == null || text.isEmpty) return text;
+  if (text.isEmpty) return text;
   return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
 }

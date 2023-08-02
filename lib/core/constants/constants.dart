@@ -8,8 +8,12 @@ const kSpace50 = SizedBox(
 void snackBar(BuildContext context, String aText) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(
-        aText,
+      behavior: SnackBarBehavior.floating,
+      shape:const StadiumBorder(),
+      content: Center(
+        child: Text(
+          aText,
+        ),
       ),
     ),
   );

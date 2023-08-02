@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/domain/models/on_board_model.dart';
 import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,7 +61,7 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
           onPageChanged: (value) {
             setState(() => isLastPage = value == 2);
           },
-          itemBuilder: (context, index) => landing_page_data(
+          itemBuilder: (context, index) => LandingPageData(
             kHieght: kHieght,
             imageName: bordingPageData[index].imageName,
             screenText: bordingPageData[index].screenText,

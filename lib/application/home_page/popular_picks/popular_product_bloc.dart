@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'popular_product_event.dart';
@@ -18,7 +18,6 @@ class PopularProductBloc
       } else {
         
         final randomList = List.from(products);
-        //randomList.shuffle();
         randomList.length = 3;
         return emit(
             PopularProductState(theProducts: randomList, errorMessage: ""));

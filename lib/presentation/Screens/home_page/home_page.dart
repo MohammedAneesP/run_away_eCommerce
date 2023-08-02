@@ -9,11 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/application/home_page/popular_picks/popular_product_bloc.dart';
+import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
 import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
 import 'package:run_away/presentation/widgets/brands/brand_name_get.dart';
+
+import 'widgets/popular_product_tile.dart';
+import 'widgets/product_grid_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,19 +34,7 @@ class _HomePageState extends State<HomePage> {
     "assets/landing_pic_1.png",
     "assets/landing_pic_2.png",
     "assets/landing_pic_3.png",
-  ];
-
-  final List<dynamic> textProducts = [
-    "nike air",
-    "adidas beats",
-    "puma wilder"
-  ];
-
-  final List<dynamic> textPrice = [
-    " ₹ 3500",
-    " ₹ 6000",
-    " ₹ 7000",
-  ];
+   ];
 
   final brandCollection = FirebaseFirestore.instance.collection("brands");
 
@@ -51,28 +43,6 @@ class _HomePageState extends State<HomePage> {
   List<dynamic> getId = [];
 
   final gettingProId = [];
-
-  // int? _selectedindex;
-
-  Future<void> fetchingProducts() async {
-    final brandCollection =
-        await FirebaseFirestore.instance.collection("brands").get();
-    for (var everyBrand in brandCollection.docs) {
-      final productSnapshot =
-          await everyBrand.reference.collection("shoe").get();
-      for (var productDoc in productSnapshot.docs) {
-        final productData = productDoc.data();
-        //log(productData.toString());
-        gettingProId.add(productData);
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchingProducts();
-  }
 
   ValueNotifier<int> anSelectVal = ValueNotifier(-1);
 
@@ -85,10 +55,11 @@ class _HomePageState extends State<HomePage> {
     BlocProvider.of<BrandChoiceBloc>(context).add(DisplayBrand());
     BlocProvider.of<PopularProductBloc>(context).add(SomeProduct());
     BlocProvider.of<AllProductsBloc>(context).add(AllProductListing());
+    BlocProvider.of<FavIconBloc>(context).add(FavProduct(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.of(context).size.height;
     final kWidth = MediaQuery.of(context).size.width;
 
-    print(fireName!.email.toString() + "----------");
+   // print("${fireName!.email}----------");
     var sizedBoxGap = SizedBox(height: kHeight * 0.05);
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
@@ -326,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: Row(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 120,
                             width: 185,
                             // color: Colors.amber,
@@ -408,7 +379,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                             itemCount: state.allProducts.length,
                             itemBuilder: (context, index) {
+                                  
                               final productData = state.allProducts[index];
+                              final productName = capitalizeFirstLetter(
+                                  productData["itemName"]);
+                                  
                               return ProductGridTile(
                                 kHeight: 0,
                                 kWidth: 0,
@@ -416,7 +391,7 @@ class _HomePageState extends State<HomePage> {
                                 imageWidth: kWidth * 0.5,
                                 anProductImg: productData["productImages"][0],
                                 anProductId: productData["productId"],
-                                textProducts: productData["itemName"],
+                                textProducts: productName,
                                 textPrice: productData["price"],
                                 anEmil: fireName!.email.toString(),
                                 brandName: BrandNameStream(
@@ -438,236 +413,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-}
-
-class ProductTile extends StatelessWidget {
-  const ProductTile({
-    super.key,
-    required this.kWidth,
-    required this.kHeight,
-    required this.anProductImg,
-    required this.textProducts,
-    required this.brandName,
-    required this.textPrice,
-    required this.imageHeight,
-    required this.imageWidth,
-  });
-  final double kWidth;
-  final double kHeight;
-  final double imageHeight;
-  final String anProductImg;
-  final String textProducts;
-  final Widget brandName;
-  final String textPrice;
-  final double imageWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: kHeight,
-      width: kWidth,
-      decoration: BoxDecoration(
-        color: kWhite,
-        borderRadius: BorderRadius.circular(
-          20,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Transform.flip(
-              flipX: true,
-              child: Transform.rotate(
-                angle: pi / 12.5,
-                child: Container(
-                  height: imageHeight,
-                  width: imageWidth,
-                  decoration: BoxDecoration(
-                    // color: Colors.red,
-                    image: DecorationImage(
-                        image: NetworkImage(anProductImg), fit: BoxFit.cover),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(
-                        20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                const SizedBox(width: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    brandName,
-                    const SizedBox(height: 2),
-                    Text(textProducts, style: kHeadingMedText),
-                    const SizedBox(height: 3),
-                    Text("₹ $textPrice", style: kSubTitleText),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProductGridTile extends StatelessWidget {
-  const ProductGridTile({
-    super.key,
-    required this.kWidth,
-    required this.kHeight,
-    required this.anProductImg,
-    required this.textProducts,
-    required this.brandName,
-    required this.textPrice,
-    required this.imageHeight,
-    required this.imageWidth,
-    required this.anEmil,
-    required this.anProductId,
-  });
-  final double kWidth;
-  final double kHeight;
-  final double imageHeight;
-  final String anProductImg;
-  final String textProducts;
-  final Widget brandName;
-  final String textPrice;
-  final double imageWidth;
-  final String anEmil;
-  final String anProductId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: kHeight,
-      width: kWidth,
-      decoration: BoxDecoration(
-        color: kWhite,
-        borderRadius: BorderRadius.circular(
-          20,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FavoriteIcon(
-              anEmil: anEmil,
-              anProductId: anProductId,
-            ),
-            Transform.flip(
-              flipX: true,
-              child: Transform.rotate(
-                angle: pi / 12.5,
-                child: Container(
-                  height: imageHeight,
-                  width: imageWidth,
-                  decoration: BoxDecoration(
-                    // color: Colors.red,
-                    image: DecorationImage(
-                        image: NetworkImage(anProductImg), fit: BoxFit.cover),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(
-                        20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                const SizedBox(width: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    brandName,
-                    const SizedBox(height: 2),
-                    Text(textProducts, style: kHeadingMedText),
-                    const SizedBox(height: 3),
-                    Text("₹ $textPrice", style: kSubTitleText),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FavoriteIcon extends StatefulWidget {
-  const FavoriteIcon({
-    super.key,
-    required this.anEmil,
-    required this.anProductId,
-  });
-
-  final String anEmil;
-  final String anProductId;
-
-  @override
-  State<FavoriteIcon> createState() => _FavoriteIconState();
-}
-
-class _FavoriteIconState extends State<FavoriteIcon> {
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-        onPressed: () async {
-          final datas = await FirebaseFirestore.instance
-              .collection("users")
-              .doc(widget.anEmil)
-              .get();
-          if (datas.exists) {
-            final val = datas.data();
-            final List<dynamic> forFav = [];
-            if (val == null) {
-              await FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(widget.anEmil)
-                  .set({
-                "favorites": [widget.anProductId]
-              });
-            } else {
-              for (var element in val["favorites"]) {
-                forFav.add(element);
-              }
-              print(forFav);
-              if (forFav.contains(widget.anProductId)) {
-                forFav.remove(widget.anProductId);
-                await FirebaseFirestore.instance
-                    .collection("users")
-                    .doc(widget.anEmil)
-                    .set({"favorites": forFav});
-              } else {
-                forFav.add(widget.anProductId);
-                await FirebaseFirestore.instance
-                    .collection("users")
-                    .doc(widget.anEmil)
-                    .set({"favorites": forFav});
-              }
-            }
-          } else {
-            await FirebaseFirestore.instance
-                .collection("users")
-                .doc(widget.anEmil)
-                .set({
-              "favorites": [widget.anProductId]
-            });
-          }
-        },
-        icon: const Icon(CupertinoIcons.heart));
   }
 }

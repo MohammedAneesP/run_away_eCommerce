@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 
 
-class landing_page_data extends StatelessWidget {
-  const landing_page_data({
+class LandingPageData extends StatelessWidget {
+  const LandingPageData({
     Key? key,
     required this.kHieght,
     required this.imageName,
