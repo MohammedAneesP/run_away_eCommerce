@@ -4,6 +4,7 @@ import 'package:run_away/application/home_page/all_products/all_products_bloc.da
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/application/home_page/popular_picks/popular_product_bloc.dart';
 import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
+import 'package:run_away/application/wishlist/wishlist_products/wishlist_products_bloc.dart';
 import 'package:run_away/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'presentation/Screens/splash_screen.dart';
@@ -41,6 +42,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => FavIconBloc(),
+          child: Container(),
+        ),
+        BlocProvider(
+          create: (context) => WishlistProductsBloc(),
           child: Container(),
         )
       ],

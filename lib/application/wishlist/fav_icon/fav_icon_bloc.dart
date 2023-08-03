@@ -27,7 +27,7 @@ class FavIconBloc extends Bloc<FavIconEvent, FavIconState> {
           anList.add(element.toString());
         }
         anFavList = anList;
-        log(anFavList.toString());
+        //log(anFavList.toString());
         return emit(FavIconState(anFavList: anList));
       }
       } catch (e) {

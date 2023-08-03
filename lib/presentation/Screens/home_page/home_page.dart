@@ -17,7 +17,7 @@ import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dar
 import 'package:run_away/presentation/widgets/brands/brand_name_get.dart';
 
 import 'widgets/popular_product_tile.dart';
-import 'widgets/product_grid_tile.dart';
+import '../../widgets/products/fav_grid_tile/product_grid_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -393,7 +393,7 @@ class _HomePageState extends State<HomePage> {
                                 anProductId: productData["productId"],
                                 textProducts: productName,
                                 textPrice: productData["price"],
-                                anEmil: fireName!.email.toString(),
+                                anEmail: fireName!.email.toString(),
                                 brandName: BrandNameStream(
                                   popularPros: productData,
                                   anStyle: italicText,

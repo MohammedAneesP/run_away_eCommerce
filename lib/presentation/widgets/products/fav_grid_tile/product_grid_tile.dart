@@ -1,13 +1,12 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/wishlist/widgets/favorite_icon.dart';
+import 'package:run_away/presentation/Screens/wishlist/widgets/favarite_icon/favorite_icon_home.dart';
 
 class ProductGridTile extends StatelessWidget {
-   ProductGridTile({
+  const ProductGridTile({
     super.key,
     required this.kWidth,
     required this.kHeight,
@@ -17,7 +16,7 @@ class ProductGridTile extends StatelessWidget {
     required this.textPrice,
     required this.imageHeight,
     required this.imageWidth,
-    required this.anEmil,
+    required this.anEmail,
     required this.anProductId,
   });
   final double kWidth;
@@ -28,7 +27,7 @@ class ProductGridTile extends StatelessWidget {
   final Widget brandName;
   final String textPrice;
   final double imageWidth;
-  final String anEmil;
+  final String anEmail;
   final String anProductId;
 
   @override
@@ -47,9 +46,8 @@ class ProductGridTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FavoriteIcon(
-             // anBool: anBool,
-              anEmil: anEmil,
+            FavoriteIconHome(
+              anEmail: anEmail,
               anProductId: anProductId,
             ),
             Transform.flip(
@@ -60,7 +58,6 @@ class ProductGridTile extends StatelessWidget {
                   height: imageHeight,
                   width: imageWidth,
                   decoration: BoxDecoration(
-                    // color: Colors.red,
                     image: DecorationImage(
                         image: NetworkImage(anProductImg), fit: BoxFit.cover),
                     borderRadius: const BorderRadius.all(
@@ -93,4 +90,3 @@ class ProductGridTile extends StatelessWidget {
     );
   }
 }
-  
