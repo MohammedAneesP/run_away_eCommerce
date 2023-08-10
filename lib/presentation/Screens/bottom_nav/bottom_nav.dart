@@ -19,8 +19,8 @@ class _BottomNavPageState extends State<BottomNavPage> {
   int indexPage = 0;
 
   final screens = [
-    const HomePage(),
-     MyWishlist(),
+    HomePage(),
+    MyWishlist(),
     const MyCart(),
     const Categories(),
     const ProfileScreen()

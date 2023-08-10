@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,37 +11,31 @@ import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
 import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
-import 'package:run_away/presentation/widgets/brands/brand_name_get.dart';
+import 'package:run_away/presentation/Screens/product_details/product_view.dart';
+import 'package:run_away/presentation/Screens/search_screen/search_screen.dart';
+import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
+import 'package:run_away/presentation/widgets/products/fav_grid_tile/product_grid_tile.dart';
 
+import 'widgets/home_titles/all_products.dart';
+import 'widgets/home_titles/new_arrival.dart';
+import 'widgets/home_titles/popular_pick.dart';
+import 'widgets/image_containers/carousal_image.dart';
+import 'widgets/new_arrival_prodct.dart';
 import 'widgets/popular_product_tile.dart';
-import '../../widgets/products/fav_grid_tile/product_grid_tile.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+final List<dynamic> carouselImages = [
+  "assets/landing_pic_1.png",
+  "assets/landing_pic_2.png",
+  "assets/landing_pic_3.png",
+];
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
 
-class _HomePageState extends State<HomePage> {
   final userName = FireBaseAuthMethods(FirebaseAuth.instance);
   final fireName = FirebaseAuth.instance.currentUser;
 
-  final List<dynamic> carouselImages = [
-    "assets/landing_pic_1.png",
-    "assets/landing_pic_2.png",
-    "assets/landing_pic_3.png",
-   ];
-
-  final brandCollection = FirebaseFirestore.instance.collection("brands");
-
-  bool isSelected = false;
-
-  List<dynamic> getId = [];
-
-  final gettingProId = [];
-
-  ValueNotifier<int> anSelectVal = ValueNotifier(-1);
+  final ValueNotifier<int> anSelectVal = ValueNotifier(-1);
 
   void changeValue(int anItem) {
     anSelectVal.value = ValueNotifier(anItem).value;
@@ -55,18 +46,20 @@ class _HomePageState extends State<HomePage> {
     BlocProvider.of<BrandChoiceBloc>(context).add(DisplayBrand());
     BlocProvider.of<PopularProductBloc>(context).add(SomeProduct());
     BlocProvider.of<AllProductsBloc>(context).add(AllProductListing());
-    BlocProvider.of<FavIconBloc>(context).add(FavProduct(anEmail: fireName!.email.toString()));
+    BlocProvider.of<FavIconBloc>(context)
+        .add(FavProduct(anEmail: fireName!.email.toString()));
+
     final kHeight = MediaQuery.of(context).size.height;
     final kWidth = MediaQuery.of(context).size.width;
 
-   // print("${fireName!.email}----------");
     var sizedBoxGap = SizedBox(height: kHeight * 0.05);
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
       appBar: AppBar(
-        shadowColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: Colors.grey[200],
+        elevation: 0,
+        bottom:
+            const PreferredSize(preferredSize: Size(0, 15), child: SizedBox()),
+        backgroundColor: kGrey200,
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
           child: Container(
@@ -118,6 +111,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               SizedBox(height: kHeight * 0.03),
               CupertinoSearchTextField(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchScreen(),
+                )),
                 padding: const EdgeInsets.fromLTRB(17, 17, 17, 17),
                 backgroundColor: kWhite.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(30),
@@ -133,15 +129,7 @@ class _HomePageState extends State<HomePage> {
                   (i) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: kGrey.withOpacity(0.1),
-                            image: DecorationImage(
-                                image: AssetImage(i), fit: BoxFit.cover),
-                          ),
-                        );
+                        return CarousalImageContainer(anImage: i);
                       },
                     );
                   },
@@ -168,7 +156,6 @@ class _HomePageState extends State<HomePage> {
                             itemCount: state.theBrands.length,
                             itemBuilder: (context, index) {
                               final refName = state.theBrands[index];
-                              // getId.add(refName["brandId"]);
                               return ValueListenableBuilder(
                                 valueListenable: anSelectVal,
                                 builder: (context, value, _) {
@@ -223,13 +210,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               SizedBox(height: kHeight * 0.025),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 220, 0),
-                child: Text(
-                  "Popular pick's".toUpperCase(),
-                  style: kHeadingMedText,
-                ),
-              ),
+              const PopularPickText(),
               SizedBox(height: kHeight * 0.02),
               SizedBox(
                 height: kHeight * .3,
@@ -251,16 +232,25 @@ class _HomePageState extends State<HomePage> {
                           final itemsName =
                               capitalizeFirstLetter(popularPros["itemName"]);
                           return ProductTile(
+                            anOnPress: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ProductView(
+                                    anProductId: popularPros["productId"],
+                                  ),
+                                ),
+                              );
+                            },
                             kHeight: kHeight * 1,
                             kWidth: kWidth * 0.45,
                             anProductImg: popularPros["productImages"][0],
                             textProducts: itemsName,
                             textPrice: popularPros["price"],
                             brandName: BrandNameStream(
-                                popularPros: popularPros, anStyle: italicText),
+                                popularPros: popularPros,
+                                anStyle: kBlueThinText),
                             imageHeight: kHeight * 0.2,
                             imageWidth: kWidth * 0.5,
-                            // anIconButton: IconButton(onPressed: , icon: icon),
                           );
                         },
                       );
@@ -269,13 +259,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               sizedBoxGap,
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 240, 0),
-                child: Text(
-                  "New Arrivals",
-                  style: kHeadingText,
-                ),
-              ),
+              const NewArrivalText(),
               sizedBoxGap3,
               BlocBuilder<AllProductsBloc, AllProductsState>(
                 builder: (context, state) {
@@ -285,80 +269,26 @@ class _HomePageState extends State<HomePage> {
                     final product = state.allProducts[2];
                     final productName =
                         capitalizeFirstLetter(product["itemName"]);
-                    return Container(
-                      height: kHeight * .17,
-                      decoration: const BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            20,
+                    return GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProductView(
+                            anProductId: product["productId"],
                           ),
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 120,
-                            width: 185,
-                            // color: Colors.amber,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 15),
-                                  BrandNameStream(
-                                    popularPros: product,
-                                    anStyle: kBlueText,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(productName, style: kTitleText),
-                                  const SizedBox(height: 5),
-                                  Text("₹ ${product['price']}",
-                                      style: kNonBoldBigText)
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 10, 40),
-                            child: Transform.flip(
-                              flipX: true,
-                              child: Transform.rotate(
-                                angle: pi / 12.5,
-                                child: Container(
-                                  height: 120,
-                                  width: 175,
-                                  decoration: BoxDecoration(
-                                      //  color: Colors.red,
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            product["productImages"][0],
-                                          ),
-                                          fit: BoxFit.cover)),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      child: NewArrivalProduct(
+                        product: product,
+                        productName: productName,
                       ),
                     );
                   }
                 },
               ),
               sizedBoxGap,
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 247, 0),
-                child: Text(
-                  "All products",
-                  style: kHeadingText,
-                ),
-              ),
+              const AllProductText(),
+              SizedBox(height: kHeight * 0.03),
               SizedBox(
-                height: kHeight * 0.03,
-              ),
-              SizedBox(
-                // height: kHeight * 1.4,
                 child: BlocBuilder<AllProductsBloc, AllProductsState>(
                   builder: (context, state) {
                     if (state.allProducts.isEmpty) {
@@ -379,14 +309,18 @@ class _HomePageState extends State<HomePage> {
                             ),
                             itemCount: state.allProducts.length,
                             itemBuilder: (context, index) {
-                                  
                               final productData = state.allProducts[index];
                               final productName = capitalizeFirstLetter(
                                   productData["itemName"]);
-                                  
+
                               return ProductGridTile(
                                 kHeight: 0,
                                 kWidth: 0,
+                                anOnPressed: () => Navigator.of(context)
+                                    .push(MaterialPageRoute(
+                                  builder: (context) => ProductView(
+                                      anProductId: productData["productId"]),
+                                )),
                                 imageHeight: kHeight * 0.15,
                                 imageWidth: kWidth * 0.5,
                                 anProductImg: productData["productImages"][0],
@@ -396,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                 anEmail: fireName!.email.toString(),
                                 brandName: BrandNameStream(
                                   popularPros: productData,
-                                  anStyle: italicText,
+                                  anStyle: kBlueThinText,
                                 ),
                               );
                             },

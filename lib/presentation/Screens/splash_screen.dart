@@ -44,10 +44,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> goto() async {
     await Future.delayed(const Duration(seconds: 5));
-    isViewed != 0
-        ?  toOnBoarding()
-        :  FireBaseAuthMethods(FirebaseAuth.instance)
-            .checkLogedIn(context);
+    if (context.mounted) {
+      isViewed != 0
+          ? toOnBoarding()
+          : FireBaseAuthMethods(FirebaseAuth.instance).checkLogedIn(context);
+    }
   }
 
   void toOnBoarding() {

@@ -40,10 +40,10 @@ class ForgotPassword extends StatelessWidget {
                       style: loginTitle,
                     ),
                     Text("Please Enter your Email address to",
-                        style: italicText),
+                        style: kBlueThinText),
                     Text(
                       "Recieve a verification Code",
-                      style: italicText,
+                      style: kBlueThinText,
                     ),
                     SizedBox(
                       height: kHeight * 0.12,

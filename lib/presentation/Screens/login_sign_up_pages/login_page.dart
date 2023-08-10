@@ -48,7 +48,7 @@ class LoginPage extends StatelessWidget {
                         style: loginTitle,
                       ),
                       Text("Welcome back you've been missed!",
-                          style: italicText),
+                          style: kBlueThinText),
                       SizedBox(
                         height: kHeight * 0.12,
                       ),

@@ -45,7 +45,7 @@ class SignUpPage extends StatelessWidget {
                         "Create Account",
                         style: loginTitle,
                       ),
-                      Text("Let's create Account together", style: italicText),
+                      Text("Let's create Account together", style: kBlueThinText),
                       SizedBox(
                         height: kHeight * 0.12,
                       ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/domain/models/on_board_model.dart';
@@ -22,16 +21,13 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
   bool isLastPage = false;
   storeOnBoardInfo() async {
     int isViewed = 0;
-  //  log("Shared pref Called");
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setInt('OnBoard', isViewed);
-   // log(pref.getInt('onBoard').toString());
   }
 
   @override
   Widget build(BuildContext context) {
     final kHieght = MediaQuery.of(context).size.height;
-    //final kWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -42,11 +38,13 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
             TextButton(
               onPressed: () async {
                 await storeOnBoardInfo();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
+                if (context.mounted) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                }
               },
               child: Text(
                 'Skip',
@@ -95,11 +93,13 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
                     ? TextButton(
                         onPressed: () async {
                           await storeOnBoardInfo();
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          );
+                          if (context.mounted) {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ),
+                            );
+                          }
                         },
                         child: Text(
                           "Start",

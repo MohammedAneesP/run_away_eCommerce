@@ -1,9 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:run_away/infrastructure/home_page/brand_fetch.dart';
 
 class BrandNameStream extends StatelessWidget {
-  const BrandNameStream({
+   BrandNameStream({
     super.key,
     required this.popularPros,
     required this.anStyle,
@@ -11,6 +11,8 @@ class BrandNameStream extends StatelessWidget {
 
   final dynamic popularPros;
   final TextStyle anStyle;
+
+  final anbrandFetch =  FirebaseFirestore.instance.collection("brands");
 
   @override
   Widget build(BuildContext context) {

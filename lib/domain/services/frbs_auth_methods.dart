@@ -22,8 +22,12 @@ class FireBaseAuthMethods {
         email: email,
         password: password,
       );
-      await sendEmailVerification(context);
-      Navigator.of(context).pop();
+      if (context.mounted) {
+        await sendEmailVerification(context);
+      }
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
     } on FirebaseAuthException catch (e) {
       snackBar(context, e.message.toString());
     }
@@ -44,11 +48,13 @@ class FireBaseAuthMethods {
       }
       final createUser = FirebaseFirestore.instance.collection("users");
       createUser.doc(email);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const BottomNavPage(),
-        ),
-      );
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const BottomNavPage(),
+          ),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       snackBar(context, e.message.toString());
     }
@@ -64,12 +70,16 @@ class FireBaseAuthMethods {
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
-       UserCredential userCredential =
+        UserCredential userCredential =
             await fireAuth.signInWithCredential(credential);
-            log(userCredential.additionalUserInfo.toString());
+        log(userCredential.additionalUserInfo.toString());
       }
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const BottomNavPage()));
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const BottomNavPage()));
+      } else {
+        return;
+      }
     } on FirebaseAuthException catch (e) {
       snackBar(context, e.message.toString());
     }

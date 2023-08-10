@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/application/home_page/popular_picks/popular_product_bloc.dart';
+import 'package:run_away/application/product_details/product_view/product_view_bloc.dart';
 import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
 import 'package:run_away/application/wishlist/wishlist_products/wishlist_products_bloc.dart';
 import 'package:run_away/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'application/search/search_product/seearch_product_bloc.dart';
 import 'presentation/Screens/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,20 +36,22 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PopularProductBloc(),
-          child: Container(),
         ),
         BlocProvider(
           create: (context) => AllProductsBloc(),
-          child: Container(),
         ),
         BlocProvider(
           create: (context) => FavIconBloc(),
-          child: Container(),
         ),
         BlocProvider(
           create: (context) => WishlistProductsBloc(),
-          child: Container(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => SearchProductBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ProductViewBloc(),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(

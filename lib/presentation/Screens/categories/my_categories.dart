@@ -1,17 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
+import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
+import 'package:run_away/presentation/Screens/wishlist/widgets/appbar_widgets/leading_widget.dart';
+
+
+const tempImage = "https://as2.ftcdn.net/v2/jpg/04/00/24/31/1000_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg";
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final kHeight = MediaQuery.sizeOf(context);
+    final kWidth = MediaQuery.sizeOf(context);
     return Scaffold(
-      body: Center(
-        child: Text(
-          "Categories",
-          style: kHeadingText,
-        ),
+      appBar: AppBar(
+        bottom:
+            const PreferredSize(preferredSize: Size(0, 20), child: SizedBox()),
+        shadowColor: kTransparent,
+        backgroundColor: kGrey200,
+        centerTitle: true,
+        leading: const AppbarLeading(),
+        title: Text("brands".toUpperCase(), style: loginTitle),
+      ),
+      body: BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
+        builder: (context, state) {
+          if (state.theBrands.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state.theBrands.isNotEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: GridView.builder(
+                itemCount: state.theBrands.length,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  childAspectRatio: 10,
+                  mainAxisExtent: 195,
+                ),
+                itemBuilder: (context, index) {
+                  final brand = state.theBrands[index];
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      borderRadius: BorderRadius.circular(
+                        15,
+                      ),
+                    ),
+                    height: kHeight.height * 0.8,
+                    width: kWidth.width * 1,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: kHeight.height * .17,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  brand["imageName"] ?? tempImage,
+                                ),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "${brand["brandName"]}".toUpperCase(),
+                          style: kHeadingMedText,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            );
+          } else {
+            return const Center(child: Text("Something went Wrong"));
+          }
+        },
       ),
     );
   }
