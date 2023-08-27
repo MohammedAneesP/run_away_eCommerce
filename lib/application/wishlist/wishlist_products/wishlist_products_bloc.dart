@@ -28,7 +28,6 @@ class WishlistProductsBloc
             for (var element in products) {
               if (anFavList.contains(element["productId"])) {
                 toEmitFav.add(element);
-                //log(toEmitFav.toString());
               }
             }
             return emit(WishlistProductsState(
@@ -56,7 +55,7 @@ class WishlistProductsBloc
             }
           }
           await FirebaseFirestore.instance
-              .collection("users")
+              .collection("wishlist")
               .doc(event.anEmail)
               .set({"favorites": anFavList});
           return emit(

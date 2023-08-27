@@ -3,13 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:run_away/application/category/product_in_brand/product_in_brand_bloc.dart';
 import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/application/home_page/popular_picks/popular_product_bloc.dart';
 import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
+import 'package:run_away/application/wishlist/wishlist_products/wishlist_products_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
+import 'package:run_away/presentation/Screens/categories/categorized/brand_products.dart';
 import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
 import 'package:run_away/presentation/Screens/search_screen/search_screen.dart';
@@ -46,8 +49,9 @@ class HomePage extends StatelessWidget {
     BlocProvider.of<BrandChoiceBloc>(context).add(DisplayBrand());
     BlocProvider.of<PopularProductBloc>(context).add(SomeProduct());
     BlocProvider.of<AllProductsBloc>(context).add(AllProductListing());
-    BlocProvider.of<FavIconBloc>(context)
-        .add(FavProduct(anEmail: fireName!.email.toString()));
+   BlocProvider.of<FavIconBloc>(context)
+       .add(FavProduct(anEmail: fireName!.email.toString()));
+        BlocProvider.of<WishlistProductsBloc>(context).add(WishProductList(anEmail: fireName!.email.toString()));
 
     final kHeight = MediaQuery.of(context).size.height;
     final kWidth = MediaQuery.of(context).size.width;
@@ -56,7 +60,8 @@ class HomePage extends StatelessWidget {
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+         elevation: 0,
+        surfaceTintColor: kTransparent,
         bottom:
             const PreferredSize(preferredSize: Size(0, 15), child: SizedBox()),
         backgroundColor: kGrey200,
@@ -163,8 +168,23 @@ class HomePage extends StatelessWidget {
                                     backgroundColor: Colors.transparent,
                                     selectedColor: Colors.lightBlue,
                                     selected: anSelectVal.value == index,
-                                    onSelected: (value) {
+                                    onSelected: (value)async {
                                       changeValue(index);
+
+                                      BlocProvider.of<ProductInBrandBloc>(
+                                              context)
+                                          .add(TheProducts(
+                                              anProductId: refName["brandId"]));
+                                     await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BrandsProducts(
+                                            anSelectedIndex: anSelectVal.value,
+                                            anBrandId: refName["brandId"],
+                                          ),
+                                        ),
+                                      );
+                                      changeValue(-1);
                                     },
                                     labelPadding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 8),
@@ -213,7 +233,7 @@ class HomePage extends StatelessWidget {
               const PopularPickText(),
               SizedBox(height: kHeight * 0.02),
               SizedBox(
-                height: kHeight * .3,
+                height: kHeight * .31,
                 width: kWidth,
                 child: BlocBuilder<PopularProductBloc, PopularProductState>(
                   builder: (context, state) {
@@ -266,7 +286,7 @@ class HomePage extends StatelessWidget {
                   if (state.allProducts.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   } else {
-                    final product = state.allProducts[2];
+                    final product = state.allProducts[0];
                     final productName =
                         capitalizeFirstLetter(product["itemName"]);
                     return GestureDetector(

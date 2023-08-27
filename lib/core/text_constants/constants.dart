@@ -23,6 +23,8 @@ final kBluePlainText =
 final kTitleText = GoogleFonts.robotoFlex(
     fontWeight: FontWeight.bold, fontSize: 22, color: kBlack);
 
+    final kTitleNonBoldText = GoogleFonts.robotoFlex( fontSize: 22, color: kBlack);
+
 final kNonboldTitleText = GoogleFonts.roboto(fontSize: 20, color: kBlack);
 
 final kHeadingText = GoogleFonts.roboto(
@@ -31,6 +33,8 @@ final kNonBoldBigText = GoogleFonts.roboto(
     fontWeight: FontWeight.w500, fontSize: 20, color: kBlack);
 final kHeadingMedText = GoogleFonts.roboto(
     fontWeight: FontWeight.bold, fontSize: 17, color: kBlack);
+
+final kSubTextNonBold = GoogleFonts.roboto( fontSize: 18, color: kBlack);
 
 final kSubTitleText = GoogleFonts.roboto(
     fontWeight: FontWeight.w500, fontSize: 15, color: kBlack);
@@ -53,7 +57,7 @@ final splashTitle = GoogleFonts.rocknRollOne(
 final buttontextWhite = GoogleFonts.inter(
     fontSize: 18, fontWeight: FontWeight.normal, color: kWhite);
 final buttonTextBlack = GoogleFonts.inter(
-    fontSize: 18, fontWeight: FontWeight.normal, color: kBlack);
+    fontSize: 16, fontWeight: FontWeight.normal, color: kBlack);
 
 String capitalizeFirstLetter(String text) {
   if (text.isEmpty) return text;

@@ -8,90 +8,92 @@ import 'package:meta/meta.dart';
 part 'fav_icon_event.dart';
 part 'fav_icon_state.dart';
 
-
 List<dynamic> anFavList = [];
+
 class FavIconBloc extends Bloc<FavIconEvent, FavIconState> {
   FavIconBloc() : super(FavIconInitial()) {
     on<FavProduct>((event, emit) async {
       try {
         final anValue = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(event.anEmail)
-          .get();
-      final anData = anValue.data() ?? {};
-      if (anData.isEmpty) {
-        return emit(FavIconState(anFavList: []));
-      } else {
-        final List<dynamic> anList = [];
-        for (var element in anData["favorites"]) {
-          anList.add(element.toString());
+            .collection("wishlist")
+            .doc(event.anEmail)
+            .get();
+        final anData = anValue.data() ?? {};
+        if (anData.isEmpty) {
+          return emit(FavIconState(anFavList: []));
+        } else {
+          final List<dynamic> anList = [];
+          for (var element in anData["favorites"]) {
+            anList.add(element.toString());
+          }
+          anFavList = anList;
+          return emit(FavIconState(anFavList: anList));
         }
-        anFavList = anList;
-        //log(anFavList.toString());
-        return emit(FavIconState(anFavList: anList));
-      }
       } catch (e) {
-       log(e.toString());
+        log(e.toString());
       }
-      
     });
 
     on<FavProductAdding>((event, emit) async {
       try {
         final anValue = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(event.anEmail)
-          .get();
-      final anData = anValue.data() ?? {};
-      if (anData.isEmpty) {
-        return emit(FavIconState(anFavList: []));
-      } else {
-        final List<dynamic> anList = [];
-        for (var element in anData["favorites"]) {
-          anList.add(element.toString());
-        }
-        anList.add(event.anProduct);
-        await FirebaseFirestore.instance
-            .collection("users")
+            .collection("wishlist")
             .doc(event.anEmail)
-            .set({"favorites": anList});
-            anFavList.clear();
-            anFavList = anList;
-        return emit(FavIconState(anFavList: anList));
-      }
+            .get();
+        final anData = anValue.data() ?? {};
+        if (anData.isEmpty) {
+          final List<dynamic> forFav = [];
+          forFav.add(event.anProduct);
+          await FirebaseFirestore.instance
+              .collection("wishlist")
+              .doc(event.anEmail)
+              .set({"favorites": forFav});
+          return emit(FavIconState(anFavList: forFav));
+        } else {
+          final List<dynamic> anList = [];
+          for (var element in anData["favorites"]) {
+            anList.add(element.toString());
+          }
+          anList.add(event.anProduct);
+          await FirebaseFirestore.instance
+              .collection("wishlist")
+              .doc(event.anEmail)
+              .set({"favorites": anList});
+          anFavList.clear();
+          anFavList = anList;
+          return emit(FavIconState(anFavList: anList));
+        }
       } catch (e) {
         log(e.toString());
       }
-      
     });
 
     on<FavProductDelete>((event, emit) async {
       try {
-         final anValue = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(event.anEmail)
-          .get();
-      final anData = anValue.data() ?? {};
-      if (anData.isEmpty) {
-        return emit(FavIconState(anFavList: []));
-      } else {
-        final List<dynamic> anList = [];
-        for (var element in anData["favorites"]) {
-          anList.add(element.toString());
-        }
-        anList.remove(event.anProduct);
-         await FirebaseFirestore.instance
-            .collection("users")
+        final anValue = await FirebaseFirestore.instance
+            .collection("wishlist")
             .doc(event.anEmail)
-            .set({"favorites": anList});
-            anFavList.clear();
-            anFavList = anList;
-        return emit(FavIconState(anFavList: anList));
-      }
+            .get();
+        final anData = anValue.data() ?? {};
+        if (anData.isEmpty) {
+          return emit(FavIconState(anFavList: []));
+        } else {
+          final List<dynamic> anList = [];
+          for (var element in anData["favorites"]) {
+            anList.add(element.toString());
+          }
+          anList.remove(event.anProduct);
+          await FirebaseFirestore.instance
+              .collection("wishlist")
+              .doc(event.anEmail)
+              .set({"favorites": anList});
+          anFavList.clear();
+          anFavList = anList;
+          return emit(FavIconState(anFavList: anList));
+        }
       } catch (e) {
         log(e.toString());
       }
-     
     });
   }
 }

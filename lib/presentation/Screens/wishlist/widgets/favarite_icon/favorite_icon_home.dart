@@ -30,15 +30,12 @@ class FavoriteIconHome extends StatelessWidget {
                       BlocProvider.of<FavIconBloc>(context).add(
                           FavProductDelete(
                               anEmail: anEmail, anProduct: anProductId));
-                      BlocProvider.of<WishlistProductsBloc>(context).add(
+                      BlocProvider.of<WishlistProductsBloc>(context).add( 
                           RemoveFavorite(
                               anProductId: anProductId, anEmail: anEmail));
                       snackBar(context, "Removed from Wishlist 💔");
                     },
-                    icon: const Icon(
-                      CupertinoIcons.heart,
-                      color: kRed,
-                    )),
+                    icon: const Icon(CupertinoIcons.heart, color: kRed)),
               )
             : CircleAvatar(
                 child: IconButton(

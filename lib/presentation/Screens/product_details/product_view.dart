@@ -1,29 +1,36 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:run_away/application/cart/cart_button_bloc/cart_button_bloc.dart';
 import 'package:run_away/application/product_details/product_view/product_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
+import 'package:run_away/presentation/Screens/product_details/widgets/buttons/add_to_cart_button.dart';
+
+ValueNotifier<int> anSelectVal = ValueNotifier(-1);
+
+void changeValue(int anItem) {
+  anSelectVal.value = ValueNotifier(anItem).value;
+}
 
 class ProductView extends StatelessWidget {
   final String anProductId;
   ProductView({super.key, required this.anProductId});
 
+  final fireName = FirebaseAuth.instance.currentUser;
   final PageController pageViewCtrl = PageController();
-
-  ValueNotifier<int> anSelectVal = ValueNotifier(-1);
-
-  void changeValue(int anItem) {
-    anSelectVal.value = ValueNotifier(anItem).value;
-  }
 
   @override
   Widget build(BuildContext context) {
+    changeValue(-1);
     BlocProvider.of<ProductViewBloc>(context)
         .add(AnProductView(anProductid: anProductId));
+    BlocProvider.of<CartButtonBloc>(context)
+        .add(CartProducts(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
     return BlocBuilder<ProductViewBloc, ProductViewState>(
@@ -35,6 +42,12 @@ class ProductView extends StatelessWidget {
         } else {
           final product = state.products;
           final productName = capitalizeFirstLetter(product["itemName"]);
+          Map<dynamic, dynamic> forStockAndSize = {};
+          List<dynamic> sizeList = [];
+          forStockAndSize = state.products["stockAndSize"];
+          forStockAndSize.forEach((key, value) {
+            sizeList.add(key.toString());
+          });
           return Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
@@ -74,7 +87,7 @@ class ProductView extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      height: kHeight.height * .55,
+                      height: kHeight.height * .65,
                       decoration: const BoxDecoration(
                         color: kWhite,
                         borderRadius: BorderRadius.horizontal(
@@ -115,21 +128,22 @@ class ProductView extends StatelessWidget {
                             BrandNameStream(
                                 popularPros: state.products,
                                 anStyle: kBlueThinText),
-                            SizedBox(height: kHeight.height * 0.02),
+                            SizedBox(height: kHeight.height * 0.01),
                             Text(productName, style: kTitleText),
-                            SizedBox(height: kHeight.height * 0.02),
+                            SizedBox(height: kHeight.height * 0.01),
                             Text("₹ ${product["price"]}.",
                                 style: kNonboldTitleText),
-                            SizedBox(height: kHeight.height * 0.02),
+                            SizedBox(height: kHeight.height * 0.01),
                             Text(
                               product["description"],
                               style: kGreySmallText,
                               maxLines: 100,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             SizedBox(height: kHeight.height * 0.02),
                             Text("Size", style: kHeadingText),
                             SizedBox(
-                              height: kHeight.height * 0.067,
+                              height: kHeight.height * 0.08,
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
@@ -137,28 +151,31 @@ class ProductView extends StatelessWidget {
                                     valueListenable: anSelectVal,
                                     builder: (context, value, child) =>
                                         ChoiceChip(
-                                          shadowColor: kGrey,
-                                          elevation:5 ,
-                                          shape:const CircleBorder(),
-                                          selectedColor: kBlue,
-                                          label: CircleAvatar(
-                                            backgroundColor: kTransparent,
-                                            child: Text(product["shoeSize"][index]
-                                                .toString(),style:buttonTextBlack),
-                                          ),
-                                          selected: anSelectVal.value == index,
-                                          onSelected: (value) {
-                                            changeValue(index);
-                                          },
-                                        ),
+                                      backgroundColor: kGrey200,
+                                      shadowColor: kBlue,
+                                      elevation: 5,
+                                      shape: const CircleBorder(),
+                                      selectedColor: kBlue,
+                                      label: CircleAvatar(
+                                        backgroundColor: kTransparent,
+                                        child: Text(sizeList[index].toString(),
+                                            style: buttonTextBlack),
+                                      ),
+                                      selected: anSelectVal.value == index,
+                                      onSelected: (value) {
+                                        changeValue(index);
+                                        print(anSelectVal.value);
+                                      },
+                                    ),
                                   );
                                 },
                                 separatorBuilder: (context, index) => SizedBox(
                                   width: kWidth.width * 0.03,
                                 ),
-                                itemCount: product["shoeSize"].length,
+                                itemCount: sizeList.length,
                               ),
                             ),
+                            SizedBox(height: kHeight.height * 0.02),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -171,7 +188,8 @@ class ProductView extends StatelessWidget {
                                     children: [
                                       const Spacer(),
                                       Text("Price", style: kGreyItalicText),
-                                      Text("₹ ${product["price"]}.", style: kTitleText),
+                                      Text("₹ ${product["price"]}.",
+                                          style: kTitleText),
                                       const Spacer(),
                                     ],
                                   ),
@@ -180,20 +198,10 @@ class ProductView extends StatelessWidget {
                                   height: kHeight.height * 0.08,
                                   width: kWidth.width * 0.47,
                                   child: SizedBox(
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: const ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(kBlue),
-                                        shape: MaterialStatePropertyAll(
-                                            StadiumBorder()),
-                                      ),
-                                      child: Text(
-                                        "Add to Cart",
-                                        style: buttontextWhite,
-                                      ),
-                                    ),
-                                  ),
+                                      child: AddToCartButton(
+                                          anSelectedIndex: anSelectVal.value,
+                                          anEmail: fireName!.email.toString(),
+                                          anProductId: product["productId"])),
                                 ),
                               ],
                             ),
