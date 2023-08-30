@@ -7,15 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:run_away/application/cart/cart_button_bloc/cart_button_bloc.dart';
 import 'package:run_away/application/product_details/product_view/product_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
+import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
-import 'package:run_away/presentation/Screens/product_details/widgets/buttons/add_to_cart_button.dart';
-
-ValueNotifier<int> anSelectVal = ValueNotifier(-1);
-
-void changeValue(int anItem) {
-  anSelectVal.value = ValueNotifier(anItem).value;
-}
+import 'package:run_away/presentation/Screens/cart/my_cart.dart';
 
 class ProductView extends StatelessWidget {
   final String anProductId;
@@ -24,13 +19,19 @@ class ProductView extends StatelessWidget {
   final fireName = FirebaseAuth.instance.currentUser;
   final PageController pageViewCtrl = PageController();
 
+  ValueNotifier<int> anSelectVal = ValueNotifier(-1);
+  ValueNotifier<String> anSize = ValueNotifier("");
+
+  void changeValue(int anItem, String theSize) {
+    anSelectVal.value = ValueNotifier(anItem).value;
+    anSize.value = ValueNotifier(theSize).value;
+  }
+
   @override
   Widget build(BuildContext context) {
-    changeValue(-1);
+    changeValue(-1, "");
     BlocProvider.of<ProductViewBloc>(context)
         .add(AnProductView(anProductid: anProductId));
-    BlocProvider.of<CartButtonBloc>(context)
-        .add(CartProducts(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
     return BlocBuilder<ProductViewBloc, ProductViewState>(
@@ -163,8 +164,10 @@ class ProductView extends StatelessWidget {
                                       ),
                                       selected: anSelectVal.value == index,
                                       onSelected: (value) {
-                                        changeValue(index);
-                                        print(anSelectVal.value);
+                                        if (value) {
+                                          changeValue(index,
+                                              sizeList[index].toString());
+                                        }
                                       },
                                     ),
                                   );
@@ -198,10 +201,68 @@ class ProductView extends StatelessWidget {
                                   height: kHeight.height * 0.08,
                                   width: kWidth.width * 0.47,
                                   child: SizedBox(
-                                      child: AddToCartButton(
-                                          anSelectedIndex: anSelectVal.value,
-                                          anEmail: fireName!.email.toString(),
-                                          anProductId: product["productId"])),
+                                    child: BlocBuilder<CartButtonBloc,
+                                        CartButtonState>(
+                                      builder: (context, state) {
+                                        return state.productId
+                                                .containsKey(anProductId)
+                                            ? ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MyCart(),
+                                                      ));
+                                                },
+                                                style: const ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                          kBlue),
+                                                  shape:
+                                                      MaterialStatePropertyAll(
+                                                          StadiumBorder()),
+                                                ),
+                                                child: Text(
+                                                  "Go to Cart",
+                                                  style: buttontextWhite,
+                                                ))
+                                            : ElevatedButton(
+                                                onPressed: () {
+                                                  if (anSelectVal.value < 0) {
+                                                    snackBar(context,
+                                                        "Please Select an Size");
+                                                    return;
+                                                  }
+                                                  BlocProvider.of<CartButtonBloc>(
+                                                          context)
+                                                      .add(AddingToCart(
+                                                          anProductId:
+                                                              anProductId
+                                                                  .toString(),
+                                                          anEmail: fireName!
+                                                              .email
+                                                              .toString(),
+                                                          anSelectedIndex:
+                                                              anSize.value
+                                                                  .toString()));
+                                                  changeValue(-1, '');
+                                                },
+                                                style: const ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                          kBlue),
+                                                  shape:
+                                                      MaterialStatePropertyAll(
+                                                          StadiumBorder()),
+                                                ),
+                                                child: Text(
+                                                  "Add to cart",
+                                                  style: buttontextWhite,
+                                                ));
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

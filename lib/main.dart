@@ -10,6 +10,7 @@ import 'package:run_away/application/wishlist/wishlist_products/wishlist_product
 import 'package:run_away/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'application/cart/cart_button_bloc/cart_button_bloc.dart';
+import 'application/cart/cart_view/cart_view_bloc.dart';
 import 'application/search/search_product/seearch_product_bloc.dart';
 import 'presentation/Screens/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,12 +42,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SearchProductBloc()),
         BlocProvider(create: (context) => ProductViewBloc()),
         BlocProvider(create: (context) => ProductInBrandBloc()),
-       BlocProvider(create: (context) => CartButtonBloc()),
+        BlocProvider(create: (context) => CartButtonBloc()),
+        BlocProvider(create: (context) => CartViewBloc()),
       ],
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.grey,
-            // useMaterial3: true,
+          // useMaterial3: true,
           scaffoldBackgroundColor: Colors.grey[200],
         ),
         debugShowCheckedModeBanner: false,

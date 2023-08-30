@@ -1,11 +1,11 @@
 part of 'cart_button_bloc.dart';
 
  class CartButtonState {
-  final List<dynamic>productId;
-  final String errrorMessage;
-  CartButtonState({required this.productId,required this.errrorMessage});
+  final Map<dynamic,dynamic>productId;
+  final String errorMessage;
+  CartButtonState({required this.productId,required this.errorMessage});
  }
 
 final class CartButtonInitial extends CartButtonState {
-  CartButtonInitial():super(productId: [],errrorMessage: '');
+  CartButtonInitial():super(productId: {},errorMessage: '');
 }

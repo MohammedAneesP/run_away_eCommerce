@@ -16,21 +16,19 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
             .doc(event.anEmail)
             .get();
         if (anValue.exists) {
-          final anData = anValue.data() ?? {};
-          if (anData.isEmpty) {
+          final theData = anValue.data();
+          if (theData!.isEmpty) {
             return emit(CartButtonState(
-                productId: [], errrorMessage: "nothing added to Cart"));
+                productId: {}, errorMessage: "nothing added yet"));
+          } else {
+            return emit(CartButtonState(productId: theData, errorMessage: ""));
           }
-          final List<dynamic> fullCart = [];
-          for (var element in anData["productId"]) {
-            fullCart.add(element.toString());
-          }
-          return emit(CartButtonState(productId: fullCart, errrorMessage: ""));
         } else {
           return emit(CartButtonState(
-              productId: [], errrorMessage: "nothing added to Cart"));
+              productId: {}, errorMessage: "nothing added yet"));
         }
       } catch (e) {
+        log("___________");
         log(e.toString());
       }
     });
@@ -41,37 +39,33 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
             .doc(event.anEmail)
             .get();
         if (anValue.exists) {
-          final anData = anValue.data() ?? {};
-          if (anData.isEmpty) {
-            final List<dynamic> forCart = [];
-            forCart.add(event.anProductId);
+          final anData = anValue.data();
+          if (anData!.isEmpty) {
+            final idAndSize = {event.anProductId: event.anSelectedIndex};
             await FirebaseFirestore.instance
                 .collection("cart")
                 .doc(event.anEmail)
-                .set({"productId": forCart});
-            return emit(CartButtonState(productId: forCart, errrorMessage: ""));
+                .set({event.anProductId.toString(): event.anSelectedIndex});
+            return emit(
+                CartButtonState(productId: idAndSize, errorMessage: ''));
           } else {
-            final List<dynamic> forCart = [];
-            for (var element in anData["productId"]) {
-              forCart.add(element.toString());
-            }
-            forCart.add(event.anProductId);
-            await FirebaseFirestore.instance
-                .collection("cart")
-                .doc(event.anEmail)
-                .set({"productId": forCart});
-            return emit(CartButtonState(productId: forCart, errrorMessage: ""));
+            Map<String,dynamic> idAndSize = {};
+            idAndSize.addAll(anData);
+            idAndSize.addAll({event.anProductId.toString(): event.anSelectedIndex});
+            await FirebaseFirestore.instance.collection("cart").doc(event.anEmail).set(idAndSize);
+            return emit(CartButtonState(productId: idAndSize, errorMessage: ""));
           }
         } else {
-          final List<dynamic> forCart = [];
-          forCart.add(event.anProductId);
+          final idAndSize = {event.anProductId: event.anSelectedIndex};
+          log(idAndSize.toString());
           await FirebaseFirestore.instance
               .collection("cart")
               .doc(event.anEmail)
-              .set({"productId": forCart});
-          return emit(CartButtonState(productId: forCart, errrorMessage: ""));
+              .set({event.anProductId.toString(): event.anSelectedIndex});
+          return emit(CartButtonState(productId: idAndSize, errorMessage: ''));
         }
       } catch (e) {
+        log("aavanillla");
         log(e.toString());
       }
     });

@@ -24,7 +24,7 @@ class ForgotPassword extends StatelessWidget {
         }
       },
       child: Scaffold(
-       // backgroundColor: Colors.lightBlue[50],
+        // backgroundColor: Colors.lightBlue[50],
         body: SingleChildScrollView(
           child: SafeArea(
             child: Center(
@@ -78,14 +78,17 @@ class ForgotPassword extends StatelessWidget {
                           if (formKey.currentState!.validate()) {
                             await FireBaseAuthMethods(FirebaseAuth.instance)
                                 .forgotPassword(
-                                    anEmail: forgotController.text,
-                                    context: context);
-                            snackBar(context, "Reset email sent");
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
+                              anEmail: forgotController.text,
+                              context: context,
                             );
+                            if (context.mounted) {
+                              snackBar(context, "Reset email sent");
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                ),
+                              );
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
