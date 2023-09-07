@@ -149,41 +149,44 @@ class BrandsProducts extends StatelessWidget {
                     height: kHeight.height,
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        return GridView.builder(
-                          itemCount: state.products.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 220,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                            childAspectRatio: 5,
-                            mainAxisExtent: 260,
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GridView.builder(
+                            itemCount: state.products.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 220,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 5,
+                              mainAxisExtent: 260,
+                            ),
+                            itemBuilder: (context, index) {
+                              final theProducts = state.products[index];
+                              final productName =
+                                  capitalizeFirstLetter(theProducts["itemName"]);
+                              return ProductGridTile(
+                                kHeight: 0,
+                                kWidth: 0,
+                                anOnPressed: () =>
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ProductView(
+                                      anProductId: theProducts["productId"]),
+                                )),
+                                imageHeight: kHeight.height * 0.15,
+                                imageWidth: kWidth.width * 0.5,
+                                anProductImg: theProducts["productImages"][0],
+                                anProductId: theProducts["productId"],
+                                textProducts: productName,
+                                textPrice: theProducts["price"],
+                                anEmail: fireName!.email.toString(),
+                                brandName: BrandNameStream(
+                                  popularPros: theProducts,
+                                  anStyle: kBlueThinText,
+                                ),
+                              );
+                            },
                           ),
-                          itemBuilder: (context, index) {
-                            final theProducts = state.products[index];
-                            final productName =
-                                capitalizeFirstLetter(theProducts["itemName"]);
-                            return ProductGridTile(
-                              kHeight: 0,
-                              kWidth: 0,
-                              anOnPressed: () =>
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ProductView(
-                                    anProductId: theProducts["productId"]),
-                              )),
-                              imageHeight: kHeight.height * 0.15,
-                              imageWidth: kWidth.width * 0.5,
-                              anProductImg: theProducts["productImages"][0],
-                              anProductId: theProducts["productId"],
-                              textProducts: productName,
-                              textPrice: theProducts["price"],
-                              anEmail: fireName!.email.toString(),
-                              brandName: BrandNameStream(
-                                popularPros: theProducts,
-                                anStyle: kBlueThinText,
-                              ),
-                            );
-                          },
                         );
                       },
                     ),

@@ -51,7 +51,7 @@ class FireBaseAuthMethods {
       if (context.mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const BottomNavPage(),
+            builder: (context) =>  const BottomNavPage(),
           ),
         );
       }
@@ -76,7 +76,7 @@ class FireBaseAuthMethods {
       }
       if (context.mounted) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const BottomNavPage()));
+            MaterialPageRoute(builder: (context) =>  const BottomNavPage()));
       } else {
         return;
       }
@@ -99,7 +99,7 @@ class FireBaseAuthMethods {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const BottomNavPage(),
+          builder: (context) =>  const BottomNavPage(),
         ),
       );
     } else {

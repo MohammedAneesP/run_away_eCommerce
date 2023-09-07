@@ -32,6 +32,7 @@ class ProductView extends StatelessWidget {
     changeValue(-1, "");
     BlocProvider.of<ProductViewBloc>(context)
         .add(AnProductView(anProductid: anProductId));
+        BlocProvider.of<CartButtonBloc>(context).add(CartProducts(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
     return BlocBuilder<ProductViewBloc, ProductViewState>(
@@ -243,10 +244,10 @@ class ProductView extends StatelessWidget {
                                                           anEmail: fireName!
                                                               .email
                                                               .toString(),
-                                                          anSelectedIndex:
+                                                          anSelectedSize:
                                                               anSize.value
-                                                                  .toString()));
-                                                  changeValue(-1, '');
+                                                                  .toString(),anCount: "1"));
+                                                 // changeValue(-1, '');
                                                 },
                                                 style: const ButtonStyle(
                                                   backgroundColor:

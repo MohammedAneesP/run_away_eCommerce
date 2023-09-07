@@ -11,6 +11,7 @@ class CartProducts extends CartButtonEvent {
 class AddingToCart extends CartButtonEvent {
   final String anEmail;
   final String anProductId;
-  final String anSelectedIndex;
-  AddingToCart({required this.anProductId, required this.anEmail,required this.anSelectedIndex});
+  final String anSelectedSize;
+  final String anCount;
+  AddingToCart({required this.anProductId, required this.anEmail,required this.anSelectedSize,required this.anCount});
 }

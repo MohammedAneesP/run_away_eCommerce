@@ -1,31 +1,31 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:run_away/core/color_constants/colors.dart';
 
-class CartProductImage extends StatelessWidget {
-  const CartProductImage({
+import 'cart_product_img.dart';
+
+class CartImage extends StatelessWidget {
+  const CartImage({
     super.key,
-    required this.anImageUrl,
+    required this.kHeight,
+    required this.kWidth,
+    required this.theUrl,
   });
 
-  final String anImageUrl;
+  final Size kHeight;
+  final Size kWidth;
+  final String theUrl;
 
   @override
   Widget build(BuildContext context) {
-    return Transform.flip(
-      flipX: true,
-      child: Transform.rotate(
-        angle: pi / 14,
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  anImageUrl),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+    return Container(
+      height: kHeight.height * 0.1,
+      width: kWidth.width * 0.25,
+      decoration: BoxDecoration(
+        color: kWhite,
+        borderRadius: BorderRadius.circular(20),
       ),
+      child: CartProductImage(anImageUrl: theUrl),
     );
   }
 }

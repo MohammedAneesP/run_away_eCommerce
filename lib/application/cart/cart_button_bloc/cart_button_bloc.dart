@@ -40,32 +40,54 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
             .get();
         if (anValue.exists) {
           final anData = anValue.data();
+
           if (anData!.isEmpty) {
-            final idAndSize = {event.anProductId: event.anSelectedIndex};
+            final anMap = {
+              "size": event.anSelectedSize,
+              "count": event.anCount
+            };
+            final idAndSize = {event.anProductId: anMap};
+
             await FirebaseFirestore.instance
                 .collection("cart")
                 .doc(event.anEmail)
-                .set({event.anProductId.toString(): event.anSelectedIndex});
+                .set({event.anProductId: anMap});
+
             return emit(
                 CartButtonState(productId: idAndSize, errorMessage: ''));
           } else {
-            Map<String,dynamic> idAndSize = {};
+            Map<String, dynamic> idAndSize = {};
             idAndSize.addAll(anData);
-            idAndSize.addAll({event.anProductId.toString(): event.anSelectedIndex});
-            await FirebaseFirestore.instance.collection("cart").doc(event.anEmail).set(idAndSize);
-            return emit(CartButtonState(productId: idAndSize, errorMessage: ""));
+            final anMap = {
+              "size": event.anSelectedSize,
+              "count": event.anCount
+            };
+
+            idAndSize.addAll({event.anProductId.toString(): anMap});
+           // log(idAndSize.toString());
+
+            await FirebaseFirestore.instance
+                .collection("cart")
+                .doc(event.anEmail)
+                .set(idAndSize);
+
+            return emit(
+                CartButtonState(productId: idAndSize, errorMessage: ""));
           }
         } else {
-          final idAndSize = {event.anProductId: event.anSelectedIndex};
-          log(idAndSize.toString());
+          final anMap = {"size": event.anSelectedSize, "count": event.anCount};
+          final idAndSize = {event.anProductId: anMap};
+
+          //log(idAndSize.toString());
+
           await FirebaseFirestore.instance
               .collection("cart")
               .doc(event.anEmail)
-              .set({event.anProductId.toString(): event.anSelectedIndex});
+              .set({event.anProductId: anMap});
+
           return emit(CartButtonState(productId: idAndSize, errorMessage: ''));
         }
       } catch (e) {
-        log("aavanillla");
         log(e.toString());
       }
     });

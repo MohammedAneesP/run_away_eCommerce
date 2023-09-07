@@ -12,8 +12,8 @@ import 'package:run_away/application/wishlist/wishlist_products/wishlist_product
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
+import 'package:run_away/presentation/Screens/cart/my_cart.dart';
 import 'package:run_away/presentation/Screens/categories/categorized/brand_products.dart';
-import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
 import 'package:run_away/presentation/Screens/search_screen/search_screen.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
@@ -49,9 +49,10 @@ class HomePage extends StatelessWidget {
     BlocProvider.of<BrandChoiceBloc>(context).add(DisplayBrand());
     BlocProvider.of<PopularProductBloc>(context).add(SomeProduct());
     BlocProvider.of<AllProductsBloc>(context).add(AllProductListing());
-   BlocProvider.of<FavIconBloc>(context)
-       .add(FavProduct(anEmail: fireName!.email.toString()));
-        BlocProvider.of<WishlistProductsBloc>(context).add(WishProductList(anEmail: fireName!.email.toString()));
+    BlocProvider.of<FavIconBloc>(context)
+        .add(FavProduct(anEmail: fireName!.email.toString()));
+    BlocProvider.of<WishlistProductsBloc>(context)
+        .add(WishProductList(anEmail: fireName!.email.toString()));
 
     final kHeight = MediaQuery.of(context).size.height;
     final kWidth = MediaQuery.of(context).size.width;
@@ -60,7 +61,7 @@ class HomePage extends StatelessWidget {
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
       appBar: AppBar(
-         elevation: 0,
+        elevation: 0,
         surfaceTintColor: kTransparent,
         bottom:
             const PreferredSize(preferredSize: Size(0, 15), child: SizedBox()),
@@ -91,21 +92,21 @@ class HomePage extends StatelessWidget {
               radius: 30,
               child: IconButton(
                 onPressed: () {
-                  FireBaseAuthMethods(FirebaseAuth.instance).signOut(context);
-                  Navigator.pushReplacement(
+                  // FireBaseAuthMethods(FirebaseAuth.instance).signOut(context);
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LoginPage(),
+                      builder: (context) => MyCart(),
                     ),
                   );
                 },
                 icon: const Icon(
-                  Icons.logout_rounded,
+                  CupertinoIcons.cart,
                   size: 25,
                 ),
               ),
             ),
-          )
+          ),
         ],
         centerTitle: true,
       ),
@@ -168,14 +169,14 @@ class HomePage extends StatelessWidget {
                                     backgroundColor: Colors.transparent,
                                     selectedColor: Colors.lightBlue,
                                     selected: anSelectVal.value == index,
-                                    onSelected: (value)async {
+                                    onSelected: (value) async {
                                       changeValue(index);
 
                                       BlocProvider.of<ProductInBrandBloc>(
                                               context)
                                           .add(TheProducts(
                                               anProductId: refName["brandId"]));
-                                     await Navigator.push(
+                                      await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => BrandsProducts(
