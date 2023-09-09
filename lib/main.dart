@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:run_away/application/address/adding_address.dart/adding_address_bloc.dart';
+import 'package:run_away/application/address/address_view/address_view_bloc.dart';
 import 'package:run_away/application/category/product_in_brand/product_in_brand_bloc.dart';
 import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CartButtonBloc()),
         BlocProvider(create: (context) => CartViewBloc()),
         BlocProvider(create: (context) => AddingAddressBloc()),
+        BlocProvider(create: (context) => AddressViewBloc()),
       ],
       child: MaterialApp(
         theme: ThemeData(
