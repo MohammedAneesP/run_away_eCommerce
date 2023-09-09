@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
+import 'package:run_away/presentation/Screens/address.dart/addres_adding.dart';
+import 'package:run_away/presentation/Screens/cart/widgets/cart_product_img.dart';
+
+int anAddressIndex = 0;
 
 class AddressSelecting extends StatefulWidget {
   const AddressSelecting({super.key});
@@ -37,8 +41,20 @@ class _AddressSelectingState extends State<AddressSelecting> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
-                child: Text('Contact Information', style: kHeadingMedText),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Contact Information', style: kHeadingMedText),
+                    OutlinedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => AddingAddress(),
+                          ));
+                        },
+                        child: const Text("Add Address")),
+                  ],
+                ),
               ),
               ListTile(
                 leading: Container(
@@ -82,10 +98,58 @@ class _AddressSelectingState extends State<AddressSelecting> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Address', style: kHeadingMedText),
-                    const DropdownButtonExample(anAddress: list)
+                    const AddressDropDown(anAddress: list),
+                    Text('Payment Method', style: kHeadingMedText),
                   ],
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+      bottomSheet: Container(
+        height: kHeight.height * 0.23,
+        color: kWhite,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: kHeight.height * .01,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Subtotal", style: kNonboldTitleText),
+                  Text("₹ 25000", style: kTitleNonBoldText)
+                ],
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Shipping", style: kNonboldTitleText),
+                  Text("₹ 00", style: kTitleNonBoldText)
+                ],
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Total Cost", style: kTitleNonBoldText),
+                  Text("₹ 25000", style: kTitleText)
+                ],
+              ),
+              SizedBox(height: kHeight.height * 0.01),
+              ElevatedButton(
+                  style: checkOutButtonStyle(kWidth, kHeight),
+                  onPressed: () {
+                    
+                  },
+                  child: Text(
+                    "Continue to Pay",
+                    style: buttontextWhite,
+                  ))
             ],
           ),
         ),
@@ -97,49 +161,50 @@ class _AddressSelectingState extends State<AddressSelecting> {
 /// Flutter code sample for [DropdownButton].
 
 const List<String> list = <String>[
-  'Pandarathil house P.O.orumanayoor',
+  'Pandarathil house P.O.orumanayoor piloksuovsoihibiybyib',
   'Two',
   'Three',
   'Four'
 ];
 
-class DropdownButtonExample extends StatefulWidget {
+class AddressDropDown extends StatefulWidget {
   final List<String> anAddress;
-  const DropdownButtonExample({super.key, required this.anAddress});
+
+  const AddressDropDown({super.key, required this.anAddress});
 
   @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+  State<AddressDropDown> createState() => _AddressDropDownState();
 }
 
-class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+class _AddressDropDownState extends State<AddressDropDown> {
   String dropdownValue = list.first;
-  int index = 0;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
+      underline: const Divider(color: kTransparent),
       borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
       value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
+      icon: const Icon(Icons.keyboard_arrow_down_rounded),
       elevation: 16,
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
-          index = widget.anAddress.indexWhere((element) {
+          anAddressIndex = widget.anAddress.indexWhere((element) {
             return element == value;
           });
           log(value);
-          log(index.toString());
+          log(anAddressIndex.toString());
         });
       },
       items: widget.anAddress.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Container(
+          child: SizedBox(
             height: 30,
-             color: kBlue,
+            width: 300,
             child: Text(
               value,
               overflow: TextOverflow.ellipsis,

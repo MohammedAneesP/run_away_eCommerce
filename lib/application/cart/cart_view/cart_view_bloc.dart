@@ -64,9 +64,6 @@ class CartViewBloc extends Bloc<CartViewEvent, CartViewState> {
               errorMessage: "nothing to Disply",
               anProductSize: {}));
         } else {
-          // final anList = [];
-
-          /// anList.add(anData);
           await FirebaseFirestore.instance
               .collection("cart")
               .doc(event.anEmail)

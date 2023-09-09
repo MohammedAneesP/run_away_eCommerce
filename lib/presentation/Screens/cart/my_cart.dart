@@ -346,7 +346,7 @@ class MyCart extends StatelessWidget {
                         onPressed: () {
                           log(idAndQuantity.toString());
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const AddressSelecting(),
+                            builder: (context) =>  const AddressSelecting(),
                           ));
                         },
                         child: const ProceedText())

@@ -44,7 +44,8 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
           if (anData!.isEmpty) {
             final anMap = {
               "size": event.anSelectedSize,
-              "count": event.anCount
+              "count": event.anCount,
+              "price": event.anPrice,
             };
             final idAndSize = {event.anProductId: anMap};
 
@@ -60,11 +61,12 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
             idAndSize.addAll(anData);
             final anMap = {
               "size": event.anSelectedSize,
-              "count": event.anCount
+              "count": event.anCount,
+              "price": event.anPrice,
             };
 
             idAndSize.addAll({event.anProductId.toString(): anMap});
-           // log(idAndSize.toString());
+            // log(idAndSize.toString());
 
             await FirebaseFirestore.instance
                 .collection("cart")
@@ -75,10 +77,12 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
                 CartButtonState(productId: idAndSize, errorMessage: ""));
           }
         } else {
-          final anMap = {"size": event.anSelectedSize, "count": event.anCount};
+          final anMap = {
+            "size": event.anSelectedSize,
+            "count": event.anCount,
+            "price": event.anPrice,
+          };
           final idAndSize = {event.anProductId: anMap};
-
-          //log(idAndSize.toString());
 
           await FirebaseFirestore.instance
               .collection("cart")
