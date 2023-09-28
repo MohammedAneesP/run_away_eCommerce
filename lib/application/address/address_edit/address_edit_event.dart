@@ -1,9 +1,15 @@
-part of 'adding_address_bloc.dart';
+part of 'address_edit_bloc.dart';
 
 @immutable
-sealed class AddingAddressEvent {}
+sealed class AddressEditEvent {}
 
-class AddingAnAddress extends AddingAddressEvent {
+class EditingAddress extends AddressEditEvent {
+  final String anEmail;
+  final String anMapKey;
+  EditingAddress({required this.anEmail, required this.anMapKey});
+}
+
+class UpdatingAddress extends AddressEditEvent {
   final String anEmail;
   final String userEmail;
   final String name;
@@ -12,8 +18,9 @@ class AddingAnAddress extends AddingAddressEvent {
   final String landmark;
   final String number;
   final String pincode;
+  final String anMapkey;
   final String editAddressKey;
-  AddingAnAddress({
+  UpdatingAddress({
     required this.userEmail,
     required this.anEmail,
     required this.place,
@@ -22,6 +29,7 @@ class AddingAnAddress extends AddingAddressEvent {
     required this.name,
     required this.number,
     required this.pincode,
-    required this.editAddressKey,
+    required this.anMapkey,
+    required this.editAddressKey
   });
 }

@@ -38,7 +38,6 @@ class AddressViewBloc extends Bloc<AddressViewEvent, AddressViewState> {
               final theCartProducts = forProducts.where((element) {
                 return cartValue.containsKey(element.id);
               }).toList();
-              log(theCartProducts.toString());
               final address = await FirebaseFirestore.instance
                   .collection("address")
                   .doc(event.anEmail)

@@ -23,11 +23,13 @@ class AddingAddressBloc extends Bloc<AddingAddressEvent, AddingAddressState> {
               theKey: {
                 "name": event.name,
                 "email": event.userEmail,
+                "place": event.place,
                 "address": event.address,
                 "landmark": event.landmark,
                 "number": event.number,
                 "pincode": event.pincode,
                 "keyValue": theKey,
+                "editedKey": event.editAddressKey,
               }
             };
             await FirebaseFirestore.instance
@@ -42,6 +44,7 @@ class AddingAddressBloc extends Bloc<AddingAddressEvent, AddingAddressState> {
               theKey: {
                 "name": event.name,
                 "email": event.userEmail,
+                "place": event.place,
                 "address": event.address,
                 "landmark": event.landmark,
                 "number": event.number,
@@ -50,6 +53,9 @@ class AddingAddressBloc extends Bloc<AddingAddressEvent, AddingAddressState> {
               }
             };
             anValue.addAll(anAddress);
+              anValue.forEach((key, value) {
+            anValue[key]["editedKey"] = event.editAddressKey;
+          });
             await FirebaseFirestore.instance
                 .collection("address")
                 .doc(event.anEmail)
@@ -63,11 +69,13 @@ class AddingAddressBloc extends Bloc<AddingAddressEvent, AddingAddressState> {
             theKey: {
               "name": event.name,
               "email": event.userEmail,
+              "place": event.place,
               "address": event.address,
               "landmark": event.landmark,
               "number": event.number,
               "pincode": event.pincode,
               "keyValue": theKey,
+              "editedKey": event.editAddressKey,
             }
           };
           await FirebaseFirestore.instance

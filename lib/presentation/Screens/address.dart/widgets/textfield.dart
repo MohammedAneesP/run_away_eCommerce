@@ -31,12 +31,14 @@ class TheTextField extends StatelessWidget {
       },
       controller: anController,
       textAlign: TextAlign.start,
+      autocorrect: true,
+      autofillHints: Characters.empty,
       maxLines: forMaxLine,
       keyboardType: anType,
       decoration: InputDecoration(
         filled: true,
         fillColor: kGrey.withOpacity(0.1),
-        label: Text(anLabelText),
+        hintText: anLabelText,
         disabledBorder: InputBorder.none,
         border: const OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -50,3 +52,5 @@ class TheTextField extends StatelessWidget {
     );
   }
 }
+RoundedRectangleBorder roundRectanglrShape() => const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10)));

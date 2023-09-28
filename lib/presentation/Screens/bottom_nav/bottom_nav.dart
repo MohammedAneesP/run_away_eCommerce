@@ -22,7 +22,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
     const Categories(),
     MyWishlist(),
     HomePage(),
-    const MyOrders(),
+    MyOrders(),
     const ProfileScreen()
   ];
 

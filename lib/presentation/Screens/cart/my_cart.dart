@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -346,7 +346,7 @@ class MyCart extends StatelessWidget {
                         onPressed: () {
                         //  log(idAndQuantity.toString());
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>  const AddressSelecting(),
+                            builder: (context) => const  AddressSelecting(),
                           ));
                         },
                         child: const ProceedText())
