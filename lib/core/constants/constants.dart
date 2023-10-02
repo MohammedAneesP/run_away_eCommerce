@@ -19,4 +19,13 @@ void snackBar(BuildContext context, String aText) {
   );
 }
 
-
+Future<dynamic> showCircleProgress(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
+}

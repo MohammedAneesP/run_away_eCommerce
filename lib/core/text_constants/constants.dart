@@ -29,15 +29,22 @@ final kNonboldTitleText = GoogleFonts.roboto(fontSize: 20, color: kBlack);
 
 final kHeadingText = GoogleFonts.roboto(
     fontWeight: FontWeight.bold, fontSize: 20, color: kBlack);
+
 final kNonBoldBigText = GoogleFonts.roboto(
     fontWeight: FontWeight.w500, fontSize: 20, color: kBlack);
+
 final kHeadingMedText = GoogleFonts.roboto(
     fontWeight: FontWeight.bold, fontSize: 17, color: kBlack);
+    final kGreenText = GoogleFonts.roboto(
+    fontWeight: FontWeight.bold, fontSize: 17, color: kGreen);
 
 final kSubTextNonBold = GoogleFonts.roboto( fontSize: 18, color: kBlack);
 
 final kSubTitleText = GoogleFonts.roboto(
     fontWeight: FontWeight.w500, fontSize: 15, color: kBlack);
+
+    final kGreyText = GoogleFonts.roboto(
+    fontWeight: FontWeight.w500, fontSize: 15, color: kGrey);
 
 final kGreySmallText = GoogleFonts.roboto(
     fontWeight: FontWeight.w300,

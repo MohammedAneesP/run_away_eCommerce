@@ -33,7 +33,7 @@ class AddressSelecting extends StatefulWidget {
 }
 
 class _AddressSelectingState extends State<AddressSelecting> {
-  var _razorpay = Razorpay();
+  final _razorpay = Razorpay();
 
   final fireName = FirebaseAuth.instance.currentUser;
 

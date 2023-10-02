@@ -8,7 +8,7 @@ import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
-import 'package:run_away/presentation/widgets/products/fav_grid_tile/product_grid_tile.dart';
+import 'package:run_away/presentation/widgets/fav_grid_tile/product_grid_tile.dart';
 
 class BrandsProducts extends StatelessWidget {
   final String anBrandId;

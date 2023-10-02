@@ -9,4 +9,10 @@ class DisplayAnOerder extends AnOrderDetailsEvent {
   DisplayAnOerder({required this.anOrderKey, required this.anProductKey});
 }
 
-class DisplayOrderClearing extends AnOrderDetailsEvent{}
+class DisplayOrderClearing extends AnOrderDetailsEvent {}
+
+class CancellingOrder extends AnOrderDetailsEvent {
+  final String anProductKey;
+  final String anOrderKey;
+  CancellingOrder({required this.anOrderKey, required this.anProductKey});
+}

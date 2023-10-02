@@ -344,7 +344,6 @@ class MyCart extends StatelessWidget {
                     ElevatedButton(
                         style: checkOutButtonStyle(kWidth, kHeight),
                         onPressed: () {
-                        //  log(idAndQuantity.toString());
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const  AddressSelecting(),
                           ));

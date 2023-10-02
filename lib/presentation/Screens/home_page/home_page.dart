@@ -17,7 +17,7 @@ import 'package:run_away/presentation/Screens/categories/categorized/brand_produ
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
 import 'package:run_away/presentation/Screens/search_screen/search_screen.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
-import 'package:run_away/presentation/widgets/products/fav_grid_tile/product_grid_tile.dart';
+import 'package:run_away/presentation/widgets/fav_grid_tile/product_grid_tile.dart';
 
 import 'widgets/home_titles/all_products.dart';
 import 'widgets/home_titles/new_arrival.dart';
