@@ -121,25 +121,7 @@ class AnSingleOrder extends StatelessWidget {
                       ),
                     ),
                     status == "cancelled"
-                        ? Container(
-                            // color: kWhite,
-                            height: kHeight.height * 0.35,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "You have Cancelled this product.",
-                                  style: kNonBoldBigText,
-                                ),
-                                LottieBuilder.asset(
-                                  "assets/animation_ln937yqv (1).json",
-                                  height: kHeight.height * 0.2,
-                                  width: kWidth.width * 1,
-                                ),
-                              ],
-                            ),
-                          )
+                        ? LottieCancelledOrder(kHeight: kHeight, kWidth: kWidth)
                         : Padding(
                             padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                             child: status == "order placed"
@@ -290,5 +272,39 @@ class AnSingleOrder extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class LottieCancelledOrder extends StatelessWidget {
+  const LottieCancelledOrder({
+    super.key,
+    required this.kHeight,
+    required this.kWidth,
+  });
+
+  final Size kHeight;
+  final Size kWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        // color: kWhite,
+        height: kHeight.height * 0.35,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "You have Cancelled this product.",
+              style: kNonBoldBigText,
+            ),
+            LottieBuilder.asset(
+              "assets/animation_ln937yqv (1).json",
+              height: kHeight.height * 0.2,
+              width: kWidth.width * 1,
+            ),
+          ],
+        ),
+      );
   }
 }

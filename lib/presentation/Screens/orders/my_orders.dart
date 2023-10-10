@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:run_away/application/order/display_orders/displaying_all_orders_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/orders/an_single_order/an_order.dart';
 import 'package:run_away/presentation/Screens/wishlist/widgets/appbar_widgets/leading_widget.dart';
 
@@ -16,7 +17,6 @@ class MyOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(fireName!.email.toString());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<DisplayingAllOrdersBloc>(context)
           .add(OrdersDisplaying(anEmail: fireName!.email.toString()));
@@ -24,9 +24,18 @@ class MyOrders extends StatelessWidget {
 
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const BottomNavPage(),
+          ),
+        );
+        return true;
+      },
+      child: Scaffold(
         appBar: AppBar(
-          backgroundColor: kGrey200,
           elevation: 0,
           leading: const AppbarLeading(),
           centerTitle: true,
@@ -83,7 +92,7 @@ class MyOrders extends StatelessWidget {
                             borderRadius: BorderRadius.all(
                               Radius.circular(15),
                             ),
-                            color: kWhite,
+                            // color: kWhite,
                           ),
                           child: Row(
                             children: [
@@ -125,14 +134,16 @@ class MyOrders extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (context, index) => Divider(
-                    height: kHeight.height * 0.001,
-                    color: kTransparent,
+                    height: kHeight.height * 0.0001,
+                    // color: kTransparent,
                   ),
                   itemCount: state.userProductKey.length,
                 );
               }
             },
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

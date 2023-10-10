@@ -69,6 +69,7 @@ flutter:
     - assets/landing_pic_3.png
     - assets/google_png.png
     - assets/animation_ln937yqv (1).json
+    - assets/animation_lnfmvkl2.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

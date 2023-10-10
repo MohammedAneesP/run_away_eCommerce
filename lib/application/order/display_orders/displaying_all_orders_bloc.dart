@@ -7,12 +7,12 @@ import 'package:meta/meta.dart';
 part 'displaying_all_orders_event.dart';
 part 'displaying_all_orders_state.dart';
 
-class DisplayingAllOrdersBloc
+class 
+DisplayingAllOrdersBloc
     extends Bloc<DisplayingAllOrdersEvent, DisplayingAllOrdersState> {
   DisplayingAllOrdersBloc() : super(DisplayingAllOrdersInitial()) {
     on<OrdersDisplaying>((event, emit) async {
       try {
-        log("message");
         final anValue =
             await FirebaseFirestore.instance.collection("orders").get();
         final theOrders = anValue.docs;

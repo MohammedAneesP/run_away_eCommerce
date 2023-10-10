@@ -68,6 +68,7 @@ class OrderingOnSuccessBloc
                     .collection("cart")
                     .doc(event.anEmail)
                     .delete();
+                    
                 return emit(OrderingOnSuccessState(
                     anEmail: event.anEmail,
                     anAddressKey: event.selectedAddressKey,

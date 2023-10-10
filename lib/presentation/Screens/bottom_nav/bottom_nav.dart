@@ -23,7 +23,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
     MyWishlist(),
     HomePage(),
     MyOrders(),
-    const ProfileScreen()
+     ProfileScreen()
   ];
 
   final List<Icon> itemList = [

@@ -10,6 +10,7 @@ import 'package:run_away/application/home_page/popular_picks/popular_product_blo
 import 'package:run_away/application/product_details/product_view/product_view_bloc.dart';
 import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
 import 'package:run_away/application/wishlist/wishlist_products/wishlist_products_bloc.dart';
+import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'application/address/address_edit/address_edit_bloc.dart';
@@ -65,6 +66,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.grey,
           scaffoldBackgroundColor: Colors.grey[200],
+          appBarTheme: AppBarTheme(
+            backgroundColor: kGrey200,
+          )
         ),
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),

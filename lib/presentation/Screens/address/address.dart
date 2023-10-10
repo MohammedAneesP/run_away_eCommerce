@@ -9,16 +9,17 @@ import 'package:run_away/application/order/ordering_on_success/ordering_on_succe
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/address.dart/adding_address/addres_adding.dart';
+import 'package:run_away/presentation/Screens/address.dart/widgets/dropdown_address.dart';
+import 'package:run_away/presentation/Screens/address.dart/widgets/no_address_bottomsheet.dart';
 import 'package:run_away/presentation/Screens/address.dart/widgets/payments_dropdown.dart';
+import 'package:run_away/presentation/Screens/address/adding_address/addres_adding.dart';
 import 'package:run_away/presentation/Screens/cart/widgets/cart_product_img.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:run_away/presentation/Screens/home_page/home_page.dart';
 
-import 'widgets/dropdown_address.dart';
+
 import 'widgets/email_phone_tile.dart';
 import 'widgets/no_address_addedtile.dart';
-import 'widgets/no_address_bottomsheet.dart';
 
 String anSelectedAddress = "";
 
