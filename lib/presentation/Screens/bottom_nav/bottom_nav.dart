@@ -23,7 +23,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
     MyWishlist(),
     HomePage(),
     MyOrders(),
-     ProfileScreen()
+    ProfileScreen(),
   ];
 
   final List<Icon> itemList = [
@@ -36,12 +36,14 @@ class _BottomNavPageState extends State<BottomNavPage> {
 
   @override
   Widget build(BuildContext context) {
+    final kHeight = MediaQuery.sizeOf(context);
     return Scaffold(
+      
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         buttonBackgroundColor: kLightBlue,
-        height: 75,
+        height: kHeight.height * 0.075,
         index: indexPage,
         items: itemList,
         onTap: (value) {

@@ -8,6 +8,8 @@ import 'package:run_away/application/home_page/all_products/all_products_bloc.da
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/application/home_page/popular_picks/popular_product_bloc.dart';
 import 'package:run_away/application/product_details/product_view/product_view_bloc.dart';
+import 'package:run_away/application/profile/profile_display/profile_displaying_bloc.dart';
+import 'package:run_away/application/profile/profile_image_adding/profile_image_adding_bloc.dart';
 import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
 import 'package:run_away/application/wishlist/wishlist_products/wishlist_products_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
@@ -61,15 +63,16 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => OrderingOnSuccessBloc()),
         BlocProvider(create: (context) => DisplayingAllOrdersBloc()),
         BlocProvider(create: (context) => AnOrderDetailsBloc()),
+        BlocProvider(create: (context) => ProfileImageAddingBloc()),
+        BlocProvider(create: (context) => ProfileDisplayingBloc()),
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.grey,
-          scaffoldBackgroundColor: Colors.grey[200],
-          appBarTheme: AppBarTheme(
-            backgroundColor: kGrey200,
-          )
-        ),
+            primarySwatch: Colors.grey,
+            scaffoldBackgroundColor: Colors.grey[200],
+            appBarTheme: AppBarTheme(
+              backgroundColor: kGrey200,
+            )),
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),
       ),

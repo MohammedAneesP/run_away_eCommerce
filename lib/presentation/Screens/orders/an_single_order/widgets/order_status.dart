@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/presentation/Screens/orders/an_single_order/an_order.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import 'order_track_text.dart';

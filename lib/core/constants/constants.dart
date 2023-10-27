@@ -22,6 +22,21 @@ void snackBar(BuildContext context, String aText) {
   );
 }
 
+void anSnackBarFunc(
+    {required BuildContext context,
+    required String aText,
+    required Color anColor}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(aText),
+      margin: const EdgeInsets.all(20),
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 3),
+      backgroundColor: anColor,
+    ),
+  );
+}
+
 class PaymentSuccessWidget extends StatelessWidget {
   const PaymentSuccessWidget({super.key});
 

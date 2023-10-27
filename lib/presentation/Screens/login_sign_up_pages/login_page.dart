@@ -19,8 +19,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final kHeight = MediaQuery.of(context).size.height;
-    final kWidth = MediaQuery.of(context).size.width;
+    final kHeight = MediaQuery.sizeOf(context);
+    final kWidth = MediaQuery.sizeOf(context);
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentScope = FocusScope.of(context);
@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: kHeight * 0.08,
+                        height: kHeight.height * 0.08,
                       ),
                       Text(
                         "Hello Again!",
@@ -50,7 +50,7 @@ class LoginPage extends StatelessWidget {
                       Text("Welcome back you've been missed!",
                           style: kBlueThinText),
                       SizedBox(
-                        height: kHeight * 0.12,
+                        height: kHeight.height * 0.12,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: kHeight * 0.03,
+                        height: kHeight.height * 0.03,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -108,11 +108,11 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: kHeight * 0.03,
+                        height: kHeight.height * 0.03,
                       ),
                       SizedBox(
-                        width: kWidth * 1,
-                        height: kHeight * 0.065,
+                        width: kWidth.width * 1,
+                        height: kHeight.height * 0.065,
                         child: AnElevatedButton(
                           forFormKey: forFormKey,
                           emailController: emailController,
@@ -131,15 +131,15 @@ class LoginPage extends StatelessWidget {
                           },
                         ),
                       ),
-                      SizedBox(height: kHeight * 0.03),
+                      SizedBox(height: kHeight.height * 0.03),
                       GestureDetector(
                         onTap: () async {
                           await FireBaseAuthMethods(FirebaseAuth.instance)
                               .signInWithGoogle(context);
                         },
                         child: Container(
-                          height: kHeight * 0.065,
-                          width: kWidth * 1,
+                          height: kHeight.height * 0.065,
+                          width: kWidth.width * 1,
                           decoration: BoxDecoration(
                               color: kWhite,
                               borderRadius: BorderRadius.circular(30)),
@@ -147,8 +147,8 @@ class LoginPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                height: kHeight * 0.065,
-                                width: kWidth * 0.07,
+                                height: kHeight.height * 0.065,
+                                width: kWidth.width * 0.07,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
                                     image: AssetImage(
@@ -157,7 +157,7 @@ class LoginPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: kWidth * 0.04),
+                              SizedBox(width: kWidth.width * 0.04),
                               Text(
                                 "Sign in with Google",
                                 style: buttonTextBlack,
@@ -166,7 +166,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: kHeight * 0.15),
+                      SizedBox(height: kHeight.height * 0.15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

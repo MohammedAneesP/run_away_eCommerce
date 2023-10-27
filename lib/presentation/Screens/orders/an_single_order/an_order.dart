@@ -8,8 +8,6 @@ import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
-import 'package:run_away/presentation/Screens/orders/my_orders.dart';
-import 'package:timeline_tile/timeline_tile.dart';
 
 import 'widgets/app_bar_lead.dart';
 import 'widgets/order_status.dart';
@@ -161,8 +159,7 @@ class AnSingleOrder extends StatelessWidget {
                                   kHeight: kHeight, kWidth: kWidth))
                           : status == "cancelled"
                               ? Center(
-                                  child: Container(
-                                    // color: kWhite,
+                                  child: SizedBox(
                                     height: double.infinity,
                                     width: double.infinity,
                                     child: Column(
@@ -287,8 +284,7 @@ class LottieCancelledOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        // color: kWhite,
+    return SizedBox(
         height: kHeight.height * 0.35,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -200,7 +200,7 @@ class ProductView extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: kHeight.height * 0.08,
+                                  height: kHeight.height * 0.09,
                                   width: kWidth.width * 0.47,
                                   child: SizedBox(
                                     child: BlocBuilder<CartButtonBloc,

@@ -13,7 +13,6 @@ import 'package:run_away/presentation/Screens/address.dart/adding_address/addres
 import 'package:run_away/presentation/Screens/address.dart/widgets/payments_dropdown.dart';
 import 'package:run_away/presentation/Screens/cart/widgets/cart_product_img.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:run_away/presentation/Screens/home_page/home_page.dart';
 
 import 'widgets/dropdown_address.dart';
 import 'widgets/email_phone_tile.dart';
