@@ -9,7 +9,7 @@ import 'package:run_away/application/cart/cart_view/cart_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/address.dart/address.dart';
-import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
+import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
 
 import 'widgets/cart_decrement.dart';
 import 'widgets/cart_image.dart';
@@ -72,7 +72,7 @@ class MyCart extends StatelessWidget {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavPage(),
+                            builder: (context) => const ForZoom(),
                           ));
                     },
                     icon: const Icon(

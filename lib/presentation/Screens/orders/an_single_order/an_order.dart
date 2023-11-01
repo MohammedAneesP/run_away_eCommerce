@@ -7,7 +7,7 @@ import 'package:run_away/application/order/display_orders/displaying_all_orders_
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
+import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
 
 import 'widgets/app_bar_lead.dart';
 import 'widgets/order_status.dart';
@@ -186,7 +186,7 @@ class AnSingleOrder extends StatelessWidget {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const BottomNavPage(),
+                                                        const ForZoom(),
                                                   ));
                                             },
                                             child: const Text("Go to homePage"))

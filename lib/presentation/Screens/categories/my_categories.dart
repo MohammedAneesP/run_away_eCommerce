@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/categories/categorized/brand_products.dart';
+import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
 import 'package:run_away/presentation/Screens/wishlist/widgets/appbar_widgets/leading_widget.dart';
 
 const tempImage =
@@ -22,30 +22,32 @@ class Categories extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const BottomNavPage(),
+            builder: (context) => const ForZoom(),
           ),
         );
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          bottom: const PreferredSize(
-              preferredSize: Size(0, 20), child: SizedBox()),
-          shadowColor: kTransparent,
-          backgroundColor: kGrey200,
-          centerTitle: true,
-          leading: const AppbarLeading(),
-          title: Text("Brands", style: loginTitle),
-        ),
-        body: BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
-          builder: (context, state) {
-            if (state.theBrands.isEmpty) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state.theBrands.isNotEmpty) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: GridView.builder(
-                  itemCount: state.theBrands.length,
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              snap: true,
+              bottom: const PreferredSize(
+                  preferredSize: Size(0, 17), child: SizedBox()),
+              shadowColor: kTransparent,
+              backgroundColor: kGrey200,
+              centerTitle: true,
+              leading: const AppbarLeading(),
+              title: Text("Brands", style: loginTitle),
+            ),
+            BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
+                builder: (context, state) {
+              if (state.theBrands.isEmpty) {
+                return const SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator()));
+              } else if (state.theBrands.isNotEmpty) {
+                return SliverGrid.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
                     crossAxisSpacing: 20,
@@ -53,6 +55,7 @@ class Categories extends StatelessWidget {
                     childAspectRatio: 10,
                     mainAxisExtent: 195,
                   ),
+                  itemCount: state.theBrands.length,
                   itemBuilder: (context, index) {
                     final brand = state.theBrands[index];
                     return GestureDetector(
@@ -101,12 +104,13 @@ class Categories extends StatelessWidget {
                       ),
                     );
                   },
-                ),
-              );
-            } else {
-              return const Center(child: Text("Something went Wrong"));
-            }
-          },
+                );
+              } else {
+                return const SliverToBoxAdapter(
+                    child: Center(child: Text("Something went Wrong")));
+              }
+            })
+          ],
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:run_away/application/category/product_in_brand/product_in_brand_bloc.dart';
 import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
@@ -15,13 +16,9 @@ import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
 import 'package:run_away/presentation/Screens/cart/my_cart.dart';
 import 'package:run_away/presentation/Screens/categories/categorized/brand_products.dart';
-import 'package:run_away/presentation/Screens/categories/my_categories.dart';
-import 'package:run_away/presentation/Screens/orders/my_orders.dart';
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
-import 'package:run_away/presentation/Screens/profile/my_profile.dart';
 import 'package:run_away/presentation/Screens/search_screen/search_screen.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
-import 'package:run_away/presentation/Screens/wishlist/my_wishlists.dart';
 import 'package:run_away/presentation/widgets/fav_grid_tile/product_grid_tile.dart';
 
 import 'widgets/home_titles/all_products.dart';
@@ -58,7 +55,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ProfileDisplayingBloc>(context)
-          .add(GetProfile(anEmail: fireName!.email.toString()));
+        .add(GetProfile(anEmail: fireName!.email.toString()));
     BlocProvider.of<BrandChoiceBloc>(context).add(DisplayBrand());
     BlocProvider.of<PopularProductBloc>(context).add(SomeProduct());
     BlocProvider.of<AllProductsBloc>(context).add(AllProductListing());
@@ -73,59 +70,6 @@ class HomePage extends StatelessWidget {
     var sizedBoxGap = SizedBox(height: kHeight * 0.05);
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: kGrey200,
-        child: ListView(
-          children: [
-             DrawerHeader(
-              child: BlocBuilder<ProfileDisplayingBloc, ProfileDisplayingState>(
-                builder: (context, state) {
-                  if (state.anProfile.isEmpty) {
-                    return const CircleAvatar(
-                    radius: 20,
-                    child: Icon(
-                      Icons.person,
-                      size: 80,
-                    ),
-                  );
-                  }
-                  else{
-                    return CircleAvatar(
-                       radius: 20,
-                       backgroundImage: NetworkImage(state.anProfile["image"]),
-                    );
-                  }
-                  
-                },
-              ),
-            ),
-            SizedBox(
-              height: kHeight * 7,
-              child: ListView.builder(
-                itemCount: screenNames.length,
-                itemBuilder: (context, index) {
-                  final screens = [
-                    const Categories(),
-                    MyWishlist(),
-                    MyOrders(),
-                    ProfileScreen(),
-                  ];
-                  return ListTile(
-                    title: Text(screenNames[index]),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => screens[index],
-                          ));
-                    },
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
       appBar: AppBar(
         elevation: 0,
         surfaceTintColor: kTransparent,
@@ -143,7 +87,10 @@ class HomePage extends StatelessWidget {
               ),
               child: IconButton(
                 onPressed: () {
-                  Scaffold.of(context).openDrawer();
+                  final zoomDrawer = ZoomDrawer.of(context);
+                  if (zoomDrawer != null) {
+                    zoomDrawer.toggle();
+                  }
                 },
                 icon: const Icon(
                   CupertinoIcons.square_grid_2x2_fill,
@@ -162,7 +109,7 @@ class HomePage extends StatelessWidget {
               radius: 30,
               child: IconButton(
                 onPressed: () {
-                  // FireBaseAuthMethods(FirebaseAuth.instance).signOut(context);
+                  
                   Navigator.push(
                     context,
                     MaterialPageRoute(

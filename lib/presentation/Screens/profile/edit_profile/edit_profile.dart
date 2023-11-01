@@ -243,18 +243,6 @@ ButtonStyle editProfileSubmitButtonStyle(Size kWidth, Size kHeight) {
       shape: const MaterialStatePropertyAll(StadiumBorder()));
 }
 
-class EditProfileAppBar extends StatelessWidget {
-  final String anTitleText;
-  const EditProfileAppBar({
-    required this.anTitleText,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverAppBar();
-  }
-}
 
 class EditProfileAppLeading extends StatelessWidget {
   const EditProfileAppLeading({

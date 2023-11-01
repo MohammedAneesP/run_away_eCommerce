@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:run_away/core/constants/constants.dart';
-import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
+import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
 import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
 
 class FireBaseAuthMethods {
@@ -51,7 +51,7 @@ class FireBaseAuthMethods {
       if (context.mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) =>  const BottomNavPage(),
+            builder: (context) =>  const ForZoom(),
           ),
         );
       }
@@ -76,7 +76,7 @@ class FireBaseAuthMethods {
       }
       if (context.mounted) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) =>  const BottomNavPage()));
+            MaterialPageRoute(builder: (context) => const ForZoom()));
       } else {
         return;
       }
@@ -99,7 +99,8 @@ class FireBaseAuthMethods {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>  const BottomNavPage(),
+          builder: (context) =>
+             const ForZoom(),
         ),
       );
     } else {

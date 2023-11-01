@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
+import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
 
 class AppbarLeading extends StatelessWidget {
   const AppbarLeading({
@@ -20,7 +20,7 @@ class AppbarLeading extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const BottomNavPage(),
+                builder: (context) =>  const ForZoom(),
               ),
             );
           },

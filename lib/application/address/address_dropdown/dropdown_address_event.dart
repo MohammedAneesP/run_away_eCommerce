@@ -4,6 +4,6 @@ part of 'dropdown_address_bloc.dart';
 sealed class DropdownAddressEvent {}
 
 class AddressChanging extends DropdownAddressEvent {
-   String address;
+ final  String address;
   AddressChanging({required this.address});
 }
