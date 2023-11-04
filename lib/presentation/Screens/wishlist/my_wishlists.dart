@@ -36,78 +36,87 @@ class MyWishlist extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        
-        body: CustomScrollView(
-          slivers: [
-            
-            SliverAppBar(
-              floating: true,
-              snap: true,
-              backgroundColor: kGrey200,
-              elevation: 0,
-              leading: const AppbarLeading(),
-              centerTitle: true,
-              title: Text("Favorite", style: loginTitle),
-              actions: const [AppbarActionWidg()],
-            ),
-            BlocBuilder<WishlistProductsBloc, WishlistProductsState>(
-              builder: (context, state) {
-                if (state.wishProducts.isEmpty) {
-                  return SliverToBoxAdapter(
-                      child: Center(child: Text(state.errorMessage)));
-                } else {
-                  return SliverGrid.builder(
-                    // shrinkWrap: true,
-
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      childAspectRatio: 5,
-                      mainAxisExtent: 260,
-                    ),
-                    itemCount: state.wishProducts.length,
-                    itemBuilder: (context, index) {
-                      final favProducts = state.wishProducts[index];
-                      if (anFavList.contains(favProducts["productId"])) {
-                        final productname =
-                            capitalizeFirstLetter(favProducts["itemName"]);
-                        return ProductGridTile(
-                          anOnPressed: () =>
-                              Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ProductView(
-                                anProductId: favProducts["productId"]),
-                          )),
-                          kWidth: 0,
-                          kHeight: 0,
-                          anProductImg: favProducts["productImages"][0],
-                          textProducts: productname,
-                          brandName: BrandNameStream(
-                            popularPros: favProducts,
-                            anStyle: kBlueThinText,
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                backgroundColor: kGrey200,
+                elevation: 0,
+                leading: const AppbarLeading(),
+                centerTitle: true,
+                title: Text("Favorite", style: loginTitle),
+                actions: const [AppbarActionWidg()],
+              ),
+              BlocBuilder<WishlistProductsBloc, WishlistProductsState>(
+                builder: (context, state) {
+                  if (state.wishProducts.isEmpty) {
+                    return SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: kHeight.height,
+                        child: Center(
+                          child: Text(
+                            state.errorMessage,
                           ),
-                          textPrice: favProducts["price"],
-                          imageHeight: kHeight.height * 0.15,
-                          imageWidth: kWidth.width * 0.5,
-                          anEmail: fireName!.email.toString(),
-                          anProductId: favProducts["productId"],
-                        );
-                      } else {
-                        return const SliverToBoxAdapter(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      }
-                    },
-                  );
-                  
-                }
-              },
-            ),
-            
-          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return SliverGrid.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15,
+                        childAspectRatio: 5,
+                        mainAxisExtent: 260,
+                      ),
+                      itemCount: state.wishProducts.length,
+                      itemBuilder: (context, index) {
+                        final favProducts = state.wishProducts[index];
+                        if (anFavList.contains(favProducts["productId"])) {
+                          final productname =
+                              capitalizeFirstLetter(favProducts["itemName"]);
+                          return ProductGridTile(
+                            anOnPressed: () =>
+                                Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ProductView(
+                                  anProductId: favProducts["productId"]),
+                            )),
+                            kWidth: 0,
+                            kHeight: 0,
+                            anProductImg: favProducts["productImages"][0],
+                            textProducts: productname,
+                            brandName: BrandNameStream(
+                              popularPros: favProducts,
+                              anStyle: kBlueThinText,
+                            ),
+                            textPrice: favProducts["price"],
+                            imageHeight: kHeight.height * 0.15,
+                            imageWidth: kWidth.width * 0.5,
+                            anEmail: fireName!.email.toString(),
+                            anProductId: favProducts["productId"],
+                          );
+                        } else {
+                          return const SliverToBoxAdapter(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
+                },
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: kHeight.height * 0.1,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

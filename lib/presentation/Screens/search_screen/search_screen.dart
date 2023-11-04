@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:run_away/application/search/search_product/seearch_product_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
+import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
 import 'package:run_away/presentation/Screens/wishlist/widgets/appbar_widgets/leading_widget.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
 
@@ -28,7 +29,14 @@ class SearchScreen extends StatelessWidget {
         title: Text("Search", style: loginTitle),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ForZoom(),
+                ),
+              );
+            },
             child: Text(
               "Cancel",
               style: kBlueText,

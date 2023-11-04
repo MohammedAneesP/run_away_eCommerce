@@ -28,89 +28,100 @@ class Categories extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              floating: true,
-              snap: true,
-              bottom: const PreferredSize(
-                  preferredSize: Size(0, 17), child: SizedBox()),
-              shadowColor: kTransparent,
-              backgroundColor: kGrey200,
-              centerTitle: true,
-              leading: const AppbarLeading(),
-              title: Text("Brands", style: loginTitle),
-            ),
-            BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
-                builder: (context, state) {
-              if (state.theBrands.isEmpty) {
-                return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()));
-              } else if (state.theBrands.isNotEmpty) {
-                return SliverGrid.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    childAspectRatio: 10,
-                    mainAxisExtent: 195,
-                  ),
-                  itemCount: state.theBrands.length,
-                  itemBuilder: (context, index) {
-                    final brand = state.theBrands[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BrandsProducts(
-                              anSelectedIndex: index,
-                              anBrandId: brand["brandId"],
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                bottom: const PreferredSize(
+                    preferredSize: Size(0, 17), child: SizedBox()),
+                shadowColor: kTransparent,
+                backgroundColor: kGrey200,
+                centerTitle: true,
+                leading: const AppbarLeading(),
+                title: Text("Brands", style: loginTitle),
+              ),
+              BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
+                  builder: (context, state) {
+                if (state.theBrands.isEmpty) {
+                  return const SliverToBoxAdapter(
+                      child: Center(child: CircularProgressIndicator()));
+                } else if (state.theBrands.isNotEmpty) {
+                  return SliverPadding(
+                    padding: const EdgeInsets.all(8),
+                    sliver: SliverGrid.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: 10,
+                        mainAxisExtent: 195,
+                      ),
+                      itemCount: state.theBrands.length,
+                      itemBuilder: (context, index) {
+                        final brand = state.theBrands[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BrandsProducts(
+                                  anSelectedIndex: index,
+                                  anBrandId: brand["brandId"],
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: kWhite,
+                              borderRadius: BorderRadius.circular(
+                                15,
+                              ),
+                            ),
+                            height: kHeight.height * 0.8,
+                            width: kWidth.width * 1,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: kHeight.height * .17,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          brand["imageName"] ?? tempImage,
+                                        ),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "${brand["brandName"]}".toUpperCase(),
+                                  style: kHeadingMedText,
+                                ),
+                              ],
                             ),
                           ),
                         );
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: kWhite,
-                          borderRadius: BorderRadius.circular(
-                            15,
-                          ),
-                        ),
-                        height: kHeight.height * 0.8,
-                        width: kWidth.width * 1,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: kHeight.height * .17,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      brand["imageName"] ?? tempImage,
-                                    ),
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "${brand["brandName"]}".toUpperCase(),
-                              style: kHeadingMedText,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              } else {
-                return const SliverToBoxAdapter(
-                    child: Center(child: Text("Something went Wrong")));
-              }
-            })
-          ],
+                    ),
+                  );
+                } else {
+                  return const SliverToBoxAdapter(
+                      child: Center(child: Text("Something went Wrong")));
+                }
+              }),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: kHeight.height * 0.1,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

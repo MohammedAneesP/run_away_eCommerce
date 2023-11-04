@@ -31,7 +31,7 @@ class WishlistProductsBloc
               }
             }
             return emit(WishlistProductsState(
-                wishProducts: toEmitFav, errorMessage: "product not added"));
+                wishProducts: toEmitFav, errorMessage: ""));
           }
         }
       } catch (e) {

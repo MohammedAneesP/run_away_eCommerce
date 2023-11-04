@@ -70,318 +70,333 @@ class HomePage extends StatelessWidget {
     var sizedBoxGap = SizedBox(height: kHeight * 0.05);
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        surfaceTintColor: kTransparent,
-        bottom:
-            const PreferredSize(preferredSize: Size(0, 15), child: SizedBox()),
-        backgroundColor: kGrey200,
-        leading: Builder(builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-            child: Container(
-              height: kHeight * 0.001,
-              decoration: BoxDecoration(
-                color: kWhite,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: IconButton(
-                onPressed: () {
-                  final zoomDrawer = ZoomDrawer.of(context);
-                  if (zoomDrawer != null) {
-                    zoomDrawer.toggle();
-                  }
-                },
-                icon: const Icon(
-                  CupertinoIcons.square_grid_2x2_fill,
-                  size: 20,
-                ),
-              ),
-            ),
-          );
-        }),
-        title: Text("RunAway", style: textMainTitle),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-            child: CircleAvatar(
-              backgroundColor: kWhite,
-              radius: 30,
-              child: IconButton(
-                onPressed: () {
-                  
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyCart(),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              snap: true,
+              floating: true,
+              elevation: 0,
+              surfaceTintColor: kTransparent,
+              bottom: const PreferredSize(
+                  preferredSize: Size(0, 15), child: SizedBox()),
+              backgroundColor: kGrey200,
+              leading: Builder(builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                  child: Container(
+                    height: kHeight * 0.001,
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                  );
-                },
-                icon: const Icon(
-                  CupertinoIcons.cart,
-                  size: 25,
-                ),
-              ),
-            ),
-          ),
-        ],
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              SizedBox(height: kHeight * 0.03),
-              CupertinoSearchTextField(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SearchScreen(),
-                )),
-                padding: const EdgeInsets.fromLTRB(17, 17, 17, 17),
-                backgroundColor: kWhite.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              SizedBox(height: kHeight * 0.03),
-              CarouselSlider(
-                options: CarouselOptions(
-                    height: 200.0,
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    viewportFraction: 1),
-                items: carouselImages.map(
-                  (i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return CarousalImageContainer(anImage: i);
+                    child: IconButton(
+                      onPressed: () {
+                        final zoomDrawer = ZoomDrawer.of(context);
+                        if (zoomDrawer != null) {
+                          zoomDrawer.toggle();
+                        }
                       },
-                    );
-                  },
-                ).toList(),
-              ),
-              SizedBox(height: kHeight * 0.03),
-              Column(
-                children: [
-                  SizedBox(
-                    height: kHeight * 0.07,
-                    width: kWidth,
-                    child: BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
-                      builder: (context, state) {
-                        if (state.theBrands.isEmpty) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                      icon: const Icon(
+                        CupertinoIcons.square_grid_2x2_fill,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+              title: Text("RunAway", style: textMainTitle),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                  child: CircleAvatar(
+                    backgroundColor: kWhite,
+                    radius: 30,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyCart(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        CupertinoIcons.cart,
+                        size: 25,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              centerTitle: true,
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(8),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    CupertinoSearchTextField(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SearchScreen(),
+                      )),
+                      padding: const EdgeInsets.fromLTRB(17, 17, 17, 17),
+                      backgroundColor: kWhite.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    SizedBox(height: kHeight * 0.03),
+                    CarouselSlider(
+                      options: CarouselOptions(
+                          height: 200.0,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          viewportFraction: 1),
+                      items: carouselImages.map(
+                        (i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return CarousalImageContainer(anImage: i);
+                            },
                           );
-                        } else {
-                          return ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: kWidth * 0.05,
-                            ),
-                            itemCount: state.theBrands.length,
-                            itemBuilder: (context, index) {
-                              final refName = state.theBrands[index];
-                              return ValueListenableBuilder(
-                                valueListenable: anSelectVal,
-                                builder: (context, value, _) {
-                                  return ChoiceChip(
-                                    backgroundColor: Colors.transparent,
-                                    selectedColor: Colors.lightBlue,
-                                    selected: anSelectVal.value == index,
-                                    onSelected: (value) async {
-                                      changeValue(index);
-
-                                      BlocProvider.of<ProductInBrandBloc>(
-                                              context)
-                                          .add(TheProducts(
-                                              anProductId: refName["brandId"]));
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => BrandsProducts(
-                                            anSelectedIndex: anSelectVal.value,
-                                            anBrandId: refName["brandId"],
+                        },
+                      ).toList(),
+                    ),
+                    SizedBox(height: kHeight * 0.03),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: kHeight * 0.07,
+                          width: kWidth,
+                          child: BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
+                            builder: (context, state) {
+                              if (state.theBrands.isEmpty) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  separatorBuilder: (context, index) => SizedBox(
+                                    width: kWidth * 0.05,
+                                  ),
+                                  itemCount: state.theBrands.length,
+                                  itemBuilder: (context, index) {
+                                    final refName = state.theBrands[index];
+                                    return ValueListenableBuilder(
+                                      valueListenable: anSelectVal,
+                                      builder: (context, value, _) {
+                                        return ChoiceChip(
+                                          backgroundColor: Colors.transparent,
+                                          selectedColor: Colors.lightBlue,
+                                          selected: anSelectVal.value == index,
+                                          onSelected: (value) async {
+                                            changeValue(index);
+      
+                                            BlocProvider.of<ProductInBrandBloc>(
+                                                    context)
+                                                .add(TheProducts(
+                                                    anProductId:
+                                                        refName["brandId"]));
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BrandsProducts(
+                                                  anSelectedIndex:
+                                                      anSelectVal.value,
+                                                  anBrandId: refName["brandId"],
+                                                ),
+                                              ),
+                                            );
+                                            changeValue(-1);
+                                          },
+                                          labelPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 8, vertical: 8),
+                                          avatar: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              color: kWhite,
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  refName["imageName"],
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                      changeValue(-1);
-                                    },
-                                    labelPadding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 8),
-                                    avatar: Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                        color: kWhite,
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            refName["imageName"],
-                                          ),
+                                          label: anSelectVal.value == index
+                                              ? ValueListenableBuilder(
+                                                  valueListenable: anSelectVal,
+                                                  builder: (BuildContext context,
+                                                          value, _) =>
+                                                      Text(
+                                                    "${refName["brandName"]}"
+                                                        .toUpperCase(),
+                                                  ),
+                                                )
+                                              : ValueListenableBuilder(
+                                                  valueListenable: anSelectVal,
+                                                  builder:
+                                                      (context, value, child) =>
+                                                          const Text(""),
+                                                ),
+                                          shape: const StadiumBorder(),
+                                          side: BorderSide.none,
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: kHeight * 0.025),
+                    const PopularPickText(),
+                    SizedBox(height: kHeight * 0.02),
+                    SizedBox(
+                      height: kHeight * .31,
+                      width: kWidth,
+                      child: BlocBuilder<PopularProductBloc, PopularProductState>(
+                        builder: (context, state) {
+                          if (state.theProducts.isEmpty) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else {
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.theProducts.length,
+                              separatorBuilder: (context, index) => SizedBox(
+                                width: kWidth * 0.05,
+                              ),
+                              itemBuilder: (context, index) {
+                                final popularPros = state.theProducts[index];
+                                final itemsName = capitalizeFirstLetter(
+                                    popularPros["itemName"]);
+                                return ProductTile(
+                                  anOnPress: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductView(
+                                          anProductId: popularPros["productId"],
                                         ),
                                       ),
-                                    ),
-                                    label: anSelectVal.value == index
-                                        ? ValueListenableBuilder(
-                                            valueListenable: anSelectVal,
-                                            builder: (BuildContext context,
-                                                    value, _) =>
-                                                Text(
-                                              "${refName["brandName"]}"
-                                                  .toUpperCase(),
-                                            ),
-                                          )
-                                        : ValueListenableBuilder(
-                                            valueListenable: anSelectVal,
-                                            builder: (context, value, child) =>
-                                                const Text(""),
-                                          ),
-                                    shape: const StadiumBorder(),
-                                    side: BorderSide.none,
-                                  );
-                                },
-                              );
-                            },
+                                    );
+                                  },
+                                  kHeight: kHeight * 1,
+                                  kWidth: kWidth * 0.45,
+                                  anProductImg: popularPros["productImages"][0],
+                                  textProducts: itemsName,
+                                  textPrice: popularPros["price"],
+                                  brandName: BrandNameStream(
+                                      popularPros: popularPros,
+                                      anStyle: kBlueThinText),
+                                  imageHeight: kHeight * 0.2,
+                                  imageWidth: kWidth * 0.5,
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    sizedBoxGap,
+                    const NewArrivalText(),
+                    sizedBoxGap3,
+                    BlocBuilder<AllProductsBloc, AllProductsState>(
+                      builder: (context, state) {
+                        if (state.allProducts.isEmpty) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else {
+                          final product = state.allProducts[0];
+                          final productName =
+                              capitalizeFirstLetter(product["itemName"]);
+                          return GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ProductView(
+                                  anProductId: product["productId"],
+                                ),
+                              ),
+                            ),
+                            child: NewArrivalProduct(
+                              product: product,
+                              productName: productName,
+                            ),
                           );
                         }
                       },
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: kHeight * 0.025),
-              const PopularPickText(),
-              SizedBox(height: kHeight * 0.02),
-              SizedBox(
-                height: kHeight * .31,
-                width: kWidth,
-                child: BlocBuilder<PopularProductBloc, PopularProductState>(
-                  builder: (context, state) {
-                    if (state.theProducts.isEmpty) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      return ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.theProducts.length,
-                        separatorBuilder: (context, index) => SizedBox(
-                          width: kWidth * 0.05,
-                        ),
-                        itemBuilder: (context, index) {
-                          final popularPros = state.theProducts[index];
-                          final itemsName =
-                              capitalizeFirstLetter(popularPros["itemName"]);
-                          return ProductTile(
-                            anOnPress: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ProductView(
-                                    anProductId: popularPros["productId"],
+                    sizedBoxGap,
+                    const AllProductText(),
+                    SizedBox(height: kHeight * 0.03),
+                    SizedBox(
+                      child: BlocBuilder<AllProductsBloc, AllProductsState>(
+                        builder: (context, state) {
+                          if (state.allProducts.isEmpty) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else {
+                            return LayoutBuilder(
+                              builder: (context, constraints) {
+                                return GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 220,
+                                    crossAxisSpacing: 8,
+                                    mainAxisSpacing: 8,
+                                    childAspectRatio: 5,
+                                    mainAxisExtent: 260,
                                   ),
-                                ),
-                              );
-                            },
-                            kHeight: kHeight * 1,
-                            kWidth: kWidth * 0.45,
-                            anProductImg: popularPros["productImages"][0],
-                            textProducts: itemsName,
-                            textPrice: popularPros["price"],
-                            brandName: BrandNameStream(
-                                popularPros: popularPros,
-                                anStyle: kBlueThinText),
-                            imageHeight: kHeight * 0.2,
-                            imageWidth: kWidth * 0.5,
-                          );
+                                  itemCount: state.allProducts.length,
+                                  itemBuilder: (context, index) {
+                                    final productData = state.allProducts[index];
+                                    final productName = capitalizeFirstLetter(
+                                        productData["itemName"]);
+      
+                                    return ProductGridTile(
+                                      kHeight: 0,
+                                      kWidth: 0,
+                                      anOnPressed: () => Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => ProductView(
+                                            anProductId:
+                                                productData["productId"]),
+                                      )),
+                                      imageHeight: kHeight * 0.15,
+                                      imageWidth: kWidth * 0.5,
+                                      anProductImg: productData["productImages"]
+                                          [0],
+                                      anProductId: productData["productId"],
+                                      textProducts: productName,
+                                      textPrice: productData["price"],
+                                      anEmail: fireName!.email.toString(),
+                                      brandName: BrandNameStream(
+                                        popularPros: productData,
+                                        anStyle: kBlueThinText,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          }
                         },
-                      );
-                    }
-                  },
+                      ),
+                    ),
+                    SizedBox(height: kHeight * 0.065),
+                  ],
                 ),
               ),
-              sizedBoxGap,
-              const NewArrivalText(),
-              sizedBoxGap3,
-              BlocBuilder<AllProductsBloc, AllProductsState>(
-                builder: (context, state) {
-                  if (state.allProducts.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else {
-                    final product = state.allProducts[0];
-                    final productName =
-                        capitalizeFirstLetter(product["itemName"]);
-                    return GestureDetector(
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ProductView(
-                            anProductId: product["productId"],
-                          ),
-                        ),
-                      ),
-                      child: NewArrivalProduct(
-                        product: product,
-                        productName: productName,
-                      ),
-                    );
-                  }
-                },
-              ),
-              sizedBoxGap,
-              const AllProductText(),
-              SizedBox(height: kHeight * 0.03),
-              SizedBox(
-                child: BlocBuilder<AllProductsBloc, AllProductsState>(
-                  builder: (context, state) {
-                    if (state.allProducts.isEmpty) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      return LayoutBuilder(
-                        builder: (context, constraints) {
-                          return GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 220,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                              childAspectRatio: 5,
-                              mainAxisExtent: 260,
-                            ),
-                            itemCount: state.allProducts.length,
-                            itemBuilder: (context, index) {
-                              final productData = state.allProducts[index];
-                              final productName = capitalizeFirstLetter(
-                                  productData["itemName"]);
-
-                              return ProductGridTile(
-                                kHeight: 0,
-                                kWidth: 0,
-                                anOnPressed: () => Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                  builder: (context) => ProductView(
-                                      anProductId: productData["productId"]),
-                                )),
-                                imageHeight: kHeight * 0.15,
-                                imageWidth: kWidth * 0.5,
-                                anProductImg: productData["productImages"][0],
-                                anProductId: productData["productId"],
-                                textProducts: productName,
-                                textPrice: productData["price"],
-                                anEmail: fireName!.email.toString(),
-                                brandName: BrandNameStream(
-                                  popularPros: productData,
-                                  anStyle: kBlueThinText,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    }
-                  },
-                ),
-              ),
-              SizedBox(height: kHeight * 0.065),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

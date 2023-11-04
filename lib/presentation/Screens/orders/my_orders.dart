@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,118 +26,136 @@ class MyOrders extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>  const ForZoom(),
+            builder: (context) => const ForZoom(),
           ),
         );
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: const AppbarLeading(),
-          centerTitle: true,
-          title: Text(
-            "Orders",
-            style: loginTitle,
-          ),
-        ),
         body: SafeArea(
-          child: BlocBuilder<DisplayingAllOrdersBloc, DisplayingAllOrdersState>(
-            builder: (context, state) {
-              if (state.isLoading == true) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state.userOrderKey.isEmpty) {
-                return const Center(child: Text("No orders made yet!"));
-              } else {
-                return ListView.separated(
-                  itemBuilder: (context, index) {
-                    final anOrderKey = state.userOrderKey[index].toString();
-                    final anProductKey = state.userProductKey[index].toString();
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                elevation: 0,
+                leading: const AppbarLeading(),
+                centerTitle: true,
+                title: Text(
+                  "Orders",
+                  style: loginTitle,
+                ),
+              ),
+              BlocBuilder<DisplayingAllOrdersBloc, DisplayingAllOrdersState>(
+                builder: (context, state) {
+                  if (state.isLoading == true) {
+                    return const SliverToBoxAdapter(
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (state.userOrderKey.isEmpty) {
+                    return const SliverToBoxAdapter(
+                        child: Center(child: Text("No orders made yet!")));
+                  } else {
+                    return SliverList.separated(
+                      itemBuilder: (context, index) {
+                        final anOrderKey = state.userOrderKey[index].toString();
+                        final anProductKey =
+                            state.userProductKey[index].toString();
 
-                    final String productName = capitalizeFirstLetter(
-                        state.products[anProductKey]["itemName"].toString());
+                        final String productName = capitalizeFirstLetter(state
+                            .products[anProductKey]["itemName"]
+                            .toString());
 
-                    final dateAndTime = anOrderKey.split(" ");
+                        final dateAndTime = anOrderKey.split(" ");
 
-                    final String anDate = dateAndTime[0];
-                    final String productImage = state.products[anProductKey]
-                            ["productImages"][0]
-                        .toString();
+                        final String anDate = dateAndTime[0];
+                        final String productImage = state.products[anProductKey]
+                                ["productImages"][0]
+                            .toString();
 
-                    final String theStatus = state.orders[anOrderKey]
-                            ["products"][anProductKey]["status"]
-                        .toString();
+                        final String theStatus = state.orders[anOrderKey]
+                                ["products"][anProductKey]["status"]
+                            .toString();
 
-                    return Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AnSingleOrder(
-                                  anOrderKey:
-                                      state.userOrderKey[index].toString(),
-                                  anProductKey:
-                                      state.userProductKey[index].toString()),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: kHeight.height * 0.11,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                            // color: kWhite,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: kWidth.width * 0.23,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(productImage))),
+                        return Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AnSingleOrder(
+                                      anOrderKey:
+                                          state.userOrderKey[index].toString(),
+                                      anProductKey: state.userProductKey[index]
+                                          .toString()),
                                 ),
+                              );
+                            },
+                            child: Container(
+                              height: kHeight.height * 0.11,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                                // color: kWhite,
                               ),
-                              SizedBox(
-                                width: kWidth.width * 0.6,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      productName,
-                                      style: kTitleText,
-                                      overflow: TextOverflow.ellipsis,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: kWidth.width * 0.23,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image:
+                                                  NetworkImage(productImage))),
                                     ),
-                                    Text("Ordered in : $anDate",
-                                        style: kSubTitleText),
-                                    Text("Status : $theStatus",
-                                        style: kSubTitleText),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(
+                                    width: kWidth.width * 0.6,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          productName,
+                                          style: kTitleText,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text("Ordered in : $anDate",
+                                            style: kSubTitleText),
+                                        Text("Status : $theStatus",
+                                            style: kSubTitleText),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: kWidth.width * 0.1,
+                                    child: const Icon(Icons.chevron_right),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                width: kWidth.width * 0.1,
-                                child: const Icon(Icons.chevron_right),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => Divider(
+                        height: kHeight.height * 0.0001,
+                        // color: kTransparent,
                       ),
+                      itemCount: state.userProductKey.length,
                     );
-                  },
-                  separatorBuilder: (context, index) => Divider(
-                    height: kHeight.height * 0.0001,
-                    // color: kTransparent,
-                  ),
-                  itemCount: state.userProductKey.length,
-                );
-              }
-            },
+                  }
+                },
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: kHeight.height * 0.05,
+                ),
+              )
+            ],
           ),
         ),
       ),
