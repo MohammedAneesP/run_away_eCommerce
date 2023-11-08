@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
+import 'package:run_away/presentation/Screens/home_page/home_page.dart';
 
 class NoProductInCart extends StatelessWidget {
   const NoProductInCart({
@@ -26,7 +27,7 @@ class NoProductInCart extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  const ForZoom(),
+                      builder: (context) =>const BottomNavPage(),
                     ));
               },
               icon: const Icon(

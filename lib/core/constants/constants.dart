@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
+import 'package:run_away/presentation/Screens/home_page/home_page.dart';
 import 'package:run_away/presentation/Screens/orders/my_orders.dart';
 
 const kSpace50 = SizedBox(
@@ -69,7 +69,7 @@ void showPaymentSuccessDialog(BuildContext context) {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ForZoom(),
+                    builder: (context) => HomePage(),
                   ));
             },
             child: Text('Continue shopping', style: kBlueText),
@@ -90,7 +90,7 @@ void showPaymentSuccessDialog(BuildContext context) {
   );
 }
 
-Future<dynamic> showCircleProgress(BuildContext context) {
+ showCircleProgress(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) {

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:run_away/application/category/product_in_brand/product_in_brand_bloc.dart';
 import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
@@ -14,11 +13,17 @@ import 'package:run_away/application/wishlist/wishlist_products/wishlist_product
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/cart/my_cart.dart';
 import 'package:run_away/presentation/Screens/categories/categorized/brand_products.dart';
+import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
+import 'package:run_away/presentation/Screens/orders/my_orders.dart';
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
+import 'package:run_away/presentation/Screens/profile/add_profile/add_profile.dart';
+import 'package:run_away/presentation/Screens/profile/my_profile.dart';
 import 'package:run_away/presentation/Screens/search_screen/search_screen.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
+import 'package:run_away/presentation/Screens/wishlist/my_wishlists.dart';
 import 'package:run_away/presentation/widgets/fav_grid_tile/product_grid_tile.dart';
 
 import 'widgets/home_titles/all_products.dart';
@@ -37,7 +42,6 @@ final List<dynamic> carouselImages = [
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final userName = FireBaseAuthMethods(FirebaseAuth.instance);
   final fireName = FirebaseAuth.instance.currentUser;
 
   final ValueNotifier<int> anSelectVal = ValueNotifier(-1);
@@ -47,10 +51,18 @@ class HomePage extends StatelessWidget {
   }
 
   final screenNames = [
-    "Categories",
+    "Profile",
+    "Home Page",
+    "My Cart",
     "Wishlists",
     "Orders",
-    "Profile",
+  ];
+  final screenIcons = [
+    const Icon(CupertinoIcons.person, color: kBlack),
+    const Icon(CupertinoIcons.house, color: kBlack),
+    const Icon(CupertinoIcons.cart, color: kBlack),
+    const Icon(CupertinoIcons.heart, color: kBlack),
+    const Icon(CupertinoIcons.bag, color: kBlack),
   ];
   @override
   Widget build(BuildContext context) {
@@ -70,6 +82,13 @@ class HomePage extends StatelessWidget {
     var sizedBoxGap = SizedBox(height: kHeight * 0.05);
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
+      drawer: HomeDrawer(
+        anName: fireName!.displayName.toString(),
+        kHeight: kHeight,
+        screenNames: screenNames,
+        kWidth: kWidth,
+        screenIcons: screenIcons,
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -92,10 +111,7 @@ class HomePage extends StatelessWidget {
                     ),
                     child: IconButton(
                       onPressed: () {
-                        final zoomDrawer = ZoomDrawer.of(context);
-                        if (zoomDrawer != null) {
-                          zoomDrawer.toggle();
-                        }
+                        Scaffold.of(context).openDrawer();
                       },
                       icon: const Icon(
                         CupertinoIcons.square_grid_2x2_fill,
@@ -176,7 +192,8 @@ class HomePage extends StatelessWidget {
                               } else {
                                 return ListView.separated(
                                   scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (context, index) => SizedBox(
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
                                     width: kWidth * 0.05,
                                   ),
                                   itemCount: state.theBrands.length,
@@ -191,7 +208,7 @@ class HomePage extends StatelessWidget {
                                           selected: anSelectVal.value == index,
                                           onSelected: (value) async {
                                             changeValue(index);
-      
+
                                             BlocProvider.of<ProductInBrandBloc>(
                                                     context)
                                                 .add(TheProducts(
@@ -229,9 +246,10 @@ class HomePage extends StatelessWidget {
                                           label: anSelectVal.value == index
                                               ? ValueListenableBuilder(
                                                   valueListenable: anSelectVal,
-                                                  builder: (BuildContext context,
-                                                          value, _) =>
-                                                      Text(
+                                                  builder:
+                                                      (BuildContext context,
+                                                              value, _) =>
+                                                          Text(
                                                     "${refName["brandName"]}"
                                                         .toUpperCase(),
                                                   ),
@@ -261,7 +279,8 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: kHeight * .31,
                       width: kWidth,
-                      child: BlocBuilder<PopularProductBloc, PopularProductState>(
+                      child:
+                          BlocBuilder<PopularProductBloc, PopularProductState>(
                         builder: (context, state) {
                           if (state.theProducts.isEmpty) {
                             return const Center(
@@ -311,7 +330,8 @@ class HomePage extends StatelessWidget {
                     BlocBuilder<AllProductsBloc, AllProductsState>(
                       builder: (context, state) {
                         if (state.allProducts.isEmpty) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else {
                           final product = state.allProducts[0];
                           final productName =
@@ -357,10 +377,11 @@ class HomePage extends StatelessWidget {
                                   ),
                                   itemCount: state.allProducts.length,
                                   itemBuilder: (context, index) {
-                                    final productData = state.allProducts[index];
+                                    final productData =
+                                        state.allProducts[index];
                                     final productName = capitalizeFirstLetter(
                                         productData["itemName"]);
-      
+
                                     return ProductGridTile(
                                       kHeight: 0,
                                       kWidth: 0,
@@ -398,6 +419,111 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class HomeDrawer extends StatelessWidget {
+  const HomeDrawer(
+      {super.key,
+      required this.kHeight,
+      required this.kWidth,
+      required this.anName,
+      required this.screenNames,
+      required this.screenIcons});
+
+  final double kHeight;
+  final double kWidth;
+  final String anName;
+  final List<Icon> screenIcons;
+  final List<String> screenNames;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      width: kWidth * 0.6,
+      backgroundColor: kGrey200,
+      child: BlocBuilder<ProfileDisplayingBloc, ProfileDisplayingState>(
+        builder: (context, state) {
+          return ListView(
+            children: [
+              DrawerHeader(
+                child: state.anProfile.isEmpty
+                    ? InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddingProfile(),
+                          ),
+                        ),
+                        child: const CircleAvatar(
+                          radius: 20,
+                          child: Icon(
+                            Icons.person_add_alt_1,
+                            size: 80,
+                          ),
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(state.anProfile["image"]),
+                      ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                child: state.anProfile.isEmpty
+                    ? Text("Hey, 👋 $anName", style: kGreyItalicText)
+                    : Text("Hey, 👋 ${state.anProfile["fullname"]}",
+                        style: kGreyItalicText),
+              ),
+              SizedBox(
+                height: kHeight * .4,
+                child: ListView.builder(
+                  itemCount: screenNames.length,
+                  itemBuilder: (context, index) {
+                    final screens = [
+                      ProfileScreen(),
+                      const BottomNavPage(),
+                      MyCart(),
+                      MyWishlist(),
+                      MyOrders(),
+                    ];
+                    return ListTile(
+                      leading: screenIcons[index],
+                      title: Text(screenNames[index]),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => screens[index],
+                            ));
+                      },
+                    );
+                  },
+                ),
+              ),
+              Column(
+                children: [
+                  const Divider(indent: 10, endIndent: 10),
+                  ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text("Sign Out"),
+                    onTap: () {
+                      FireBaseAuthMethods(FirebaseAuth.instance)
+                          .signOut(context);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ));
+                    },
+                  )
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

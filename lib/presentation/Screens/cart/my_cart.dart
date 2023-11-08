@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,7 @@ import 'package:run_away/application/cart/cart_view/cart_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/address.dart/address.dart';
-import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 
 import 'widgets/cart_decrement.dart';
 import 'widgets/cart_image.dart';
@@ -70,10 +68,11 @@ class MyCart extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ForZoom(),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BottomNavPage(),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.arrow_back_ios_new,
@@ -345,7 +344,7 @@ class MyCart extends StatelessWidget {
                         style: checkOutButtonStyle(kWidth, kHeight),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const  AddressSelecting(),
+                            builder: (context) => const AddressSelecting(),
                           ));
                         },
                         child: const ProceedText())

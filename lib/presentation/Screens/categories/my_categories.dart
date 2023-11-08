@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/categories/categorized/brand_products.dart';
-import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
 import 'package:run_away/presentation/Screens/wishlist/widgets/appbar_widgets/leading_widget.dart';
 
 const tempImage =
@@ -22,7 +22,7 @@ class Categories extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const ForZoom(),
+            builder: (context) => const BottomNavPage(),
           ),
         );
         return true;

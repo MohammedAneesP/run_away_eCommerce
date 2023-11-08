@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:run_away/application/order/display_orders/displaying_all_orders_bloc.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/orders/an_single_order/an_order.dart';
 import 'package:run_away/presentation/Screens/wishlist/widgets/appbar_widgets/leading_widget.dart';
 
@@ -26,7 +27,7 @@ class MyOrders extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const ForZoom(),
+            builder: (context) => const BottomNavPage(),
           ),
         );
         return true;
@@ -48,12 +49,23 @@ class MyOrders extends StatelessWidget {
               ),
               BlocBuilder<DisplayingAllOrdersBloc, DisplayingAllOrdersState>(
                 builder: (context, state) {
-                  if (state.isLoading == true) {
-                    return const SliverToBoxAdapter(
-                        child: Center(child: CircularProgressIndicator()));
-                  } else if (state.userOrderKey.isEmpty) {
-                    return const SliverToBoxAdapter(
-                        child: Center(child: Text("No orders made yet!")));
+                  if (state.userOrderKey.isEmpty) {
+                    return SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: kHeight.height * 0.35,
+                            child: LottieBuilder.asset(
+                              "assets/animation_lnpkse54.json",
+                              height: kHeight.height * 0.2,
+                              width: kWidth.width * 1,
+                            ),
+                          ),
+                          const Text("You haven't Ordered any Products"),
+                          SizedBox(height: kHeight.height * 0.01),
+                        ],
+                      ),
+                    );
                   } else {
                     return SliverList.separated(
                       itemBuilder: (context, index) {

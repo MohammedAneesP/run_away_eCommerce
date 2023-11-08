@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
 import 'package:run_away/application/wishlist/wishlist_products/wishlist_products_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
 import 'package:run_away/presentation/widgets/fav_grid_tile/product_grid_tile.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
@@ -30,7 +31,7 @@ class MyWishlist extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const ForZoom(),
+            builder: (context) => const BottomNavPage(),
           ),
         );
         return true;
@@ -53,13 +54,19 @@ class MyWishlist extends StatelessWidget {
                 builder: (context, state) {
                   if (state.wishProducts.isEmpty) {
                     return SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: kHeight.height,
-                        child: Center(
-                          child: Text(
-                            state.errorMessage,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: kHeight.height * 0.35,
+                            child: LottieBuilder.asset(
+                              "assets/animation_lnpkse54.json",
+                              height: kHeight.height * 0.2,
+                              width: kWidth.width * 1,
+                            ),
                           ),
-                        ),
+                          const Text("You haven't added Favourites"),
+                          SizedBox(height: kHeight.height * 0.01),
+                        ],
                       ),
                     );
                   } else {

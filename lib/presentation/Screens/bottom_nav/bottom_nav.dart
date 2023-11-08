@@ -1,7 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/presentation/Screens/home_page/home_page.dart';
 import 'package:run_away/presentation/Screens/categories/my_categories.dart';
@@ -18,14 +17,7 @@ class BottomNavPage extends StatefulWidget {
 
 class _BottomNavPageState extends State<BottomNavPage> {
   int indexPage = 2;
-  final anController = ZoomDrawerController();
-  // final screens = [
-  //   const Categories(),
-  //   MyWishlist(),
-  //   HomePage(zoomController: anController),
-  //   MyOrders(),
-  //   ProfileScreen(),
-  // ];
+  
 
   final List<Icon> itemList = [
     const Icon(CupertinoIcons.square_grid_2x2),

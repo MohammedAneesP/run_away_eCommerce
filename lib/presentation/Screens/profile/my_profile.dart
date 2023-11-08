@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:run_away/application/profile/profile_display/profile_displaying_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/home_page/zoom_drawer/zomm_drawer.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/profile/add_profile/add_profile.dart';
 import 'package:run_away/presentation/Screens/profile/edit_profile/edit_profile.dart';
 import 'package:run_away/presentation/Screens/wishlist/widgets/appbar_widgets/leading_widget.dart';
@@ -28,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>  const ForZoom(),
+            builder: (context) =>  const BottomNavPage(),
           ),
         );
         return true;
