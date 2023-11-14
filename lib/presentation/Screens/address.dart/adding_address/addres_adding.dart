@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/address/adding_address.dart/adding_address_bloc.dart';
 import 'package:run_away/application/address/address_view/address_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
@@ -29,6 +30,16 @@ class AddingAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    final theHeight = MediaQuery.of(context).size.height;
+
+    double titleNonSize = theHeight < 750 ? 16 : 22;
+    double theSize = theHeight < 750 ? 14 : 18;
+
+    final buttontextWhite = GoogleFonts.inter(
+        fontSize: theSize, fontWeight: FontWeight.normal, color: kWhite);
+
+    final kTitleText = GoogleFonts.robotoFlex(
+        fontWeight: FontWeight.bold, fontSize: titleNonSize, color: kBlack);
 
     return Scaffold(
       appBar: AppBar(

@@ -19,6 +19,7 @@ class CartImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       height: kHeight.height * 0.1,
       width: kWidth.width * 0.25,
       decoration: BoxDecoration(

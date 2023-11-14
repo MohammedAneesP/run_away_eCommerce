@@ -1,14 +1,17 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/cart/cart_button_bloc/cart_button_bloc.dart';
 import 'package:run_away/application/cart/cart_view/cart_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/address.dart/address.dart';
-import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 
+import 'widgets/cart_app_leading.dart';
 import 'widgets/cart_decrement.dart';
 import 'widgets/cart_image.dart';
 import 'widgets/cart_increment.dart';
@@ -27,7 +30,19 @@ class MyCart extends StatelessWidget {
         .add(ProductsInCart(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    final theHeight = MediaQuery.of(context).size.height;
 
+    double headSize = theHeight < 750 ? 15 : 20;
+    double titleNonSize = theHeight < 750 ? 16 : 22;
+
+    final kHeadingText = GoogleFonts.roboto(
+        fontWeight: FontWeight.bold, fontSize: headSize, color: kBlack);
+    final kNonboldTitleText =
+        GoogleFonts.roboto(fontSize: headSize, color: kBlack);
+    final kTitleNonBoldText =
+        GoogleFonts.robotoFlex(fontSize: titleNonSize, color: kBlack);
+    final kTitleText = GoogleFonts.robotoFlex(
+        fontWeight: FontWeight.bold, fontSize: titleNonSize, color: kBlack);
     List<ValueNotifier<int>> productPrice = [];
     Map<String, dynamic> idAndQuantity = {};
     List<int> initialPrice = [];
@@ -38,6 +53,7 @@ class MyCart extends StatelessWidget {
         if (state.cartProducts.isEmpty) {
           return const NoProductInCart();
         } else {
+          Map<String, dynamic> productSizeCount = {};
           productPrice = [];
           idAndQuantity = {};
 
@@ -60,26 +76,7 @@ class MyCart extends StatelessWidget {
               surfaceTintColor: kTransparent,
               backgroundColor: kGrey200,
               shadowColor: kTransparent,
-              leading: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: kWhite,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const BottomNavPage(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new,
-                    ),
-                  ),
-                ),
-              ),
+              leading: const CartAppLeading(),
               centerTitle: true,
               title: Text("Cart", style: kTitleText),
             ),
@@ -104,16 +101,27 @@ class MyCart extends StatelessWidget {
 
                     ValueNotifier<int> onePrice = productPrice[
                         index]; //with this we can add one product price as we want, by this we get onr products price
-
+                    productSizeCount[productId.toString()] = {
+                      "count": anQuantity.value.toString(),
+                      "size": state.anProductSize[productId]["size"].toString()
+                    };
                     return SizedBox(
                       height: kHeight.height * 0.2,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CartImage(
-                            kHeight: kHeight,
-                            kWidth: kWidth,
-                            theUrl: cartproducts["productImages"][0],
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CartImage(
+                                kHeight: kHeight,
+                                kWidth: kWidth,
+                                theUrl: cartproducts["productImages"][0],
+                              ),
+                              SizedBox(height: kHeight.height * 0.01),
+                              Text(
+                                  "Size : ${state.anProductSize[productId]["size"].toString()}"),
+                            ],
                           ),
                           SizedBox(
                             height: kHeight.height * 0.2,
@@ -166,6 +174,14 @@ class MyCart extends StatelessWidget {
                                                               .toString(),
                                                           anUpdateMap:
                                                               idAndQuantity));
+                                                  productSizeCount[
+                                                      productId.toString()] = {
+                                                    "count": anQuantity.value
+                                                        .toString(),
+                                                    "size": state.anProductSize[
+                                                            productId]["size"]
+                                                        .toString()
+                                                  };
                                                 } else {
                                                   return;
                                                 }
@@ -217,6 +233,14 @@ class MyCart extends StatelessWidget {
                                                               .toString(),
                                                           anUpdateMap:
                                                               idAndQuantity));
+                                                  productSizeCount[
+                                                      productId.toString()] = {
+                                                    "count": anQuantity.value
+                                                        .toString(),
+                                                    "size": state.anProductSize[
+                                                            productId]["size"]
+                                                        .toString()
+                                                  };
                                                 } else {
                                                   return;
                                                 }
@@ -239,24 +263,59 @@ class MyCart extends StatelessWidget {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    BlocProvider.of<CartViewBloc>(context).add(
-                                        CartUpdatingCount(
-                                            anEmail: fireName!.email.toString(),
-                                            anUpdateMap: idAndQuantity));
-                                    BlocProvider.of<CartViewBloc>(context).add(
-                                        CartItemRemove(
-                                            anEmail: fireName!.email.toString(),
-                                            anProductId:
-                                                cartproducts["productId"]));
-                                    idAndQuantity.remove(productId);
-                                    BlocProvider.of<CartViewBloc>(context).add(
-                                        ProductsInCart(
-                                            anEmail:
-                                                fireName!.email.toString()));
-                                    BlocProvider.of<CartButtonBloc>(context)
-                                        .add(CartProducts(
-                                            anEmail:
-                                                fireName!.email.toString()));
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: const Text(
+                                              "Do you wann't to remove this item"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("no")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  BlocProvider.of<CartViewBloc>(
+                                                          context)
+                                                      .add(CartUpdatingCount(
+                                                          anEmail: fireName!
+                                                              .email
+                                                              .toString(),
+                                                          anUpdateMap:
+                                                              idAndQuantity));
+                                                  BlocProvider.of<CartViewBloc>(
+                                                          context)
+                                                      .add(CartItemRemove(
+                                                          anEmail: fireName!
+                                                              .email
+                                                              .toString(),
+                                                          anProductId:
+                                                              cartproducts[
+                                                                  "productId"]));
+                                                  idAndQuantity
+                                                      .remove(productId);
+                                                  BlocProvider.of<CartViewBloc>(
+                                                          context)
+                                                      .add(ProductsInCart(
+                                                          anEmail: fireName!
+                                                              .email
+                                                              .toString()));
+                                                  BlocProvider.of<
+                                                              CartButtonBloc>(
+                                                          context)
+                                                      .add(CartProducts(
+                                                          anEmail: fireName!
+                                                              .email
+                                                              .toString()));
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("Yes")),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   icon: const Icon(
                                     CupertinoIcons.delete,
@@ -343,8 +402,11 @@ class MyCart extends StatelessWidget {
                     ElevatedButton(
                         style: checkOutButtonStyle(kWidth, kHeight),
                         onPressed: () {
+                          log(productSizeCount.toString());
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const AddressSelecting(),
+                            builder: (context) => AddressSelecting(
+                              anStockSizeCount: productSizeCount,
+                            ),
                           ));
                         },
                         child: const ProceedText())

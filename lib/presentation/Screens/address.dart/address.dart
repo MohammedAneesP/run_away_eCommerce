@@ -1,16 +1,21 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/address/address_dropdown/dropdown_address_bloc.dart';
 import 'package:run_away/application/address/address_view/address_view_bloc.dart';
 import 'package:run_away/application/address/payment_choice_dropdown/payment_choice_drop_bloc.dart';
 import 'package:run_away/application/order/ordering_on_success/ordering_on_success_bloc.dart';
+import 'package:run_away/application/product_details/product_stock/product_stock_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/address.dart/adding_address/addres_adding.dart';
 import 'package:run_away/presentation/Screens/address.dart/widgets/payments_dropdown.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/cart/widgets/cart_product_img.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -24,7 +29,11 @@ String anSelectedAddress = "";
 String paymentChoice = "";
 
 class AddressSelecting extends StatefulWidget {
-  const AddressSelecting({super.key});
+  final Map<String, dynamic> anStockSizeCount;
+  const AddressSelecting({
+    super.key,
+    required this.anStockSizeCount,
+  });
 
   @override
   State<AddressSelecting> createState() => _AddressSelectingState();
@@ -55,6 +64,10 @@ class _AddressSelectingState extends State<AddressSelecting> {
         anEmail: fireName!.email.toString(),
         selectedAddressKey: anSelectedAddress,
         shippingCharge: shipping.value.toString()));
+    BlocProvider.of<ProductStockBloc>(context)
+        .add(UpdatingProduct(anStockSizeCount: widget.anStockSizeCount));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => const BottomNavPage()));
     showPaymentSuccessDialog(context);
   }
 
@@ -68,11 +81,27 @@ class _AddressSelectingState extends State<AddressSelecting> {
 
   @override
   Widget build(BuildContext context) {
+    log(widget.anStockSizeCount.toString());
     BlocProvider.of<AddressViewBloc>(context)
         .add(ViewingAddresses(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    final theHeight = MediaQuery.of(context).size.height;
 
+    double headSize = theHeight < 750 ? 15 : 20;
+    double titleNonSize = theHeight < 750 ? 16 : 22;
+    double headMedSize = theHeight < 750 ? 13 : 17;
+
+    final buttontextWhite = GoogleFonts.inter(
+        fontSize: headMedSize, fontWeight: FontWeight.normal, color: kWhite);
+    final kHeadingMedText = GoogleFonts.roboto(
+        fontWeight: FontWeight.bold, fontSize: headMedSize, color: kBlack);
+    final kNonboldTitleText =
+        GoogleFonts.roboto(fontSize: headSize, color: kBlack);
+    final kTitleNonBoldText =
+        GoogleFonts.robotoFlex(fontSize: titleNonSize, color: kBlack);
+    final kTitleText = GoogleFonts.robotoFlex(
+        fontWeight: FontWeight.bold, fontSize: titleNonSize, color: kBlack);
     return BlocBuilder<AddressViewBloc, AddressViewState>(
       builder: (context, state) {
         if (state.products.isEmpty) {
@@ -153,7 +182,7 @@ class _AddressSelectingState extends State<AddressSelecting> {
               body: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Container(
-                  height: kHeight.height * .46,
+                  height: kHeight.height * .51,
                   width: kWidth.width,
                   decoration: const BoxDecoration(
                       color: kWhite,
@@ -219,9 +248,7 @@ class _AddressSelectingState extends State<AddressSelecting> {
                               },
                             ),
                             Text('Payment Method', style: kHeadingMedText),
-                            SizedBox(
-                              height: kHeight.height * 0.005,
-                            ),
+                            // SizedBox(height: kHeight.height * 0.005),
                             BlocBuilder<PaymentChoiceDropBloc,
                                 PaymentChoiceDropState>(
                               builder: (context, state) {
@@ -309,6 +336,12 @@ class _AddressSelectingState extends State<AddressSelecting> {
                                                       anSelectedAddress,
                                                   shippingCharge: shipping.value
                                                       .toString()));
+                                          BlocProvider.of<ProductStockBloc>(
+                                                  context)
+                                              .add(UpdatingProduct(
+                                                  anStockSizeCount:
+                                                      widget.anStockSizeCount));
+
                                           showDialog(
                                             context: context,
                                             builder: (context) {
@@ -321,7 +354,11 @@ class _AddressSelectingState extends State<AddressSelecting> {
                                           await Future.delayed(
                                               const Duration(seconds: 1));
                                           if (context.mounted) {
-                                            Navigator.pop(context);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const BottomNavPage()));
                                             showPaymentSuccessDialog(context);
                                           }
                                         },
@@ -367,4 +404,3 @@ class _AddressSelectingState extends State<AddressSelecting> {
     super.dispose();
   }
 }
-

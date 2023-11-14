@@ -1,9 +1,9 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/cart/cart_button_bloc/cart_button_bloc.dart';
 import 'package:run_away/application/product_details/product_view/product_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
@@ -11,6 +11,11 @@ import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
 import 'package:run_away/presentation/Screens/cart/my_cart.dart';
+import 'package:run_away/presentation/Screens/wishlist/widgets/favarite_icon/favorite_icon_home.dart';
+
+import 'widgets/pop_back.dart';
+import 'widgets/product_image.dart';
+import 'widgets/thump_image.dart';
 
 class ProductView extends StatelessWidget {
   final String anProductId;
@@ -21,6 +26,7 @@ class ProductView extends StatelessWidget {
 
   ValueNotifier<int> anSelectVal = ValueNotifier(-1);
   ValueNotifier<String> anSize = ValueNotifier("");
+  ValueNotifier<String> stockUpdate = ValueNotifier("");
 
   void changeValue(int anItem, String theSize) {
     anSelectVal.value = ValueNotifier(anItem).value;
@@ -36,6 +42,27 @@ class ProductView extends StatelessWidget {
         .add(CartProducts(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    final theHeight = MediaQuery.of(context).size.height;
+    double headSize = theHeight < 750 ? 16 : 20;
+    double bluThinSize = theHeight < 750 ? 13 : 16;
+    double titleSize = theHeight < 750 ? 16 : 22;
+    double nonBoldSize = theHeight < 750 ? 15 : 20;
+    double greySize = theHeight < 750 ? 12 : 15;
+    final kNonboldTitleText =
+        GoogleFonts.roboto(fontSize: nonBoldSize, color: kBlack);
+    final kBlueThinText = GoogleFonts.roboto(
+        color: kBlue, fontSize: bluThinSize, fontWeight: FontWeight.w300);
+    final kHeadingText = GoogleFonts.roboto(
+        fontWeight: FontWeight.bold, fontSize: headSize, color: kBlack);
+
+    final kTitleText = GoogleFonts.robotoFlex(
+        fontWeight: FontWeight.bold, fontSize: titleSize, color: kBlack);
+    final kGreySmallText = GoogleFonts.roboto(
+        fontWeight: FontWeight.w300,
+        
+        fontSize: greySize,
+        color: kGrey,
+        fontStyle: FontStyle.italic);
     return BlocBuilder<ProductViewBloc, ProductViewState>(
       builder: (context, state) {
         if (state.products.isEmpty) {
@@ -49,8 +76,10 @@ class ProductView extends StatelessWidget {
           List<dynamic> sizeList = [];
           forStockAndSize = state.products["stockAndSize"];
           forStockAndSize.forEach((key, value) {
-            sizeList.add(key.toString());
+            final theSize = int.parse(key);
+            sizeList.add(theSize);
           });
+          sizeList.sort();
           return Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
@@ -65,28 +94,26 @@ class ProductView extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             controller: pageViewCtrl,
                             itemBuilder: (context, index) {
-                              return Transform.flip(
-                                child: Transform.rotate(
-                                  angle: pi / 10.5,
-                                  child: Container(
-                                    height: kHeight.height * .45,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          product["productImages"][index],
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                              return ProductImage(
+                                kHeight: kHeight,
+                                product: product,
+                                imageurl: product["productImages"][index],
                               );
                             },
                           ),
                         ),
-                        const PopBackButton(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const PopBackButton(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FavoriteIconHome(
+                                  anEmail: fireName!.email.toString(),
+                                  anProductId: anProductId),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                     Container(
@@ -169,6 +196,18 @@ class ProductView extends StatelessWidget {
                                         if (value) {
                                           changeValue(index,
                                               sizeList[index].toString());
+                                          int theStock = int.parse(state
+                                              .products["stockAndSize"]
+                                                  [anSize.value]
+                                              .toString());
+                                          if (theStock <= 5 && theStock >= 1) {
+                                            stockUpdate.value =
+                                                "Only few remains";
+                                          } else if (theStock == 0) {
+                                            stockUpdate.value = "Out of Stock";
+                                          } else {
+                                            stockUpdate.value = "";
+                                          }
                                         }
                                       },
                                     ),
@@ -180,7 +219,16 @@ class ProductView extends StatelessWidget {
                                 itemCount: sizeList.length,
                               ),
                             ),
-                            SizedBox(height: kHeight.height * 0.02),
+                            // SizedBox(height: kHeight.height * 0.02),
+                            ValueListenableBuilder(
+                              valueListenable: stockUpdate,
+                              builder: (context, value, child) {
+                                return Text(
+                                  stockUpdate.value,
+                                  style: const TextStyle(color: kRed),
+                                );
+                              },
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -232,8 +280,20 @@ class ProductView extends StatelessWidget {
                                             : ElevatedButton(
                                                 onPressed: () {
                                                   if (anSelectVal.value < 0) {
-                                                    snackBar(context,
-                                                        "Please Select an Size");
+                                                    anSnackBarFunc(
+                                                        context: context,
+                                                        aText:
+                                                            "Please Select Size",
+                                                        anColor: kRed);
+                                                    return;
+                                                  } else if (stockUpdate
+                                                          .value ==
+                                                      "Not Available") {
+                                                    anSnackBarFunc(
+                                                        context: context,
+                                                        aText:
+                                                            "Product not Available",
+                                                        anColor: kRed);
                                                     return;
                                                   }
                                                   BlocProvider.of<
@@ -285,91 +345,6 @@ class ProductView extends StatelessWidget {
           );
         }
       },
-    );
-  }
-}
-
-class PopBackButton extends StatelessWidget {
-  const PopBackButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: CircleAvatar(
-        backgroundColor: kWhite,
-        child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(CupertinoIcons.back)),
-      ),
-    );
-  }
-}
-
-class ThumpImage extends StatelessWidget {
-  const ThumpImage({
-    super.key,
-    required this.kWidth,
-    required this.anImage,
-  });
-  final String anImage;
-  final Size kWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: const BorderRadius.all(
-          Radius.circular(
-            20,
-          ),
-        ),
-      ),
-      child: Transform.rotate(
-        angle: pi / 10.5,
-        child: Container(
-          width: kWidth.width * 0.15,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                anImage,
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProductViewLeading extends StatelessWidget {
-  const ProductViewLeading({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-      child: CircleAvatar(
-        radius: 15,
-        backgroundColor: kWhite,
-        child: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            CupertinoIcons.back,
-            color: kBlack,
-          ),
-        ),
-      ),
     );
   }
 }

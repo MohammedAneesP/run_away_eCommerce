@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:run_away/application/order/an_order_details/an_order_details_bloc.dart';
 import 'package:run_away/application/order/display_orders/displaying_all_orders_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
@@ -10,6 +9,7 @@ import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 
 import 'widgets/app_bar_lead.dart';
+import 'widgets/cancel_lottie.dart';
 import 'widgets/order_status.dart';
 import 'widgets/thank_text.dart';
 
@@ -27,6 +27,8 @@ class AnSingleOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<DisplayingAllOrdersBloc>(context)
+          .add(OrdersDisplaying(anEmail: fireName!.email.toString()));
       BlocProvider.of<AnOrderDetailsBloc>(context).add(
           DisplayAnOerder(anOrderKey: anOrderKey, anProductKey: anProductKey));
     });
@@ -163,10 +165,14 @@ class AnSingleOrder extends StatelessWidget {
                                     height: double.infinity,
                                     width: double.infinity,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                         Text("Continue shopping with us",style: kNonboldTitleText,),
-                                        SizedBox(height: kHeight.height*0.01),
+                                        Text(
+                                          "Continue shopping with us",
+                                          style: kNonboldTitleText,
+                                        ),
+                                        SizedBox(height: kHeight.height * 0.01),
                                         ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
@@ -186,7 +192,7 @@ class AnSingleOrder extends StatelessWidget {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                         const BottomNavPage(),
+                                                        const BottomNavPage(),
                                                   ));
                                             },
                                             child: const Text("Go to homePage"))
@@ -206,47 +212,68 @@ class AnSingleOrder extends StatelessWidget {
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            const Text(
-                                                "Do you Want to Cancel this order"),
+                                            const Text("Cancel this order..?"),
                                             OutlinedButton(
                                                 onPressed: () async {
-                                                  showCircleProgress(context);
+                                                  showDialog(
+                                                      context: context,
+                                                      builder:
+                                                          (context) =>
+                                                              AlertDialog(
+                                                                content: const Text(
+                                                                    "Are you Sure..?"),
+                                                                title: const Text(
+                                                                    "Do you want't to Cancel this Product"),
+                                                                actions: [
+                                                                  TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child: const Text(
+                                                                          "no")),
+                                                                  TextButton(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        showCircleProgress(
+                                                                            context);
 
-                                                  BlocProvider.of<
-                                                              AnOrderDetailsBloc>(
-                                                          context)
-                                                      .add(
-                                                    CancellingOrder(
-                                                      anOrderKey: anOrderKey,
-                                                      anProductKey:
-                                                          anProductKey,
-                                                    ),
-                                                  );
-                                                  BlocProvider.of<
-                                                              AnOrderDetailsBloc>(
-                                                          context)
-                                                      .add(
-                                                          DisplayOrderClearing());
+                                                                        BlocProvider.of<AnOrderDetailsBloc>(context)
+                                                                            .add(
+                                                                          CancellingOrder(
+                                                                            anOrderKey:
+                                                                                anOrderKey,
+                                                                            anProductKey:
+                                                                                anProductKey,
+                                                                          ),
+                                                                        );
+                                                                        BlocProvider.of<AnOrderDetailsBloc>(context)
+                                                                            .add(DisplayOrderClearing());
 
-                                                  BlocProvider.of<
-                                                              DisplayingAllOrdersBloc>(
-                                                          context)
-                                                      .add(OrdersDisplaying(
-                                                          anEmail: fireName!
-                                                              .email
-                                                              .toString()));
-
-                                                  await Future.delayed(
-                                                      const Duration(
-                                                          seconds: 1));
-                                                  if (context.mounted) {
-                                                    snackBar(context,
-                                                        "Order Cancelled ❌");
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                  }
+                                                                        BlocProvider.of<DisplayingAllOrdersBloc>(context).add(OrdersDisplaying(
+                                                                            anEmail:
+                                                                                fireName!.email.toString()));
+                                                                        await Future.delayed(const Duration(
+                                                                            seconds:
+                                                                                2));
+                                                                        if (context
+                                                                            .mounted) {
+                                                                          snackBar(
+                                                                              context,
+                                                                              "Order Cancelled ❌");
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        }
+                                                                      },
+                                                                      child: const Text(
+                                                                          "Yes")),
+                                                                ],
+                                                              ));
                                                 },
                                                 child: const Text("Cancel")),
                                           ],
@@ -269,38 +296,5 @@ class AnSingleOrder extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class LottieCancelledOrder extends StatelessWidget {
-  const LottieCancelledOrder({
-    super.key,
-    required this.kHeight,
-    required this.kWidth,
-  });
-
-  final Size kHeight;
-  final Size kWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-        height: kHeight.height * 0.35,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "You have Cancelled this product.",
-              style: kNonBoldBigText,
-            ),
-            LottieBuilder.asset(
-              "assets/animation_ln937yqv (1).json",
-              height: kHeight.height * 0.2,
-              width: kWidth.width * 1,
-            ),
-          ],
-        ),
-      );
   }
 }

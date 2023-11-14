@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/domain/services/frbs_auth_methods.dart';
 import 'package:run_away/main.dart';
@@ -23,6 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size.height;
+    double splashText = screenSize < 750 ? 50 : 70;
+    final splashTitle = GoogleFonts.rocknRollOne(
+        fontSize: splashText, fontWeight: FontWeight.bold, color: kSplashTitleClr);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(

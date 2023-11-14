@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/category/product_in_brand/product_in_brand_bloc.dart';
 import 'package:run_away/application/home_page/all_products/all_products_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
@@ -12,20 +13,14 @@ import 'package:run_away/application/wishlist/fav_icon/fav_icon_bloc.dart';
 import 'package:run_away/application/wishlist/wishlist_products/wishlist_products_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/domain/services/frbs_auth_methods.dart';
-import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/cart/my_cart.dart';
 import 'package:run_away/presentation/Screens/categories/categorized/brand_products.dart';
-import 'package:run_away/presentation/Screens/login_sign_up_pages/login_page.dart';
-import 'package:run_away/presentation/Screens/orders/my_orders.dart';
 import 'package:run_away/presentation/Screens/product_details/product_view.dart';
-import 'package:run_away/presentation/Screens/profile/add_profile/add_profile.dart';
-import 'package:run_away/presentation/Screens/profile/my_profile.dart';
 import 'package:run_away/presentation/Screens/search_screen/search_screen.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
-import 'package:run_away/presentation/Screens/wishlist/my_wishlists.dart';
 import 'package:run_away/presentation/widgets/fav_grid_tile/product_grid_tile.dart';
 
+import 'widgets/drawer.dart';
 import 'widgets/home_titles/all_products.dart';
 import 'widgets/home_titles/new_arrival.dart';
 import 'widgets/home_titles/popular_pick.dart';
@@ -78,7 +73,9 @@ class HomePage extends StatelessWidget {
 
     final kHeight = MediaQuery.of(context).size.height;
     final kWidth = MediaQuery.of(context).size.width;
-
+    double bluThinSize = kHeight < 750 ? 13 : 16;
+    final kBlueThinText = GoogleFonts.roboto(
+        color: kBlue, fontSize: bluThinSize, fontWeight: FontWeight.w300);
     var sizedBoxGap = SizedBox(height: kHeight * 0.05);
     var sizedBoxGap3 = SizedBox(height: kHeight * 0.03);
     return Scaffold(
@@ -419,111 +416,6 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HomeDrawer extends StatelessWidget {
-  const HomeDrawer(
-      {super.key,
-      required this.kHeight,
-      required this.kWidth,
-      required this.anName,
-      required this.screenNames,
-      required this.screenIcons});
-
-  final double kHeight;
-  final double kWidth;
-  final String anName;
-  final List<Icon> screenIcons;
-  final List<String> screenNames;
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      width: kWidth * 0.6,
-      backgroundColor: kGrey200,
-      child: BlocBuilder<ProfileDisplayingBloc, ProfileDisplayingState>(
-        builder: (context, state) {
-          return ListView(
-            children: [
-              DrawerHeader(
-                child: state.anProfile.isEmpty
-                    ? InkWell(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddingProfile(),
-                          ),
-                        ),
-                        child: const CircleAvatar(
-                          radius: 20,
-                          child: Icon(
-                            Icons.person_add_alt_1,
-                            size: 80,
-                          ),
-                        ),
-                      )
-                    : CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(state.anProfile["image"]),
-                      ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
-                child: state.anProfile.isEmpty
-                    ? Text("Hey, 👋 $anName", style: kGreyItalicText)
-                    : Text("Hey, 👋 ${state.anProfile["fullname"]}",
-                        style: kGreyItalicText),
-              ),
-              SizedBox(
-                height: kHeight * .4,
-                child: ListView.builder(
-                  itemCount: screenNames.length,
-                  itemBuilder: (context, index) {
-                    final screens = [
-                      ProfileScreen(),
-                      const BottomNavPage(),
-                      MyCart(),
-                      MyWishlist(),
-                      MyOrders(),
-                    ];
-                    return ListTile(
-                      leading: screenIcons[index],
-                      title: Text(screenNames[index]),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => screens[index],
-                            ));
-                      },
-                    );
-                  },
-                ),
-              ),
-              Column(
-                children: [
-                  const Divider(indent: 10, endIndent: 10),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text("Sign Out"),
-                    onTap: () {
-                      FireBaseAuthMethods(FirebaseAuth.instance)
-                          .signOut(context);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
-                          ));
-                    },
-                  )
-                ],
-              ),
-            ],
-          );
-        },
       ),
     );
   }

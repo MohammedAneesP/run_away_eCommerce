@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/profile/profile_display/profile_displaying_bloc.dart';
 import 'package:run_away/application/profile/profile_image_adding/profile_image_adding_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
@@ -33,6 +34,10 @@ class EditProfileScreen extends StatelessWidget {
     nickname.text = anNickName;
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    final theHeight = MediaQuery.of(context).size.height;
+    double headMedSize = theHeight < 750 ? 13 : 17;
+    final buttontextWhite = GoogleFonts.inter(
+        fontSize: headMedSize, fontWeight: FontWeight.normal, color: kWhite);
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
@@ -166,7 +171,7 @@ class EditProfileScreen extends StatelessWidget {
                                 child: Icon(
                                   CupertinoIcons.camera_circle,
                                   color: kBlue,
-                                  size: 35,
+                                  size: 45,
                                 ),
                               ),
                             ],

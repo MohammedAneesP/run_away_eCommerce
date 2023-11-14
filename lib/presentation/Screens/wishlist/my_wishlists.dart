@@ -22,6 +22,8 @@ class MyWishlist extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<WishlistProductsBloc>(context)
           .add(WishProductList(anEmail: fireName!.email.toString()));
+      BlocProvider.of<FavIconBloc>(context)
+          .add(FavProduct(anEmail: fireName!.email.toString()));
     });
 
     final kWidth = MediaQuery.sizeOf(context);
@@ -70,49 +72,52 @@ class MyWishlist extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return SliverGrid.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                        childAspectRatio: 5,
-                        mainAxisExtent: 260,
+                    return SliverPadding(
+                      padding:const EdgeInsets.all(8.0),
+                      sliver: SliverGrid.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                          childAspectRatio: 5,
+                          mainAxisExtent: 260,
+                        ),
+                        itemCount: state.wishProducts.length,
+                        itemBuilder: (context, index) {
+                          final favProducts = state.wishProducts[index];
+                          if (anFavList.contains(favProducts["productId"])) {
+                            final productname =
+                                capitalizeFirstLetter(favProducts["itemName"]);
+                            return ProductGridTile(
+                              anOnPressed: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ProductView(
+                                    anProductId: favProducts["productId"]),
+                              )),
+                              kWidth: 0,
+                              kHeight: 0,
+                              anProductImg: favProducts["productImages"][0],
+                              textProducts: productname,
+                              brandName: BrandNameStream(
+                                popularPros: favProducts,
+                                anStyle: kBlueThinText,
+                              ),
+                              textPrice: favProducts["price"],
+                              imageHeight: kHeight.height * 0.15,
+                              imageWidth: kWidth.width * 0.5,
+                              anEmail: fireName!.email.toString(),
+                              anProductId: favProducts["productId"],
+                            );
+                          } else {
+                            return const SliverToBoxAdapter(
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                        },
                       ),
-                      itemCount: state.wishProducts.length,
-                      itemBuilder: (context, index) {
-                        final favProducts = state.wishProducts[index];
-                        if (anFavList.contains(favProducts["productId"])) {
-                          final productname =
-                              capitalizeFirstLetter(favProducts["itemName"]);
-                          return ProductGridTile(
-                            anOnPressed: () =>
-                                Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ProductView(
-                                  anProductId: favProducts["productId"]),
-                            )),
-                            kWidth: 0,
-                            kHeight: 0,
-                            anProductImg: favProducts["productImages"][0],
-                            textProducts: productname,
-                            brandName: BrandNameStream(
-                              popularPros: favProducts,
-                              anStyle: kBlueThinText,
-                            ),
-                            textPrice: favProducts["price"],
-                            imageHeight: kHeight.height * 0.15,
-                            imageWidth: kWidth.width * 0.5,
-                            anEmail: fireName!.email.toString(),
-                            anProductId: favProducts["productId"],
-                          );
-                        } else {
-                          return const SliverToBoxAdapter(
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                      },
                     );
                   }
                 },

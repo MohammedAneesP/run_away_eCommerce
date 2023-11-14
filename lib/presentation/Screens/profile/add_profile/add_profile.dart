@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/profile/profile_display/profile_displaying_bloc.dart';
 import 'package:run_away/application/profile/profile_image_adding/profile_image_adding_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
@@ -24,6 +25,12 @@ class AddingProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    
+    final theHeight = MediaQuery.of(context).size.height;
+    double headMedSize = theHeight < 750 ? 13 : 17;
+    final buttontextWhite = GoogleFonts.inter(
+        fontSize: headMedSize, fontWeight: FontWeight.normal, color: kWhite);
+        
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
@@ -144,17 +151,17 @@ class AddingProfile extends StatelessWidget {
                                                   state.anImage!.path,
                                                 ),
                                               ) as ImageProvider,
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
                                   const Positioned(
-                                    bottom: 05,
-                                    left: 165,
+                                    bottom: 10,
+                                    left: 200,
                                     child: Icon(
-                                      CupertinoIcons.person_circle_fill,
+                                      CupertinoIcons.camera_fill,
                                       color: kBlue,
-                                      size: 50,
+                                      size: 45,
                                     ),
                                   ),
                                 ],

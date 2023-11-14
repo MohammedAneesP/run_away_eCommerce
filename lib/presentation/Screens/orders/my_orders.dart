@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:run_away/application/order/display_orders/displaying_all_orders_bloc.dart';
+import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/orders/an_single_order/an_order.dart';
@@ -22,6 +24,16 @@ class MyOrders extends StatelessWidget {
 
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    final theHeight = MediaQuery.of(context).size.height;
+
+    double titleNonSize = theHeight < 750 ? 16 : 22;
+    double theSize = theHeight < 750 ? 12 : 15;
+
+    final kSubTitleText = GoogleFonts.roboto(
+        fontWeight: FontWeight.w500, fontSize: theSize, color: kBlack);
+    final kTitleText = GoogleFonts.robotoFlex(
+        fontWeight: FontWeight.bold, fontSize: titleNonSize, color: kBlack);
+        
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushReplacement(

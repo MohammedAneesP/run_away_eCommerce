@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/core/text_constants/constants.dart';
 
 class ProductTile extends StatelessWidget {
   const ProductTile({
@@ -29,6 +29,13 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size.width;
+    double theSize = screenSize > 600 ? 17 : 14;
+    double subSize = screenSize > 600 ? 15 : 12;
+    final kHeadingMedText = GoogleFonts.roboto(
+        fontWeight: FontWeight.bold, fontSize: theSize, color: kBlack);
+    final kSubTitleText = GoogleFonts.roboto(
+        fontWeight: FontWeight.w500, fontSize: subSize, color: kBlack);
     return GestureDetector(
       onTap: anOnPress,
       child: Container(

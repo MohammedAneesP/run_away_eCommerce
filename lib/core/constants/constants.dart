@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/home_page/home_page.dart';
+import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/orders/my_orders.dart';
 
 const kSpace50 = SizedBox(
@@ -28,6 +30,7 @@ void anSnackBarFunc(
     required Color anColor}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      shape: const StadiumBorder(),
       content: Text(aText),
       margin: const EdgeInsets.all(20),
       behavior: SnackBarBehavior.floating,
@@ -56,6 +59,10 @@ class PaymentSuccessWidget extends StatelessWidget {
 }
 
 void showPaymentSuccessDialog(BuildContext context) {
+  final screenSize = MediaQuery.of(context).size.height;
+  double anSize = screenSize < 750 ? 13 : 17;
+  final kBlueText = GoogleFonts.roboto(
+      color: kBlue, fontSize: anSize, fontWeight: FontWeight.w500);
   showDialog(
     context: context,
     builder: (context) {
@@ -69,7 +76,7 @@ void showPaymentSuccessDialog(BuildContext context) {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage(),
+                    builder: (context) => const BottomNavPage(),
                   ));
             },
             child: Text('Continue shopping', style: kBlueText),
@@ -90,7 +97,7 @@ void showPaymentSuccessDialog(BuildContext context) {
   );
 }
 
- showCircleProgress(BuildContext context) {
+showCircleProgress(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) {

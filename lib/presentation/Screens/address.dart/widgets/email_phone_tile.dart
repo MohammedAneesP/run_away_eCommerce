@@ -21,7 +21,10 @@ class EmailPhoneTileEdit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theHeight = MediaQuery.of(context).size.height;
+    double theSize = theHeight <750?12:15;
     return ListTile(
+      
       leading: Container(
           height: 40,
           width: 40,
@@ -36,6 +39,7 @@ class EmailPhoneTileEdit extends StatelessWidget {
           return Text(
             emailNotify.value,
             overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: theSize),
           );
         },
       ),

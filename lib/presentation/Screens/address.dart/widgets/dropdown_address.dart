@@ -18,6 +18,9 @@ class DropDownAddress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theHeight = MediaQuery.of(context).size.height;
+    double theSize = theHeight <750?12:15;
+
     return DropdownButton<String>(
       borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
@@ -44,6 +47,7 @@ class DropDownAddress extends StatelessWidget {
                   " $place"
                   " ${addressed[value]["pincode"]}",
                   overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: theSize),
                 ),
               );
             },

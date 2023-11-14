@@ -22,6 +22,7 @@ import 'application/cart/cart_view/cart_view_bloc.dart';
 import 'application/order/an_order_details/an_order_details_bloc.dart';
 import 'application/order/display_orders/displaying_all_orders_bloc.dart';
 import 'application/order/ordering_on_success/ordering_on_success_bloc.dart';
+import 'application/product_details/product_stock/product_stock_bloc.dart';
 import 'application/search/search_product/seearch_product_bloc.dart';
 import 'presentation/Screens/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AnOrderDetailsBloc()),
         BlocProvider(create: (context) => ProfileImageAddingBloc()),
         BlocProvider(create: (context) => ProfileDisplayingBloc()),
+        BlocProvider(create: (context) => ProductStockBloc()),
       ],
       child: MaterialApp(
         theme: ThemeData(
