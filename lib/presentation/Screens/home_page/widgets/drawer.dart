@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,10 +56,18 @@ class HomeDrawer extends StatelessWidget {
                           ),
                         ),
                       )
-                    : CircleAvatar(
-                        radius: 15,
-                        backgroundImage: NetworkImage(state.anProfile["image"]),
+                    : CachedNetworkImage(
+                      imageUrl: state.anProfile["image"],
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
                       ),
+                      imageBuilder: (context, imageProvider) {
+                        return CircleAvatar(
+                          radius: 15,
+                          backgroundImage: imageProvider,
+                        );
+                      },
+                    ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 17, 0, 17),

@@ -91,20 +91,18 @@ class AnSingleOrder extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            child: CachedNetworkImage(
-                              imageUrl: product["productImages"][0],
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              imageBuilder: (context, imageProvider) {
-                                return Container(
-                                  width: kWidth.width * 0.23,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: imageProvider)),
-                                );
-                              },
-                            ),
+                          CachedNetworkImage(
+                            imageUrl: product["productImages"][0],
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                width: kWidth.width * 0.23,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider)),
+                              );
+                            },
                           ),
                           SizedBox(
                             width: kWidth.width * 0.6,

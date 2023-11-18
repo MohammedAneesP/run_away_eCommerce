@@ -54,7 +54,7 @@ class MoreOPtionScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TermsAndConditions(),
+                          builder: (context) => const TermsAndConditions(),
                         ));
                   },
                   child: ListTile(
@@ -69,7 +69,7 @@ class MoreOPtionScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PrivacyAndPolicy(),
+                          builder: (context) => const PrivacyAndPolicy(),
                         ));
                   },
                   child: ListTile(
