@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/bottom_nav/bottom_nav.dart';
 import 'package:run_away/presentation/Screens/orders/my_orders.dart';
 
@@ -107,3 +106,18 @@ showCircleProgress(BuildContext context) {
     },
   );
 }
+
+Widget heightGapSizedBox(context) {
+  final mqheight = MediaQuery.of(context).size.height;
+  return SizedBox(
+    height: mqheight * 0.02,
+  );
+}
+
+Widget heightGapSizedBoxHeading(context) {
+  final mqheight = MediaQuery.of(context).size.height;
+  return SizedBox(
+    height: mqheight * 0.05,
+  );
+}
+

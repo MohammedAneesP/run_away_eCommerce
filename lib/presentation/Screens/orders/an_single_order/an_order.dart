@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,11 +92,19 @@ class AnSingleOrder extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            width: kWidth.width * 0.23,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        product["productImages"][0]))),
+                            child: CachedNetworkImage(
+                              imageUrl: product["productImages"][0],
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              imageBuilder: (context, imageProvider) {
+                                return Container(
+                                  width: kWidth.width * 0.23,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: imageProvider)),
+                                );
+                              },
+                            ),
                           ),
                           SizedBox(
                             width: kWidth.width * 0.6,

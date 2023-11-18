@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -93,18 +94,24 @@ class BrandsProducts extends StatelessWidget {
                               },
                               labelPadding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 8),
-                              avatar: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  color: kWhite,
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      refName["imageName"],
-                                    ),
-                                  ),
+                              avatar: CachedNetworkImage(
+                                imageUrl: refName["imageName"],
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
                                 ),
+                                imageBuilder: (context, imageProvider) {
+                                  return Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: kWhite,
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                               label: anSelectVal.value == index
                                   ? ValueListenableBuilder(
@@ -163,13 +170,13 @@ class BrandsProducts extends StatelessWidget {
                             ),
                             itemBuilder: (context, index) {
                               final theProducts = state.products[index];
-                              final productName =
-                                  capitalizeFirstLetter(theProducts["itemName"]);
+                              final productName = capitalizeFirstLetter(
+                                  theProducts["itemName"]);
                               return ProductGridTile(
                                 kHeight: 0,
                                 kWidth: 0,
-                                anOnPressed: () =>
-                                    Navigator.of(context).push(MaterialPageRoute(
+                                anOnPressed: () => Navigator.of(context)
+                                    .push(MaterialPageRoute(
                                   builder: (context) => ProductView(
                                       anProductId: theProducts["productId"]),
                                 )),

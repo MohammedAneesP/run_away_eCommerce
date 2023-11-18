@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:run_away/application/home_page/home_choice/brand_choice_bloc.dart';
@@ -87,16 +88,21 @@ class Categories extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: kHeight.height * .17,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          brand["imageName"] ?? tempImage,
+                                  child: CachedNetworkImage(
+                                    imageUrl: brand["imageName"],
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    imageBuilder: (context, imageProvider) {
+                                      return Container(
+                                        height: kHeight.height * .17,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.contain,
+                                          ),
                                         ),
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
                                 ),
                                 Text(

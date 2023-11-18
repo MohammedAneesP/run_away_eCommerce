@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,7 +74,7 @@ class HomePage extends StatelessWidget {
 
     final kHeight = MediaQuery.of(context).size.height;
     final kWidth = MediaQuery.of(context).size.width;
-    double bluThinSize = kHeight < 750 ? 13 : 16;
+    double bluThinSize = kHeight < 750 ? 13 : 18;
     final kBlueThinText = GoogleFonts.roboto(
         color: kBlue, fontSize: bluThinSize, fontWeight: FontWeight.w300);
     var sizedBoxGap = SizedBox(height: kHeight * 0.05);
@@ -227,18 +228,27 @@ class HomePage extends StatelessWidget {
                                           labelPadding:
                                               const EdgeInsets.symmetric(
                                                   horizontal: 8, vertical: 8),
-                                          avatar: Container(
-                                            height: 40,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                              color: kWhite,
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  refName["imageName"],
-                                                ),
-                                              ),
+                                          avatar: CachedNetworkImage(
+                                            imageUrl: refName["imageName"],
+                                            placeholder: (context, url) =>
+                                                const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
                                             ),
+                                            imageBuilder:
+                                                (context, imageProvider) {
+                                              return Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                  color: kWhite,
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
                                           label: anSelectVal.value == index
                                               ? ValueListenableBuilder(

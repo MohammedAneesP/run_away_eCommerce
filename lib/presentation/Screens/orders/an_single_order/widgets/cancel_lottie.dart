@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/core/text_constants/constants.dart';
 
 class LottieCancelledOrder extends StatelessWidget {
   const LottieCancelledOrder({
@@ -20,7 +19,7 @@ class LottieCancelledOrder extends StatelessWidget {
     double noBoldSize = screenSize < 750 ? 17 : 20;
     final kNonBoldBigText = GoogleFonts.roboto(
         fontWeight: FontWeight.w500, fontSize: noBoldSize, color: kBlack);
-        
+
     return SizedBox(
       height: kHeight.height * 0.35,
       child: Column(

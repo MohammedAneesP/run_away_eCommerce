@@ -47,12 +47,18 @@ dependencies:
   shared_preferences: ^2.1.1
   smooth_page_indicator: ^1.1.0
   timeline_tile: ^2.0.0
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/sneakers.png
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -65,7 +71,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/sports-usain_bolt-266152.jpeg
+    - assets/faugetshoes.png
     - assets/landing_pic_1.png
     - assets/landing_pic_2.png
     - assets/landing_pic_3.png
@@ -74,6 +80,8 @@ flutter:
     - assets/animation_lnfmvkl2.json
     - assets/user_3024605.png
     - assets/animation_lnpkse54.json
+    - assets/faugetshoes (1).png
+    - assets/sneakers.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

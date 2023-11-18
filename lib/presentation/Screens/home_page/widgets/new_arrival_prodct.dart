@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/infrastructure/home_page/brand_name_get.dart';
 
 class NewArrivalProduct extends StatelessWidget {
@@ -50,7 +50,7 @@ class NewArrivalProduct extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 15),
+                  SizedBox(height: kHeight.height * 0.036),
                   BrandNameStream(
                     popularPros: product,
                     anStyle: kBlueText,
@@ -72,18 +72,22 @@ class NewArrivalProduct extends StatelessWidget {
                   flipX: true,
                   child: Transform.rotate(
                     angle: pi / 12.5,
-                    child: Container(
-                      height: kHeight.height * 0.17,
-                      width: kWidth.width * .35,
-                      decoration: BoxDecoration(
-                        //  color: Colors.blue,
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            product["productImages"][0],
+                    child: CachedNetworkImage(
+                      imageUrl: product["productImages"][0],
+                      placeholder: (context, url) =>
+                        const  Center(child:  CircularProgressIndicator()),
+                      imageBuilder: (context, imageProvider) {
+                        return Container(
+                          height: kHeight.height * 0.17,
+                          width: kWidth.width * .35,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ),

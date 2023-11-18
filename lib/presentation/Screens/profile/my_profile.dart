@@ -1,4 +1,4 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,18 +27,18 @@ class ProfileScreen extends StatelessWidget {
     final theHeight = MediaQuery.of(context).size.height;
     double headSize = theHeight < 750 ? 14 : 20;
     double headMedSize = theHeight < 750 ? 13 : 17;
-    double anTop = theHeight < 750? 18 : 22;
+    double anTop = theHeight < 750 ? 18 : 22;
 
     final buttontextWhite = GoogleFonts.inter(
         fontSize: headMedSize, fontWeight: FontWeight.normal, color: kWhite);
     final kHeadingText = GoogleFonts.roboto(
-    fontWeight: FontWeight.bold, fontSize: headSize, color: kBlack);
+        fontWeight: FontWeight.bold, fontSize: headSize, color: kBlack);
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>  const BottomNavPage(),
+            builder: (context) => const BottomNavPage(),
           ),
         );
         return true;
@@ -124,25 +124,33 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       SizedBox(
                         height: kHeight.height * 0.3,
-                        child: Container(
-                          height: kHeight.height * 0.3,
-                          decoration: state.anProfile["image"] == null
-                              ? const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: kWhite,
-                                  image: DecorationImage(
-                                    image: AssetImage("assets/user_3024605.png"),
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: kWhite,
-                                  image: DecorationImage(
-                                    image: NetworkImage(state.anProfile["image"]),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                        child: CachedNetworkImage(
+                          imageUrl: state.anProfile["image"],
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          imageBuilder: (context, imageProvider) {
+                            return Container(
+                              height: kHeight.height * 0.3,
+                              decoration: state.anProfile["image"] == null
+                                  ? const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kWhite,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/user_3024605.png"),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kWhite,
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                            );
+                          },
                         ),
                       ),
                       SizedBox(height: kHeight.height * 0.03),
@@ -159,11 +167,11 @@ class ProfileScreen extends StatelessWidget {
                         width: kWidth.width,
                         decoration: const BoxDecoration(
                             color: kWhite,
-                            borderRadius: BorderRadius.all(Radius.circular(30))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                         child: Padding(
-                          padding:  EdgeInsets.fromLTRB(20, anTop, 0, 0),
-                          child:
-                              Text(anFullName, style: kSubTitleText),
+                          padding: EdgeInsets.fromLTRB(20, anTop, 0, 0),
+                          child: Text(anFullName, style: kSubTitleText),
                         ),
                       ),
                       SizedBox(height: kHeight.height * 0.03),
@@ -180,11 +188,11 @@ class ProfileScreen extends StatelessWidget {
                         width: kWidth.width,
                         decoration: const BoxDecoration(
                             color: kWhite,
-                            borderRadius: BorderRadius.all(Radius.circular(30))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                         child: Padding(
-                          padding:  EdgeInsets.fromLTRB(20, anTop, 0, 0),
-                          child:
-                              Text(anNickName, style: kSubTitleText),
+                          padding: EdgeInsets.fromLTRB(20, anTop, 0, 0),
+                          child: Text(anNickName, style: kSubTitleText),
                         ),
                       ),
                     ],

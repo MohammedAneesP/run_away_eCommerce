@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/constants/constants.dart';
-import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/cart/widgets/cart_product_img.dart';
 
 class NoAddressBottomsheet extends StatelessWidget {

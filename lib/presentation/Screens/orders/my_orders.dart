@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,7 @@ class MyOrders extends StatelessWidget {
         fontWeight: FontWeight.w500, fontSize: theSize, color: kBlack);
     final kTitleText = GoogleFonts.robotoFlex(
         fontWeight: FontWeight.bold, fontSize: titleNonSize, color: kBlack);
-        
+
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushReplacement(
@@ -127,12 +128,18 @@ class MyOrders extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: kWidth.width * 0.23,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image:
-                                                  NetworkImage(productImage))),
+                                    child: CachedNetworkImage(
+                                      imageUrl: productImage,
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                      imageBuilder: (context, imageProvider) {
+                                        return Container(
+                                          width: kWidth.width * 0.23,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: imageProvider)),
+                                        );
+                                      },
                                     ),
                                   ),
                                   SizedBox(

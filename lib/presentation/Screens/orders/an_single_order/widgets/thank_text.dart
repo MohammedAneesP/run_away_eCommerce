@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:run_away/core/color_constants/colors.dart';
-import 'package:run_away/core/text_constants/constants.dart';
 
 class ThankTextAndLottie extends StatelessWidget {
   const ThankTextAndLottie({

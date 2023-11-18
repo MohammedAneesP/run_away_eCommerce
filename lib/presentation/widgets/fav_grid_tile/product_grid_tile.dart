@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
@@ -58,18 +59,27 @@ class ProductGridTile extends StatelessWidget {
                 flipX: true,
                 child: Transform.rotate(
                   angle: pi / 12.5,
-                  child: Container(
-                    height: imageHeight,
-                    width: imageWidth,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(anProductImg), fit: BoxFit.cover),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          20,
+                  child: CachedNetworkImage(
+                    imageUrl: anProductImg,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    imageBuilder: (context, imageProvider) {
+                      return Container(
+                        height: imageHeight,
+                        width: imageWidth,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(
+                              20,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ),

@@ -1,6 +1,6 @@
-
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ThumpImage extends StatelessWidget {
@@ -25,16 +25,20 @@ class ThumpImage extends StatelessWidget {
       ),
       child: Transform.rotate(
         angle: pi / 10.5,
-        child: Container(
-          width: kWidth.width * 0.15,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                anImage,
+        child: CachedNetworkImage(
+          imageUrl: anImage,
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          imageBuilder: (context, imageProvider) {
+            return Container(
+              width: kWidth.width * 0.15,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
               ),
-              fit: BoxFit.cover,
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

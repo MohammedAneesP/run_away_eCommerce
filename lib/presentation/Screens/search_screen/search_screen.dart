@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/search/search_product/seearch_product_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/text_constants/constants.dart';
@@ -105,18 +105,23 @@ class SearchScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                leading: Container(
-                                  height: 30,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    // color: kGrey,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        anProduct["productImages"][0],
+                                leading: CachedNetworkImage(
+                                  imageUrl: anProduct["productImages"][0],
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  imageBuilder: (context, imageProvider) {
+                                    return Container(
+                                      height: 30,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        // color: kGrey,
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                    );
+                                  },
                                 ),
                                 title: Text(
                                   productName,
