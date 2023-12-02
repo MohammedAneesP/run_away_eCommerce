@@ -35,130 +35,131 @@ class BrandsProducts extends StatelessWidget {
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Products".toUpperCase(), style: kTitleText),
-        shadowColor: kTransparent,
-        backgroundColor: kGrey200,
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: CircleAvatar(
-            radius: 15,
-            backgroundColor: kWhite,
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                CupertinoIcons.back,
-                color: kBlack,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            centerTitle: true,
+            title: Text("Products".toUpperCase(), style: kTitleText),
+            shadowColor: kTransparent,
+            backgroundColor: kGrey200,
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: CircleAvatar(
+                radius: 15,
+                backgroundColor: kWhite,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.back,
+                    color: kBlack,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: kHeight.height * 0.09,
-              child: BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
-                builder: (context, state) {
-                  if (state.theBrands.isEmpty) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, index) => SizedBox(
-                        width: kWidth.width * 0.05,
-                      ),
-                      itemCount: state.theBrands.length,
-                      itemBuilder: (context, index) {
-                        final refName = state.theBrands[index];
-                        return ValueListenableBuilder(
-                          valueListenable: anSelectVal,
-                          builder: (context, value, _) {
-                            BlocProvider.of<ProductInBrandBloc>(context).add(
-                                TheProducts(anProductId: changeBrandsId.value));
-                            return ChoiceChip(
-                              backgroundColor: Colors.transparent,
-                              selectedColor: Colors.lightBlue,
-                              selected: anSelectVal.value == index,
-                              onSelected: (value) {
-                                changeValue(index, refName["brandId"]);
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                SizedBox(
+                  height: kHeight.height * 0.09,
+                  child: BlocBuilder<BrandChoiceBloc, BrandChoiceState>(
+                    builder: (context, state) {
+                      if (state.theBrands.isEmpty) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) => SizedBox(
+                            width: kWidth.width * 0.05,
+                          ),
+                          itemCount: state.theBrands.length,
+                          itemBuilder: (context, index) {
+                            final refName = state.theBrands[index];
+                            return ValueListenableBuilder(
+                              valueListenable: anSelectVal,
+                              builder: (context, value, _) {
                                 BlocProvider.of<ProductInBrandBloc>(context)
                                     .add(TheProducts(
                                         anProductId: changeBrandsId.value));
-                              },
-                              labelPadding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
-                              avatar: CachedNetworkImage(
-                                imageUrl: refName["imageName"],
-                                placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                imageBuilder: (context, imageProvider) {
-                                  return Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: kWhite,
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                      ),
+                                return ChoiceChip(
+                                  backgroundColor: Colors.transparent,
+                                  selectedColor: Colors.lightBlue,
+                                  selected: anSelectVal.value == index,
+                                  onSelected: (value) {
+                                    changeValue(index, refName["brandId"]);
+                                    BlocProvider.of<ProductInBrandBloc>(context)
+                                        .add(TheProducts(
+                                            anProductId: changeBrandsId.value));
+                                  },
+                                  labelPadding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 8),
+                                  avatar: CachedNetworkImage(
+                                    imageUrl: refName["imageName"],
+                                    placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(),
                                     ),
-                                  );
-                                },
-                              ),
-                              label: anSelectVal.value == index
-                                  ? ValueListenableBuilder(
-                                      valueListenable: anSelectVal,
-                                      builder:
-                                          (BuildContext context, value, _) =>
+                                    imageBuilder: (context, imageProvider) {
+                                      return Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: kWhite,
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  label: anSelectVal.value == index
+                                      ? ValueListenableBuilder(
+                                          valueListenable: anSelectVal,
+                                          builder: (BuildContext context, value,
+                                                  _) =>
                                               Text(
-                                        "${refName["brandName"]}".toUpperCase(),
-                                      ),
-                                    )
-                                  : ValueListenableBuilder(
-                                      valueListenable: anSelectVal,
-                                      builder: (context, value, child) =>
-                                          const Text(""),
-                                    ),
-                              shape: const StadiumBorder(),
-                              side: BorderSide.none,
+                                            "${refName["brandName"]}"
+                                                .toUpperCase(),
+                                          ),
+                                        )
+                                      : ValueListenableBuilder(
+                                          valueListenable: anSelectVal,
+                                          builder: (context, value, child) =>
+                                              const Text(""),
+                                        ),
+                                  shape: const StadiumBorder(),
+                                  side: BorderSide.none,
+                                );
+                              },
                             );
                           },
                         );
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-            BlocBuilder<ProductInBrandBloc, ProductInBrandState>(
-              builder: (context, state) {
-                if (state.products.isEmpty) {
-                  return Center(
-                    child: SizedBox(
-                      height: kHeight.height * .65,
-                      child: const Center(
-                        child: Text(
-                          "No product Available",
-                        ),
+                      }
+                    },
+                  ),
+                ),
+                BlocBuilder<ProductInBrandBloc, ProductInBrandState>(
+                builder: (context, state) {
+                  if (state.products.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "No product Available",
                       ),
-                    ),
-                  );
-                } else {
-                  return SizedBox(
-                    height: kHeight.height,
-                    child: LayoutBuilder(
+                    );
+                  } else {
+                    return LayoutBuilder(
                       builder: (context, constraints) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GridView.builder(
+                            shrinkWrap: true,
+                            physics:const NeverScrollableScrollPhysics(),
                             itemCount: state.products.length,
                             gridDelegate:
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -178,11 +179,13 @@ class BrandsProducts extends StatelessWidget {
                                 anOnPressed: () => Navigator.of(context)
                                     .push(MaterialPageRoute(
                                   builder: (context) => ProductView(
-                                      anProductId: theProducts["productId"]),
+                                      anProductId:
+                                          theProducts["productId"]),
                                 )),
                                 imageHeight: kHeight.height * 0.15,
                                 imageWidth: kWidth.width * 0.5,
-                                anProductImg: theProducts["productImages"][0],
+                                anProductImg: theProducts["productImages"]
+                                    [0],
                                 anProductId: theProducts["productId"],
                                 textProducts: productName,
                                 textPrice: theProducts["price"],
@@ -196,13 +199,15 @@ class BrandsProducts extends StatelessWidget {
                           ),
                         );
                       },
-                    ),
-                  );
-                }
-              },
+                    );
+                  }
+                },
+                ),
+                
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
