@@ -42,14 +42,11 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
           }
           for (var i = 0; i < products.length; i++) {
             if (brandIds.contains(products[i]["brandId"])) {
-              log("_______");
               emitProducts.add(products[i]);
             }
           }
 
-          for (var element in emitProducts) {
-            log(element["itemName"].toString());
-          }
+          
           if (emitProducts.isEmpty) {
             return emit(
                 SearchProductState(allProductsList: [], searchProducts: []));

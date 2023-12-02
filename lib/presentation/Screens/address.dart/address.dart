@@ -81,7 +81,6 @@ class _AddressSelectingState extends State<AddressSelecting> {
 
   @override
   Widget build(BuildContext context) {
-    log(widget.anStockSizeCount.toString());
     BlocProvider.of<AddressViewBloc>(context)
         .add(ViewingAddresses(anEmail: fireName!.email.toString()));
     final kHeight = MediaQuery.sizeOf(context);

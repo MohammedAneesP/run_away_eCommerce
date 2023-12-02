@@ -68,7 +68,6 @@ class CartViewBloc extends Bloc<CartViewEvent, CartViewState> {
               .collection("cart")
               .doc(event.anEmail)
               .set(event.anUpdateMap);
-          log("updated");
           final forProducts =
               await FirebaseFirestore.instance.collection("products").get();
           final pros = forProducts.docs;

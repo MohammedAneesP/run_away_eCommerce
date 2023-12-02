@@ -28,7 +28,6 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
               productId: {}, errorMessage: "nothing added yet"));
         }
       } catch (e) {
-        log("___________");
         log(e.toString());
       }
     });
@@ -66,8 +65,6 @@ class CartButtonBloc extends Bloc<CartButtonEvent, CartButtonState> {
             };
 
             idAndSize.addAll({event.anProductId.toString(): anMap});
-            // log(idAndSize.toString());
-
             await FirebaseFirestore.instance
                 .collection("cart")
                 .doc(event.anEmail)

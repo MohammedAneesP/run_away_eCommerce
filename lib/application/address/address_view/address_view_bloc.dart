@@ -27,7 +27,6 @@ class AddressViewBloc extends Bloc<AddressViewEvent, AddressViewState> {
             final products =
                 await FirebaseFirestore.instance.collection("products").get();
             if (products.docs.isEmpty) {
-              log("empty");
               return emit(AddressViewState(
                   addresses: {},
                   anErrorMessage: "Unexpected  error",

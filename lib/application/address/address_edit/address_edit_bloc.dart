@@ -27,7 +27,6 @@ class AddressEditBloc extends Bloc<AddressEditEvent, AddressEditState> {
               return emit(AddressEditState(
                   anErrorMessage: "Something went wrong", theAddresses: {}));
             } else {
-              log(anAddress.toString());
               return emit(AddressEditState(
                   anErrorMessage: "", theAddresses: anAddress));
             }

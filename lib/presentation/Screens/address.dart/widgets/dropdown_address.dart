@@ -1,14 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 
 class DropDownAddress extends StatelessWidget {
   final List<String> theAddress;
-  Map<String, dynamic> addressed;
+  final Map<String, dynamic> addressed;
   final ValueChanged<String?>? anOnChange;
   final String anOption;
 
-  DropDownAddress({
+ const DropDownAddress({
     super.key,
     required this.addressed,
     required this.theAddress,
@@ -19,7 +18,7 @@ class DropDownAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theHeight = MediaQuery.of(context).size.height;
-    double theSize = theHeight <750?12:15;
+    double theSize = theHeight < 750 ? 12 : 15;
 
     return DropdownButton<String>(
       borderRadius: const BorderRadius.only(

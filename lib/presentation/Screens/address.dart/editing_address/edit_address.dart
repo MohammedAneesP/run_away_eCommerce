@@ -32,7 +32,6 @@ class EditAddress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(anMapKey);
     BlocProvider.of<AddressEditBloc>(context).add(EditingAddress(
         anEmail: fireName!.email.toString(), anMapKey: anMapKey));
     final kHeight = MediaQuery.sizeOf(context);

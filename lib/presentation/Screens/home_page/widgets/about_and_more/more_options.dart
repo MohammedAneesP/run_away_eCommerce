@@ -4,8 +4,7 @@ import 'package:run_away/presentation/Screens/home_page/widgets/about_and_more/p
 import 'package:run_away/presentation/Screens/home_page/widgets/about_and_more/terms_conditions.dart';
 
 class MoreOPtionScreen extends StatelessWidget {
-  MoreOPtionScreen({super.key});
-  bool musicNotify = true;
+ const MoreOPtionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

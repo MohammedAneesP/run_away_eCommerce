@@ -24,20 +24,17 @@ class ProductStockBloc extends Bloc<ProductStockEvent, ProductStockState> {
         for (var element in updateProducts) {
           forStockAndSize[element.id] = element.data();
         }
-        //  log(forStockAndSize.toString());
         forStockAndSize.forEach((key, value) {
           Map<String, dynamic> anSize = forStockAndSize[key]["stockAndSize"];
 
           final theCount =
               int.parse(anSize[event.anStockSizeCount[key]["size"]]);
           final toless = int.parse(event.anStockSizeCount[key]["count"]);
-          log(theCount.toString());
-          log(toless.toString());
+         
           final theDecreased = theCount - toless;
           anSize[event.anStockSizeCount[key]["size"]] = theDecreased.toString();
-          log(anSize.toString());
+          
           forStockAndSize[key]["stockAndSize"] = anSize;
-          log(forStockAndSize[key].toString());
           FirebaseFirestore.instance
               .collection("products")
               .doc(key)

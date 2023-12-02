@@ -57,10 +57,8 @@ class AnOrderDetailsBloc
           } else {
             Map<String, dynamic> products = {};
             products = theOrder["products"];
-            log(products.toString());
             products[event.anProductKey]["status"] = "cancelled";
             theOrder["products"] = products;
-            log(theOrder.toString());
             await FirebaseFirestore.instance
                 .collection("orders")
                 .doc(event.anOrderKey)
