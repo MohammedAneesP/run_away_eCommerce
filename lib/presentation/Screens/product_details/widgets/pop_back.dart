@@ -1,6 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:run_away/application/product_details/product_view/product_view_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
 
 class PopBackButton extends StatelessWidget {
@@ -16,6 +18,7 @@ class PopBackButton extends StatelessWidget {
         backgroundColor: kWhite,
         child: IconButton(
             onPressed: () {
+              BlocProvider.of<ProductViewBloc>(context).add(ProductClear());
               Navigator.pop(context);
             },
             icon: const Icon(CupertinoIcons.back)),

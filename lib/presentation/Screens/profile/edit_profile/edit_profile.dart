@@ -11,27 +11,41 @@ import 'package:run_away/core/color_constants/colors.dart';
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/profile/add_profile/add_profile.dart';
+import 'package:run_away/presentation/Screens/profile/my_profile.dart';
+import 'package:run_away/presentation/Screens/profile/my_profile.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   final String anImage;
   final String anName;
   final String anNickName;
-  EditProfileScreen({
+  const EditProfileScreen({
     super.key,
     required this.anImage,
     required this.anName,
     required this.anNickName,
   });
 
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
   final fireName = FirebaseAuth.instance.currentUser;
+
   TextEditingController fullname = TextEditingController();
+
   TextEditingController nickname = TextEditingController();
+  @override
+  void initState() {
+    fullname.text = widget.anName;
+    nickname.text = widget.anNickName;
+    super.initState();
+  }
+
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    fullname.text = anName;
-    nickname.text = anNickName;
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
     final theHeight = MediaQuery.of(context).size.height;
@@ -156,7 +170,7 @@ class EditProfileScreen extends StatelessWidget {
                                   color: kWhite,
                                   image: state.anImage == null
                                       ? DecorationImage(
-                                          image: NetworkImage(anImage),
+                                          image: NetworkImage(widget.anImage),
                                           fit: BoxFit.cover,
                                         )
                                       : DecorationImage(
@@ -218,7 +232,11 @@ class EditProfileScreen extends StatelessWidget {
                             await Future.delayed(const Duration(seconds: 2));
                             if (context.mounted) {
                               Navigator.pop(context);
-                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(),
+                                  ));
                             }
                           }
                         },
@@ -247,7 +265,6 @@ ButtonStyle editProfileSubmitButtonStyle(Size kWidth, Size kHeight) {
       backgroundColor: const MaterialStatePropertyAll(kBlue),
       shape: const MaterialStatePropertyAll(StadiumBorder()));
 }
-
 
 class EditProfileAppLeading extends StatelessWidget {
   const EditProfileAppLeading({

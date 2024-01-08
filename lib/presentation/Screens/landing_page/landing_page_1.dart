@@ -31,8 +31,7 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
+          elevation: 0,
           automaticallyImplyLeading: false,
           actions: [
             TextButton(

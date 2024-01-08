@@ -17,7 +17,6 @@ class BottomNavPage extends StatefulWidget {
 
 class _BottomNavPageState extends State<BottomNavPage> {
   int indexPage = 2;
-  
 
   final List<Icon> itemList = [
     const Icon(CupertinoIcons.square_grid_2x2),
@@ -30,18 +29,16 @@ class _BottomNavPageState extends State<BottomNavPage> {
   @override
   Widget build(BuildContext context) {
     final screens = [
-    const Categories(),
-    MyWishlist(),
-    HomePage(),
-    MyOrders(),
-    ProfileScreen(),
-  ];
+      const Categories(),
+      MyWishlist(),
+      HomePage(),
+      MyOrders(),
+      ProfileScreen(),
+    ];
     final kHeight = MediaQuery.sizeOf(context);
     return Scaffold(
-      
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
-        
         backgroundColor: Colors.transparent,
         buttonBackgroundColor: kLightBlue,
         height: kHeight.height * 0.075,

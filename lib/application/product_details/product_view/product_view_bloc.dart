@@ -32,5 +32,9 @@ class ProductViewBloc extends Bloc<ProductViewEvent, ProductViewState> {
         log(e.toString());
       }
     });
+    on<ProductClear>((event, emit) {
+      return emit(ProductViewState(
+          products: {}, errorMessage: "there is no such Product"));
+    });
   }
 }
