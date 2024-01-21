@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:run_away/application/order/an_order_details/an_order_details_bloc.dart';
 import 'package:run_away/application/order/display_orders/displaying_all_orders_bloc.dart';
 import 'package:run_away/core/color_constants/colors.dart';
@@ -36,6 +37,15 @@ class AnSingleOrder extends StatelessWidget {
 
     final kHeight = MediaQuery.sizeOf(context);
     final kWidth = MediaQuery.sizeOf(context);
+    final theHeight = MediaQuery.of(context).size.height;
+
+    double titleNonSize = theHeight < 750 ? 16 : 22;
+    double theSize = theHeight < 750 ? 12 : 15;
+
+    final kSubTitleText = GoogleFonts.roboto(
+        fontWeight: FontWeight.w500, fontSize: theSize, color: kBlack);
+    final kTitleText = GoogleFonts.robotoFlex(
+        fontWeight: FontWeight.bold, fontSize: titleNonSize, color: kBlack);
 
     return WillPopScope(
       onWillPop: () async {
@@ -99,8 +109,8 @@ class AnSingleOrder extends StatelessWidget {
                               return Container(
                                 width: kWidth.width * 0.23,
                                 decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: imageProvider)),
+                                    image:
+                                        DecorationImage(image: imageProvider)),
                               );
                             },
                           ),
@@ -159,7 +169,7 @@ class AnSingleOrder extends StatelessWidget {
                                             shipped: true,
                                           ),
                           ),
-                    SizedBox(height: kHeight.height * 0.08),
+                    SizedBox(height: kHeight.height * 0.03),
                     SizedBox(
                       height: kHeight.height * 0.3,
                       child: status == "delivered"
@@ -286,7 +296,7 @@ class AnSingleOrder extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: kHeight.height * 0.02,
+                                          height: kHeight.height * 0.015,
                                         ),
                                         ThankTextAndLottie(
                                             kHeight: kHeight, kWidth: kWidth)

@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
-import 'package:run_away/presentation/Screens/home_page/widgets/about_and_more/terms_conditions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyAndPolicy extends StatelessWidget {
   const PrivacyAndPolicy({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Uri url = Uri.parse('https://policies.google.com/privacy');
+    final Uri privacyPolicyUrlLink = Uri.parse('https://github.com/MohammedAneesP/RunAwayPrivacyPolicy/blob/main/Privacy%20and%20policy');
     return Scaffold(
       // backgroundColor: musiCityBgColor,
       appBar: AppBar(
@@ -22,30 +24,65 @@ class PrivacyAndPolicy extends StatelessWidget {
           child: Column(
             children: [
               heightGapSizedBox(context),
-              Text(privacyPolicyPara1),
+              Text(privacyPolicyExp),
               heightGapSizedBox(context),
-              Text(
-                privcypolcCollecUse,
-                style: kHeadingMedText,
-              ),
+              Text(privcypolcCollecUse, style: kHeadingMedText),
               heightGapSizedBox(context),
-              Text(privacyPolicyPara2),
+              Text(infoAndCollecExp),
               heightGapSizedBox(context),
-              Text(
-                privcyPolcyCookies,
-                style: kHeadingMedText,
-              ),
+              Text(emailAddresses, style: kHeadingMedText),
               heightGapSizedBox(context),
-              Text(privacyPolicyPara3),
+              Text(emailAdressesExp),
               heightGapSizedBox(context),
-              Text(
-                paraContactText,
-                style: kHeadingMedText,
-              ),
+              Text(addressAndContact, style: kHeadingMedText),
               heightGapSizedBox(context),
-              Text(paraText3),
+              Text(addressAndContactExp),
               heightGapSizedBox(context),
-              
+              Text(dataSecurity, style: kHeadingMedText),
+              heightGapSizedBox(context),
+              Text(dataSecurityExp),
+              TextButton(
+                  onPressed: () async {
+                    if (!await launchUrl(url)) {
+                      throw Exception('Could not launch $url');
+                    }
+                  },
+                  child: Text(
+                    "Firebase Privacy Policy",
+                    style: kBluePlainText,
+                  )),
+              heightGapSizedBox(context),
+              Text(thirdParty, style: kHeadingMedText),
+              heightGapSizedBox(context),
+              Text(thirdPartyExp),
+              heightGapSizedBox(context),
+              Text(accessControl, style: kHeadingMedText),
+              heightGapSizedBox(context),
+              Text(accessControlExp),
+              heightGapSizedBox(context),
+              Text(purposeOfData, style: kHeadingMedText),
+              heightGapSizedBox(context),
+              Text(purposeOfDataExp),
+              heightGapSizedBox(context),
+              Text(userRight, style: kHeadingMedText),
+              heightGapSizedBox(context),
+              Text(userRightExp),
+              heightGapSizedBox(context),
+              Text(updatesToPrivacy, style: kHeadingMedText),
+              heightGapSizedBox(context),
+              Text(updatesToPrivacyExp),
+              heightGapSizedBox(context),
+              Text(privacyPolicyUrl, style: kHeadingMedText),
+              TextButton(
+                  onPressed: () async {
+                    if (!await launchUrl(privacyPolicyUrlLink)) {
+                      throw Exception('Could not launch $privacyPolicyUrlLink');
+                    }
+                  },
+                  child: Text(
+                    "Privacy Policy URL",
+                    style: kBluePlainText,
+                  )),
             ],
           ),
         ),
@@ -56,11 +93,34 @@ class PrivacyAndPolicy extends StatelessWidget {
 
 String privcyPolcyCookies = "Cookies";
 String privacyPolicy = "Privacy and Policy";
-String privcypolcCollecUse = "Information collection and Use";
 
-String privacyPolicyPara1 =
-    "Mohammed Anees built the RunAway app as a Free app. This SERVICE is provided by Mohammed Anees at no cost and is intended for use as is.This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy.\nThe terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at Mohammed Anees unless otherwise defined in this Privacy Policy.";
-String privacyPolicyPara2 =
-    " For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information, including but not limited to all man. The information that I request will be retained on your device and is not collected by me in any way.\nThe app does use third-party services that may collect information used to identify you.I have implemented an dummy Payment setup in this application for my educational purpose it doesn't require any money of your's and doesn't use any of your money as show, it just show as it is.";
-String privacyPolicyPara3 =
-    "Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device's internal memory.\nThis Service does not use these “cookies” explicitly. However, the app may use third-party code and libraries that use “cookies” to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.";
+String privacyPolicyExp =
+    "RunAway ('us', 'we', or 'our') operates RunAway (the 'App'). This page informs you of our policies regarding the collection, use, and disclosure of Personal Information we receive from users of the App.";
+String privcypolcCollecUse = "Information collection and Use";
+String infoAndCollecExp =
+    "While using our App, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your email address, physical address, and contact details.";
+String emailAddresses = "Email Addresses";
+String emailAdressesExp =
+    "We collect email addresses through Firebase Authentication for the purpose of user authentication.";
+String addressAndContact = "Addresses and Contact Details";
+String addressAndContactExp =
+    "We collect physical addresses and contact details for the delivery option in our App. This information is stored securely in Firebase Database.";
+String dataSecurity = "Data Security";
+String dataSecurityExp =
+    "We are committed to ensuring that your information is secure. To prevent unauthorized access or disclosure, we have implemented suitable physical, electronic, and managerial procedures to safeguard and secure the information we collect.";
+String thirdParty = "Third-Party Services";
+String thirdPartyExp =
+    "Our App uses Firebase for authentication and data storage. Please refer to Firebase's privacy policy for information on how they handle user data:";
+String accessControl = "Access Control";
+String accessControlExp =
+    "Access to the collected data is restricted to authorized personnel only, and we ensure that only necessary personnel have access to this information.";
+String purposeOfData = "Purpose of Data Collection";
+String purposeOfDataExp =
+    "Email Addresses: Collected for authentication purposes through Firebase Authentication.\nAddresses and Contact Details: Collected for order delivery purposes and stored securely in Firebase Database.";
+String userRight = "User Rights";
+String userRightExp =
+    "You have the right to request access, correction, or deletion of your personal information. For privacy concerns, please contact us at mohammedanees454@gmail.com.";
+String updatesToPrivacy = "Updates to Privacy Policy";
+String updatesToPrivacyExp =
+    "This Privacy Policy may be updated from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.";
+String privacyPolicyUrl = "Privacy Policy URL";

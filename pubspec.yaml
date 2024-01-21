@@ -28,9 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: ^3.3.0
   carousel_slider: ^4.2.1
   cloud_firestore: null
-  cupertino_icons: ^1.0.2
+  cupertino_icons: null
   curved_navigation_bar: ^1.0.3
   firebase_auth: ^4.6.1
   firebase_core: null
@@ -47,13 +48,13 @@ dependencies:
   shared_preferences: ^2.1.1
   smooth_page_indicator: ^1.1.0
   timeline_tile: ^2.0.0
-  cached_network_image: ^3.3.0
+  url_launcher: 
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
 
 flutter_icons:
   android: true

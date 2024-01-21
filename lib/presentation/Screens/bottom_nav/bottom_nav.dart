@@ -41,7 +41,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         buttonBackgroundColor: kLightBlue,
-        height: kHeight.height * 0.075,
+        height: 75,
         index: indexPage,
         items: itemList,
         onTap: (value) {

@@ -12,15 +12,12 @@ class MoreOPtionScreen extends StatelessWidget {
     final mqwidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      //  backgroundColor: musiCityBgColor,
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.fromLTRB(mqwidth * .008, mqheight * .045, 0, 0),
-                child: IconButton(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -30,80 +27,80 @@ class MoreOPtionScreen extends StatelessWidget {
                     //  color: Colors.white,
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.fromLTRB(mqwidth * .1, mqheight * .045, 0, 0),
-                child: Text(
-                  "More Options",
-                  style: kHeadingText,
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: mqheight * .03,
-          ),
-          SizedBox(
-            height: mqheight * .5,
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TermsAndConditions(),
-                        ));
-                  },
-                  child: ListTile(
-                    title: Text(
-                      listOfOptiions[0],
-                    ),
-                    trailing: listOfOptionsIcons[1],
+                Padding(
+                  padding:
+                      EdgeInsets.fromLTRB(mqwidth * .1, 0, 0, 0),
+                  child: Text(
+                    "More Options",
+                    style: kHeadingText,
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PrivacyAndPolicy(),
-                        ));
-                  },
-                  child: ListTile(
-                    title: Text(
-                      listOfOptiions[1],
-                    ),
-                    trailing: listOfOptionsIcons[1],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    aboutPopUp(context);
-                  },
-                  child: ListTile(
-                    title: Text(
-                      listOfOptiions[2],
-                    ),
-                    trailing: listOfOptionsIcons[1],
-                  ),
-                ),
+                )
               ],
             ),
-          ),
-          SizedBox(
-            height: mqheight * 0.3,
-          ),
-          const Text("Version"),
-          SizedBox(
-            height: mqheight * 0.005,
-          ),
-          const Text(
-            "1.0.0",
-            style: TextStyle(fontSize: 12),
-          )
-        ],
+            SizedBox(
+              height: mqheight * .03,
+            ),
+            SizedBox(
+              height: mqheight * .45,
+              child: Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TermsAndConditions(),
+                          ));
+                    },
+                    child: ListTile(
+                      title: Text(
+                        listOfOptiions[0],
+                      ),
+                      trailing: listOfOptionsIcons[1],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PrivacyAndPolicy(),
+                          ));
+                    },
+                    child: ListTile(
+                      title: Text(
+                        listOfOptiions[1],
+                      ),
+                      trailing: listOfOptionsIcons[1],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      aboutPopUp(context);
+                    },
+                    child: ListTile(
+                      title: Text(
+                        listOfOptiions[2],
+                      ),
+                      trailing: listOfOptionsIcons[1],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: mqheight * 0.3,
+            ),
+            const Text("Version"),
+            SizedBox(
+              height: mqheight * 0.005,
+            ),
+            const Text(
+              "1.0.0",
+              style: TextStyle(fontSize: 12),
+            )
+          ],
+        ),
       ),
     );
   }
