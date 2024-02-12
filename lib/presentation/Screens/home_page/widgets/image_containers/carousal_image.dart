@@ -15,7 +15,7 @@ class CarousalImageContainer extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         color: kGrey.withOpacity(0.1),
-        image: DecorationImage(image: AssetImage(anImage), fit: BoxFit.cover),
+        image: DecorationImage(image: AssetImage(anImage), fit: BoxFit.contain),
       ),
     );
   }

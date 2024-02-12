@@ -114,6 +114,7 @@ class LoginPage extends StatelessWidget {
                         width: kWidth.width * 1,
                         height: kHeight.height * 0.065,
                         child: AnElevatedButton(
+                          anString: "sign in",
                           forFormKey: forFormKey,
                           emailController: emailController,
                           passwordController: passwordController,
@@ -132,40 +133,40 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: kHeight.height * 0.03),
-                      GestureDetector(
-                        onTap: () async {
-                          await FireBaseAuthMethods(FirebaseAuth.instance)
-                              .signInWithGoogle(context);
-                        },
-                        child: Container(
-                          height: kHeight.height * 0.065,
-                          width: kWidth.width * 1,
-                          decoration: BoxDecoration(
-                              color: kWhite,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: kHeight.height * 0.065,
-                                width: kWidth.width * 0.07,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                      'assets/google_png.png',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: kWidth.width * 0.04),
-                              Text(
-                                "Sign in with Google",
-                                style: buttonTextBlack,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () async {
+                      //     await FireBaseAuthMethods(FirebaseAuth.instance)
+                      //         .signInWithGoogle(context);
+                      //   },
+                      //   child: Container(
+                      //     height: kHeight.height * 0.065,
+                      //     width: kWidth.width * 1,
+                      //     decoration: BoxDecoration(
+                      //         color: kWhite,
+                      //         borderRadius: BorderRadius.circular(30)),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         Container(
+                      //           height: kHeight.height * 0.065,
+                      //           width: kWidth.width * 0.07,
+                      //           decoration: const BoxDecoration(
+                      //             image: DecorationImage(
+                      //               image: AssetImage(
+                      //                 'assets/google_png.png',
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         SizedBox(width: kWidth.width * 0.04),
+                      //         Text(
+                      //           "Sign in with Google",
+                      //           style: buttonTextBlack,
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),  
                       SizedBox(height: kHeight.height * 0.15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

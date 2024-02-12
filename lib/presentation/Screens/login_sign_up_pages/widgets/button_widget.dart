@@ -7,10 +7,12 @@ class AnElevatedButton extends StatelessWidget {
       required this.forFormKey,
       required this.emailController,
       required this.passwordController,
+      required this.anString,
       required this.anOnPressed});
 
   final GlobalKey<FormState> forFormKey;
   final TextEditingController emailController;
+  final String anString;
   final TextEditingController passwordController;
   final VoidCallback anOnPressed;
 
@@ -29,7 +31,7 @@ class AnElevatedButton extends StatelessWidget {
         ),
       ),
       child: Text(
-        "Sign in",
+        anString,
         style: buttontextWhite,
       ),
     );

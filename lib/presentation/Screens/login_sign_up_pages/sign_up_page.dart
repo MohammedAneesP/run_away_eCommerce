@@ -112,6 +112,7 @@ class SignUpPage extends StatelessWidget {
                             width: kWidth * 1,
                             height: kHeight * 0.065,
                             child: AnElevatedButton(
+                              anString: "Create",
                               forFormKey: formKey,
                               emailController: emailController,
                               passwordController: passwordController,

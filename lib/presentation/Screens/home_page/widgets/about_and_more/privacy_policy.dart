@@ -10,7 +10,7 @@ class PrivacyAndPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Uri url = Uri.parse('https://policies.google.com/privacy');
-    final Uri privacyPolicyUrlLink = Uri.parse('https://github.com/MohammedAneesP/RunAwayPrivacyPolicy/blob/main/Privacy%20and%20policy');
+    final Uri privacyPolicyUrlLink = Uri.parse('https://sites.google.com/view/runawayshop/home');
     return Scaffold(
       // backgroundColor: musiCityBgColor,
       appBar: AppBar(

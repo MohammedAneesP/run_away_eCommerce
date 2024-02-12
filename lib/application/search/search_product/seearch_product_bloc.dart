@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +44,6 @@ class SearchProductBloc extends Bloc<SearchProductEvent, SearchProductState> {
             }
           }
 
-          
           if (emitProducts.isEmpty) {
             return emit(
                 SearchProductState(allProductsList: [], searchProducts: []));

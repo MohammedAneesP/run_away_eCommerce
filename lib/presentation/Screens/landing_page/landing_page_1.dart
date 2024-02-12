@@ -126,20 +126,20 @@ class _OnBoardingPage1State extends State<OnBoardingPage1> {
 
 List<OnBoard> bordingPageData = <OnBoard>[
   OnBoard(
-    imageName: "assets/landing_pic_1.png",
+    imageName: "assets/IMG_20240211_121539-removebg-preview.png",
     screenText: "Your next partner for your all day Run.",
     screenDescri:
         "Superior Premium Products from premium Brands,Always On Time",
     buttonColor: Colors.limeAccent,
   ),
   OnBoard(
-    imageName: "assets/landing_pic_2.png",
+    imageName: "assets/IMG_20240211_121635-removebg-preview.png",
     screenText: "Nothing else matter,Dream Conquer the world",
     screenDescri: "Run with passion Run on your Own,NeverSettle",
     buttonColor: Colors.limeAccent,
   ),
   OnBoard(
-    imageName: "assets/landing_pic_3.png",
+    imageName: "assets/IMG_20240211_121846-removebg-preview.png",
     screenText: "Get Ready to Treat your eyes with amazement",
     screenDescri:
         "Lets start Shopping with us as you like best products awaits you",

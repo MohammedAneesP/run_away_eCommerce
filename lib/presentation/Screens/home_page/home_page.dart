@@ -30,9 +30,9 @@ import 'widgets/new_arrival_prodct.dart';
 import 'widgets/popular_product_tile.dart';
 
 final List<dynamic> carouselImages = [
-  "assets/landing_pic_1.png",
-  "assets/landing_pic_2.png",
-  "assets/landing_pic_3.png",
+  "assets/IMG_20240211_121539-removebg-preview.png",
+  "assets/IMG_20240211_121635-removebg-preview.png",
+  "assets/IMG_20240211_121846-removebg-preview.png",
 ];
 
 class HomePage extends StatelessWidget {

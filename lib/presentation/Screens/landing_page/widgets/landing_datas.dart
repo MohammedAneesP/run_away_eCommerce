@@ -27,7 +27,7 @@ class LandingPageData extends StatelessWidget {
           height: kHieght * .3,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(imageName), fit: BoxFit.cover)),
+                  image: AssetImage(imageName), fit: BoxFit.contain)),
         ),
         SizedBox(
           height: kHieght * 0.15,

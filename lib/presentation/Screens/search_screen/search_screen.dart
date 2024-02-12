@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -106,18 +107,17 @@ class SearchScreen extends StatelessWidget {
                                   ),
                                 ),
                                 leading: CachedNetworkImage(
+                                  height: 30,
+                                  width: 50,
                                   imageUrl: anProduct["productImages"][0],
                                   placeholder: (context, url) => const Center(
                                       child: CircularProgressIndicator()),
                                   imageBuilder: (context, imageProvider) {
                                     return Container(
-                                      height: 30,
-                                      width: 50,
                                       decoration: BoxDecoration(
-                                        // color: kGrey,
                                         image: DecorationImage(
                                           image: imageProvider,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.contain,
                                         ),
                                       ),
                                     );
@@ -137,6 +137,17 @@ class SearchScreen extends StatelessWidget {
                             itemCount: state.searchProducts.length),
                       );
                     } else if (state.allProductsList.isEmpty &&
+                        state.searchProducts.isEmpty) {
+                      return SizedBox(
+                        height: 400,
+                        child: Center(
+                          child: Text(
+                            "Product Not Found",
+                            style: kHeadingText,
+                          ),
+                        ),
+                      );
+                    } else if (state.allProductsList.isNotEmpty &&
                         state.searchProducts.isEmpty) {
                       return SizedBox(
                         height: 400,
@@ -189,45 +200,3 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-// SizedBox(
-//   height: kHeight.height,
-//   width: kWidth.width,
-//   child: ListView.separated(
-//     shrinkWrap: true,
-//     physics: const NeverScrollableScrollPhysics(),
-//       itemBuilder: (context, index) {
-//         final anProduct = state.allProductsList[index];
-//         final productName = capitalizeFirstLetter(
-//             anProduct["itemName"]);
-//         return ListTile(
-//           onTap: () {
-            
-//           },
-//           leading: Container(
-//             height: 30,
-//             width: 50,
-//             decoration: BoxDecoration(
-//               image: DecorationImage(
-//                 image: NetworkImage(
-//                   anProduct["productImages"][0],
-//                 ),
-//                 fit: BoxFit.cover,
-//               ),
-//             ),
-//           ),
-//           title: Text(
-//             productName,
-//             style: kNonboldTitleText,
-//           ),
-//           subtitle: BrandNameStream(
-//               popularPros: anProduct,
-//               anStyle: kBluePlainText),
-//         );
-//       },
-//       separatorBuilder: (context, index) =>
-//           const Divider(),
-//       itemCount: state.allProductsList.length),
-// ),
