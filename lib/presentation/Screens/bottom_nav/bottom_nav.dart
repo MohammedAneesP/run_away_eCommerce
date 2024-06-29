@@ -35,7 +35,6 @@ class _BottomNavPageState extends State<BottomNavPage> {
       MyOrders(),
       ProfileScreen(),
     ];
-    final kHeight = MediaQuery.sizeOf(context);
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(

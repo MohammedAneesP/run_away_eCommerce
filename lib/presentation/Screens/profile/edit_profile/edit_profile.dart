@@ -12,7 +12,6 @@ import 'package:run_away/core/constants/constants.dart';
 import 'package:run_away/core/text_constants/constants.dart';
 import 'package:run_away/presentation/Screens/profile/add_profile/add_profile.dart';
 import 'package:run_away/presentation/Screens/profile/my_profile.dart';
-import 'package:run_away/presentation/Screens/profile/my_profile.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String anImage;
