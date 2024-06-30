@@ -108,7 +108,7 @@ class MoreOPtionScreen extends StatelessWidget {
   aboutPopUp(context) {
     showAboutDialog(
       context: context,
-      applicationName: 'RunAway',
+      applicationName: 'ShoeWee',
       applicationIcon: Image.asset(
         'assets/sneakers.png',
         height: 40,
