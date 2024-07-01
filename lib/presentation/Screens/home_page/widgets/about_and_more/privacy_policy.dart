@@ -95,7 +95,7 @@ String privcyPolcyCookies = "Cookies";
 String privacyPolicy = "Privacy and Policy";
 
 String privacyPolicyExp =
-    "ShoeWee ('us', 'we', or 'our') operates ShoeWee (the 'App'). This page informs you of our policies regarding the collection, use, and disclosure of Personal Information we receive from users of the App.";
+    "ShoeWei ('us', 'we', or 'our') operates ShoeWei (the 'App'). This page informs you of our policies regarding the collection, use, and disclosure of Personal Information we receive from users of the App.";
 String privcypolcCollecUse = "Information collection and Use";
 String infoAndCollecExp =
     "While using our App, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your email address, physical address, and contact details.";

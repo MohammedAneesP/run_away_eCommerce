@@ -119,7 +119,7 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               }),
-              title: Text("SHOEWEE", style: textMainTitle),
+              title: Text("SHOEWEI", style: textMainTitle),
               actions: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
