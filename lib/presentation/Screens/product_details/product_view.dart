@@ -265,8 +265,8 @@ class ProductView extends StatelessWidget {
                                         builder: (context, state) {
                                           return state.productId
                                                   .containsKey(anProductId)
-                                              ? ElevatedButton(
-                                                  onPressed: () {
+                                              ? GestureDetector(
+                                                    onTap: () {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -274,20 +274,51 @@ class ProductView extends StatelessWidget {
                                                               MyCart(),
                                                         ));
                                                   },
-                                                  style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll(
-                                                            kBlue),
-                                                    shape:
-                                                        MaterialStatePropertyAll(
-                                                            StadiumBorder()),
+                                                child: AnimatedContainer(
+                                                    duration: const Duration(
+                                                      milliseconds: 1500,
+                                                    ),
+                                                    width: kWidth.width * 0.45,
+                                                    height: kHeight.height * 0.08,
+                                                    decoration: BoxDecoration(
+                                                      
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      color: kGreen,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Go to cart",
+                                                        style: buttontextWhite,
+                                                      ),
+                                                    ),
                                                   ),
-                                                  child: Text(
-                                                    "Go to Cart",
-                                                    style: buttontextWhite,
-                                                  ))
-                                              : ElevatedButton(
-                                                  onPressed: () {
+                                              )
+                                              // ElevatedButton(
+                                              //     onPressed: () {
+                                              //       Navigator.push(
+                                              //           context,
+                                              //           MaterialPageRoute(
+                                              //             builder: (context) =>
+                                              //                 MyCart(),
+                                              //           ));
+                                              //     },
+                                              //     style: const ButtonStyle(
+                                              //       backgroundColor:
+                                              //           MaterialStatePropertyAll(
+                                              //               kBlue),
+                                              //       shape:
+                                              //           MaterialStatePropertyAll(
+                                              //               StadiumBorder()),
+                                              //     ),
+                                              //     child: Text(
+                                              //       "Go to Cart",
+                                              //       style: buttontextWhite,
+                                              //     ),
+                                              //   )
+                                              : GestureDetector(
+                                                  onTap: () {
                                                     if (anSelectVal.value < 0) {
                                                       anSnackBarFunc(
                                                           context: context,
@@ -323,18 +354,75 @@ class ProductView extends StatelessWidget {
                                                                 .toString()));
                                                     // changeValue(-1, '');
                                                   },
-                                                  style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll(
-                                                            kBlue),
-                                                    shape:
-                                                        MaterialStatePropertyAll(
-                                                            StadiumBorder()),
+                                                  child: AnimatedContainer(
+                                                    duration: const Duration(
+                                                        milliseconds: 1500),
+                                                    width: kWidth.width * 0.45,
+                                                    height:
+                                                        kHeight.height * 0.08,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      color: kBlue,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Add to cart",
+                                                        style: buttontextWhite,
+                                                      ),
+                                                    ),
                                                   ),
-                                                  child: Text(
-                                                    "Add to cart",
-                                                    style: buttontextWhite,
-                                                  ));
+                                                );
+                                          //  ElevatedButton(
+                                          //     onPressed: () {
+                                          //       if (anSelectVal.value < 0) {
+                                          //         anSnackBarFunc(
+                                          //             context: context,
+                                          //             aText:
+                                          //                 "Please Select Size",
+                                          //             anColor: kRed);
+                                          //         return;
+                                          //       } else if (stockUpdate
+                                          //               .value ==
+                                          //           "Not Available") {
+                                          //         anSnackBarFunc(
+                                          //             context: context,
+                                          //             aText:
+                                          //                 "Product not Available",
+                                          //             anColor: kRed);
+                                          //         return;
+                                          //       }
+                                          //       BlocProvider.of<CartButtonBloc>(
+                                          //               context)
+                                          //           .add(AddingToCart(
+                                          //               anProductId:
+                                          //                   anProductId
+                                          //                       .toString(),
+                                          //               anEmail: fireName!
+                                          //                   .email
+                                          //                   .toString(),
+                                          //               anSelectedSize:
+                                          //                   anSize.value
+                                          //                       .toString(),
+                                          //               anCount: "1",
+                                          //               anPrice: product[
+                                          //                       "price"]
+                                          //                   .toString()));
+                                          //       // changeValue(-1, '');
+                                          //     },
+                                          //     style: const ButtonStyle(
+                                          //       backgroundColor:
+                                          //           MaterialStatePropertyAll(
+                                          //               kBlue),
+                                          //       shape:
+                                          //           MaterialStatePropertyAll(
+                                          //               StadiumBorder()),
+                                          //     ),
+                                          //     child: Text(
+                                          //       "Add to cart",
+                                          //       style: buttontextWhite,
+                                          //     ));
                                         },
                                       ),
                                     ),
