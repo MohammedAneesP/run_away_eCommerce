@@ -284,7 +284,7 @@ class HomePage extends StatelessWidget {
                     const PopularPickText(),
                     SizedBox(height: kHeight * 0.02),
                     SizedBox(
-                      height: kHeight * .31,
+                      height: kHeight * .315,
                       width: kWidth,
                       child:
                           BlocBuilder<PopularProductBloc, PopularProductState>(

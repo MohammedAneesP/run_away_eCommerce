@@ -188,6 +188,7 @@ class ProductView extends StatelessWidget {
                                         backgroundColor: kGrey200,
                                         shadowColor: kBlue,
                                         elevation: 5,
+                                        showCheckmark: false,
                                         shape: const CircleBorder(),
                                         selectedColor: kBlue,
                                         label: CircleAvatar(
